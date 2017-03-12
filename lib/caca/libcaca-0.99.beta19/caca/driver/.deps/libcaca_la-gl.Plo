@@ -1,0 +1,6 @@
+driver/libcaca_la-gl.lo: driver/gl.c /usr/include/stdc-predef.h \
+ ../config.h
+
+/usr/include/stdc-predef.h:
+
+../config.h:

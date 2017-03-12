@@ -1,0 +1,6 @@
+driver/libcaca_la-slang.lo: driver/slang.c /usr/include/stdc-predef.h \
+ ../config.h
+
+/usr/include/stdc-predef.h:
+
+../config.h:
