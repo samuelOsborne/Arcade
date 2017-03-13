@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sat Mar 11 17:28:24 2017 Lucas Villeneuve
-## Last update Sun Mar 12 18:35:39 2017 Lucas Villeneuve
+## Last update Mon Mar 13 13:53:38 2017 Lucas Villeneuve
 ##
 
 NAME		=	../lib_arcade_sfml.so
@@ -21,16 +21,16 @@ RM		=	rm -f
 SRCPATH		=	./src
 INCPATH		=	./include
 
-LIBPATH		=	./SFML-2.4.2
+#LIBPATH		=	./SFML-2.4.2
 
 CXXFLAGS	=	-W -Wextra -Wall
 CXXFLAGS	+=	-std=c++11 -fPIC
 CXXFLAGS	+=	-I$(INCPATH) -I../../include
-CXXFLAGS	+=	-I$(LIBPATH)/include
+#CXXFLAGS	+=	-I$(LIBPATH)/include
 
-LDFLAGS		=	-L$(LIBPATH)/lib
-LDFLAGS		+=	-lsfml-graphics -lsfml-window -lsfml-system
-LDFLAGS		+=	-Wl,--rpath=$(LIBPATH)/lib
+#LDFLAGS		=	-L$(LIBPATH)/lib
+LDFLAGS		+=	-lsfml-system  -lsfml-window -lsfml-graphics
+#LDFLAGS		+=	-Wl,--rpath=$(LIBPATH)/lib
 
 RED		=	\033[0;31m
 GREEN		=	\033[0;32m

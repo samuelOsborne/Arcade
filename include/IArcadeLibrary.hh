@@ -11,12 +11,12 @@
 #ifndef IARCADELIBRARY_HH_
 # define IARCADELIBRARY_HH_
 
-# include <string>
-# include "Arcade.hh"
+# include "Arcade.hpp"
+# include "Protocol.hpp"
 
-namespace 			arcade
+namespace 				arcade
 {
-  namespace 			library
+  namespace 				library
   {
     class				IArcadeLibrary
     {
@@ -28,6 +28,9 @@ namespace 			arcade
       virtual void 			closeWindow() = 0;
       virtual bool 			isKeyPressed(const arcade::Input &input) = 0;
       virtual bool			isEventQuit() = 0;
+      virtual void 			drawText(const std::string &str, const arcade::Position &pos) = 0;
+      virtual void 			clear() = 0;
+      virtual void 			display() = 0;
     };
 
   };

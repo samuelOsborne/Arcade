@@ -31,11 +31,14 @@ namespace 		arcade
 
       if (!(this->dlhandle = dlopen(name, RTLD_LAZY)))
 	{
-	  std::cerr << "Can't open lib" << std::endl;
+	  std::cerr << "Can't open lib : " << dlerror() << std::endl;
+	  /*
+	   * TODO Throw std::exception
+	   */
 	  return (NULL);
 	}
 
-      if (!(func = (T(*)())(dlsym(this->dlhandle, "entry_point"))))
+      if (!(func = reinterpret_cast<T(*)()>(dlsym(this->dlhandle, "entry_point"))))
 	{
 	  std::cerr << "Can't load symbol" << std::endl;
 	  return (NULL);

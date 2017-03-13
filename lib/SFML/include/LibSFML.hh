@@ -15,15 +15,19 @@
 # include <map>
 # include "SFML/Graphics.hpp"
 # include "IArcadeLibrary.hh"
-# include "Arcade.hh"
+# include "Arcade.hpp"
+# include "Protocol.hpp"
 
-namespace 					arcade
+namespace 						arcade
 {
-  namespace					library
+  namespace						library
   {
     class						LibSFML : public arcade::library::IArcadeLibrary
     {
       sf::RenderWindow					window;
+      sf::Font						font;
+      sf::Text						*text;
+      bool 						fontLoaded;
       std::map<arcade::InputKey, sf::Keyboard::Key>	keymap;
 
      public:
@@ -34,6 +38,9 @@ namespace 					arcade
       virtual void					closeWindow();
       virtual bool 					isKeyPressed(const arcade::Input &input);
       virtual bool					isEventQuit();
+      virtual void 					drawText(const std::string &str, const arcade::Position &pos);
+      virtual void 					clear();
+      virtual void 					display();
     };
 
   };

@@ -8,50 +8,11 @@
 // Last update Sun Mar 12 15:21:16 2017 Lucas Villeneuve
 //
 
-#include "DLLoader.hpp"
-#include "IArcadeLibrary.hh"
-#include "Arcade.hh"
+#include <Menu.hh>
 
-//void	sfml_test()
-//{
-//  void 	*dlhandle1;
-//  void 	*dlhandle2;
-//  void 	*dlhandle3;
-//
-//  dlhandle1 = dlopen("./libsfml-system.so", RTLD_LAZY);
-//  dlhandle2 = dlopen("./libsfml-window.so", RTLD_LAZY);
-//  dlhandle3 = dlopen("./libsfml-graphics.so", RTLD_LAZY);
-//  if (!dlhandle1 || !dlhandle2 || !dlhandle3)
-//    {
-//      std::cerr << "Error cant open lib" << std::endl;
-//      return ;
-//    }
-//  sf::RenderWindow	window(sf::VideoMode(200, 200), "Arcade");
-//  sf::Event		event;
-//  sf::CircleShape	shape(100.f);
-
-//  shape.setFillColor(sf::Color::Green);
-//  while (window.isOpen())
-//    {
-//  	while (window.pollEvent(event))
-//	  {
-//	    if (event.type == sf::Event::Closed)
-//	      window.close();
-//	  }
-//      window.clear();
-//      window.draw(shape);
-//      window.display();
-//    }
-//
-//  dlclose(dlhandle1);
-//  dlclose(dlhandle2);
-//  dlclose(dlhandle3);
-//}
-
-int 							main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
-  arcade::DLLoader<arcade::library::IArcadeLibrary*>	loader;
-  arcade::library::IArcadeLibrary			*lib;
+  arcade::Menu	*menu;
 
   if (argc != 2)
     {
@@ -59,15 +20,8 @@ int 							main(int argc, char **argv)
        		<< "\t" << argv[0] << "./lib/lib_arcade_XXX.so" << std::endl;
       return (1);
     }
-  if (!(lib = loader.getInstance(argv[1])))
-    return (1);
-  lib->openWindow();
-  while (!lib->isEventQuit() &&
-	 !lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::ESCAPE)))
-    {
-    }
-  lib->closeWindow();
-  delete (lib);
-  loader.closeHandler();
+  menu = new arcade::Menu(argv[1]);
+  menu->loopMenu();
+  delete (menu);
   return (0);
 }

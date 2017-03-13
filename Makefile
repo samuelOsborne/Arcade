@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:53:13 2017 Lucas Villeneuve
-## Last update Sun Mar 12 23:28:27 2017 Lucas Villeneuve
+## Last update Mon Mar 13 16:58:52 2017 Lucas Villeneuve
 ##
 
 NAME		=	arcade
@@ -13,7 +13,8 @@ NAME		=	arcade
 SRCPATH		=	./src
 INCPATH		=	./include
 
-SRCS		=	$(SRCPATH)/main.cpp
+SRCS		=	$(SRCPATH)/main.cpp	\
+			$(SRCPATH)/Menu.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 

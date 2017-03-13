@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sat Mar 11 17:28:24 2017 Lucas Villeneuve
-## Last update Sun Mar 12 18:35:56 2017 Lucas Villeneuve
+## Last update Mon Mar 13 14:09:08 2017 Lucas Villeneuve
 ##
 
 NAME		=	../lib_arcade_caca.so
@@ -30,8 +30,8 @@ CXXFLAGS	+=	-I$(LIBPATH) -I$(LIBPATH)/caca
 
 LDFLAGS		+=	-L$(LIBPATH)/caca/.libs -lcaca
 LDFLAGS		+=	-L$(LIBPATH)/cxx/.libs -lcaca++
-LDFLAGS		+=	-Wl,--rpath=$(LIBPATH)/caca/.libs
-LDFLAGS		+=	-Wl,--rpath=$(LIBPATH)/cxx/.libs
+#LDFLAGS		+=	-Wl,--rpath=$(LIBPATH)/caca/.libs
+#LDFLAGS		+=	-Wl,--rpath=$(LIBPATH)/cxx/.libs
 
 RED		=	\033[0;31m
 GREEN		=	\033[0;32m

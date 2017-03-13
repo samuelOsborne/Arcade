@@ -8,10 +8,18 @@
 // Last update Sun Mar 12 13:53:31 2017 Lucas Villeneuve
 //
 
+#include <iostream>
 #include "LibSFML.hh"
 
 arcade::library::LibSFML::LibSFML()
 {
+  if (!(this->font.loadFromFile("./misc/Aaargh.ttf")))
+    {
+      std::cerr << "Can't load font 'Aaargh.ttf' in ./misc folder" << std::endl;
+      this->text = 0;
+    }
+  else
+    text = new sf::Text("", this->font, 15);
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::UNKNOWN, sf::Keyboard::Key::Unknown));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::ESCAPE, sf::Keyboard::Key::Escape));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::NUM0, sf::Keyboard::Key::Num0));
@@ -32,6 +40,8 @@ arcade::library::LibSFML::LibSFML()
 
 arcade::library::LibSFML::~LibSFML()
 {
+  if (this->text)
+    delete (this->text);
 }
 
 void	arcade::library::LibSFML::openWindow()
@@ -58,7 +68,7 @@ bool		arcade::library::LibSFML::isKeyPressed(const arcade::Input &input)
 	  return (true);
     }
   else
-    return (sf::Keyboard::isKeyPressed(this->keymap[input.key]));
+    return (sf::Keyboard::isKeyPressed(this->keymap.find(input.key)->second));
   return (false);
 }
 
@@ -70,6 +80,26 @@ bool		arcade::library::LibSFML::isEventQuit()
     if (event.type == sf::Event::Closed)
       return (true);
   return (false);
+}
+
+void		arcade::library::LibSFML::drawText(const std::string &str, const arcade::Position &pos)
+{
+  if (this->text)
+    {
+      this->text->setString(str);
+      this->text->setPosition(pos.x, pos.y);
+      this->window.draw(*(this->text));
+    }
+}
+
+void	arcade::library::LibSFML::clear()
+{
+  this->window.clear(sf::Color::Black);
+}
+
+void	arcade::library::LibSFML::display()
+{
+  this->window.display();
 }
 
 extern "C" arcade::library::IArcadeLibrary	*entry_point()
