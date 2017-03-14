@@ -14,6 +14,7 @@
 arcade::Menu::Menu(const char *nameLib)
 {
   this->setLib(nameLib);
+  this->lib->playMusic("./misc/CrashTheme.wav");
 }
 
 arcade::Menu::~Menu()
@@ -55,6 +56,7 @@ void	arcade::Menu::closeLib()
 
 void 	arcade::Menu::switchLib(const MenuIndexLib &switchType)
 {
+  this->lib->stopMusic();
   this->closeLib();
   if (switchType == MenuIndexLib::INCREMENT)
     this->incrementLibListIndex();
@@ -62,6 +64,7 @@ void 	arcade::Menu::switchLib(const MenuIndexLib &switchType)
     this->decrementLibListIndex();
   std::this_thread::sleep_for(std::chrono::milliseconds(250));
   this->setLib(this->getLibName());
+  this->lib->playMusic("./misc/CrashTheme.wav");
 }
 
 void			arcade::Menu::loopMenu()

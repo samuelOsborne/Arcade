@@ -39,6 +39,8 @@ namespace 				arcade
       virtual void 			drawText(const std::string &str, const arcade::Position &pos);
       virtual void 			clear();
       virtual void 			display();
+      virtual void 			playMusic(const std::string &music);
+      virtual void 			stopMusic() {};
     };
 
   };

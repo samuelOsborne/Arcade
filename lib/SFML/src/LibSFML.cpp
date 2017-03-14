@@ -19,7 +19,10 @@ arcade::library::LibSFML::LibSFML()
       this->text = 0;
     }
   else
-    text = new sf::Text("", this->font, 15);
+    this->text = new sf::Text("", this->font, 15);
+
+//  this->music = new sf::Music;
+
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::UNKNOWN, sf::Keyboard::Key::Unknown));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::ESCAPE, sf::Keyboard::Key::Escape));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::NUM0, sf::Keyboard::Key::Num0));
@@ -42,6 +45,10 @@ arcade::library::LibSFML::~LibSFML()
 {
   if (this->text)
     delete (this->text);
+/*
+  if (this->music)
+    delete (this->music);
+*/
 }
 
 void	arcade::library::LibSFML::openWindow()
@@ -100,6 +107,20 @@ void	arcade::library::LibSFML::clear()
 void	arcade::library::LibSFML::display()
 {
   this->window.display();
+}
+
+void		arcade::library::LibSFML::playMusic(const std::string &musicName)
+{
+  if (!(this->music.openFromFile(musicName)))
+    std::cerr << "Can't open music file : " << musicName << std::endl;
+  else
+    this->music.play();
+}
+
+
+void	arcade::library::LibSFML::stopMusic()
+{
+  this->music.stop();
 }
 
 extern "C" arcade::library::IArcadeLibrary	*entry_point()

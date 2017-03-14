@@ -13,7 +13,8 @@
 
 # include <string>
 # include <map>
-# include "SFML/Graphics.hpp"
+# include <SFML/Graphics.hpp>
+# include <SFML/Audio.hpp>
 # include "IArcadeLibrary.hh"
 # include "Arcade.hpp"
 # include "Protocol.hpp"
@@ -27,6 +28,7 @@ namespace 						arcade
       sf::RenderWindow					window;
       sf::Font						font;
       sf::Text						*text;
+      sf::Music						music;
       bool 						fontLoaded;
       std::map<arcade::InputKey, sf::Keyboard::Key>	keymap;
 
@@ -41,6 +43,8 @@ namespace 						arcade
       virtual void 					drawText(const std::string &str, const arcade::Position &pos);
       virtual void 					clear();
       virtual void 					display();
+      virtual void 					playMusic(const std::string &music);
+      virtual void 					stopMusic();
     };
 
   };
