@@ -13,7 +13,6 @@
 
 arcade::Menu::Menu(const char *nameLib)
 {
-  this->index = 0;
   this->setLib(nameLib);
 }
 
