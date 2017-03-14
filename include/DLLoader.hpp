@@ -19,7 +19,7 @@ namespace 		arcade
   template <typename T>
   class			DLLoader
   {
-    void			*dlhandle;
+    void		*dlhandle;
 
    public:
     DLLoader<T>() {};
@@ -27,7 +27,7 @@ namespace 		arcade
 
     T			getInstance(const char *name)
     {
-      T	(*func)();
+      T			(*func)();
 
       if (!(this->dlhandle = dlopen(name, RTLD_LAZY)))
 	{
@@ -47,7 +47,7 @@ namespace 		arcade
       return (func());
     }
 
-    void			closeHandler()
+    void		closeHandler()
     {
       if (this->dlhandle)
 	dlclose(this->dlhandle);
