@@ -5,16 +5,25 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:53:13 2017 Lucas Villeneuve
-## Last update Mon Mar 13 16:58:52 2017 Lucas Villeneuve
+## Last update Tue Mar 14 16:28:35 2017 Samuel Osborne
 ##
 
 NAME		=	arcade
 
 SRCPATH		=	./src
+GMEPATH		=	./games/src
 INCPATH		=	./include
+INCGMEPATH	=	./games/include
 
-SRCS		=	$(SRCPATH)/main.cpp	\
-			$(SRCPATH)/Menu.cpp
+SRCS		=	$(SRCPATH)/main.cpp			\
+			$(SRCPATH)/Menu.cpp			\
+			$(GMEPATH)/Player.cpp			\
+			$(GMEPATH)/Enemy.cpp			\
+			$(GMEPATH)/ACharacter.cpp		\
+			$(GMEPATH)/Objects.cpp			\
+			$(GMEPATH)/Powerup.cpp			\
+			$(GMEPATH)/Pickup.cpp			\
+			$(GMEPATH)/Projectile.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 
@@ -30,7 +39,7 @@ BANNER		=	./misc/banner.txt
 LIBPATH		=	./lib
 
 CXXFLAGS	=	-W -Wextra -Wall -std=c++11
-CXXFLAGS	+=	-I$(INCPATH)
+CXXFLAGS	+=	-I$(INCPATH) -I$(INCGMEPATH)
 
 LDFLAGS		=	-ldl
 
