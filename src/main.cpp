@@ -20,6 +20,10 @@ int		main(int argc, char **argv)
        		<< "\t" << argv[0] << "./lib/lib_arcade_XXX.so" << std::endl;
       return (1);
     }
+  /*
+   * TODO
+   * Catch std::exception	
+   */
   menu = new arcade::Menu(argv[1]);
   menu->loopMenu();
   delete (menu);
