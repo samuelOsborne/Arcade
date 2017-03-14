@@ -15,7 +15,7 @@ arcade::games::Projectile::Projectile() : Objects()
   this->type = arcade::TileType::POWERUP;
 }
 
-void					arcade::games::Projectile::move(arcade::Position pos)
+void					arcade::games::Projectile::move(arcade::Position& pos)
 {
   this->setPos(pos);
 }

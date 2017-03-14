@@ -23,7 +23,7 @@ namespace 		arcade
       Powerup();
       Powerup(const Powerup&);
       const Powerup&	operator=(const Powerup&);
-      void		move(arcade::Position pos);
+      void		move(arcade::Position& pos);
       ~Powerup() {};
     };
   }

@@ -31,8 +31,8 @@ namespace 		arcade
       virtual void 	setPosY(const int);
       ACharacter();
       ACharacter(const ACharacter &);
-      ACharacter&	operator=(const ACharacter &);
-      virtual int 	move(const arcade::Position) = 0;
+      ACharacter&	operator=(const ACharacter&);
+      virtual void 	move(const arcade::Position&) = 0;
       virtual        	~ACharacter() {};
     };
   };

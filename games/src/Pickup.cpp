@@ -15,7 +15,7 @@ arcade::games::Pickup::Pickup() : Objects()
   this->type = arcade::TileType::POWERUP;
 }
 
-void				arcade::games::Pickup::move(arcade::Position pos)
+void				arcade::games::Pickup::move(arcade::Position& pos)
 {
   this->setPos(pos);
 }

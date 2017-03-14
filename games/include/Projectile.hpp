@@ -23,7 +23,7 @@ namespace 		arcade
       Projectile();
       Projectile(const Projectile&);
       const Projectile&	operator=(const Projectile&);
-      void		move(arcade::Position pos);
+      void		move(arcade::Position& pos);
       ~Projectile() {};
     };
   }

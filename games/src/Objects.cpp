@@ -49,7 +49,7 @@ int	arcade::games::Objects::getPosY() const
   return (this->pos.y);
 }
 
-void	arcade::games::Objects::setPos(arcade::Position pos)
+void	arcade::games::Objects::setPos(const arcade::Position& pos)
 {
   this->pos.x = pos.x;
   this->pos.y = pos.y;

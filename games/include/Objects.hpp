@@ -29,9 +29,9 @@ namespace 		arcade
       const Objects&	operator=(const Objects&);
       int		getPosX() const;
       int		getPosY() const;
-      void		setPos(arcade::Position pos);
+      void		setPos(const arcade::Position& pos);
       virtual 		~Objects() {};
-      virtual void	move(arcade::Position) = 0;
+      virtual void	move(const arcade::Position&) = 0;
     };
   }
 }
