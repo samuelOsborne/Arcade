@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sat Mar 11 17:28:24 2017 Lucas Villeneuve
-## Last update Mon Mar 13 13:53:38 2017 Lucas Villeneuve
+## Last update Tue Mar 14 14:57:17 2017 Lucas Villeneuve
 ##
 
 NAME		=	../lib_arcade_sfml.so
@@ -29,7 +29,7 @@ CXXFLAGS	+=	-I$(INCPATH) -I../../include
 #CXXFLAGS	+=	-I$(LIBPATH)/include
 
 #LDFLAGS		=	-L$(LIBPATH)/lib
-LDFLAGS		+=	-lsfml-system  -lsfml-window -lsfml-graphics
+LDFLAGS		+=	-lsfml-system  -lsfml-window -lsfml-graphics -lsfml-audio
 #LDFLAGS		+=	-Wl,--rpath=$(LIBPATH)/lib
 
 RED		=	\033[0;31m

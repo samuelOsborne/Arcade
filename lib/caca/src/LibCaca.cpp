@@ -8,6 +8,7 @@
 // Last update Sun Mar 12 00:32:04 2017 Lucas Villeneuve
 //
 
+#include <iostream>
 #include "LibCaca.hh"
 
 arcade::library::LibCaca::LibCaca()
@@ -33,8 +34,6 @@ arcade::library::LibCaca::LibCaca()
 arcade::library::LibCaca::~LibCaca()
 {
 }
-
-#include <iostream>
 
 void	arcade::library::LibCaca::openWindow()
 {
@@ -95,6 +94,11 @@ void	arcade::library::LibCaca::clear()
 void	arcade::library::LibCaca::display()
 {
   caca_refresh_display(this->window);
+}
+
+void	arcade::library::LibCaca::playMusic(__attribute__((unused)) const std::string &music)
+{
+  std::cerr << "Can't play music with libcaca" << std::endl;
 }
 
 extern "C" arcade::library::IArcadeLibrary	*entry_point()
