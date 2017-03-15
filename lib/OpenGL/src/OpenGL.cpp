@@ -32,12 +32,7 @@ arcade::library::OpenGL::OpenGL()
   this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::ENTER, 13));
   glutInitDisplayMode(GLUT_RGBA);
   glutInitWindowSize(800,600);
-  glutKeyboardFunc(this->keyDown);
-  glutKeyboardUpFunc(this->keyUp);
-  glutSpecialFunc(this->keySpecDown);
-  glutSpecialUpFunc(this->keySpecUp);
-  glutDisplayFunc(/* Fonction de display */);
-  glutMainLoop(/* Fonction de loop */);
+
 }
 
 arcade::library::OpenGL::~OpenGL()
@@ -47,7 +42,6 @@ arcade::library::OpenGL::~OpenGL()
 void	                        arcade::library::OpenGL::openWindow()
 {
   this->win = glutCreateWindow("Arcade OpenGL");
-  glClearColor(0.0, 0.0, 0.0, 1.0);
 }
 
 void                            arcade::library::OpenGL::closeWindow()
@@ -55,45 +49,20 @@ void                            arcade::library::OpenGL::closeWindow()
   bunny_stop(this->win);
 }
 
-void		                arcade::library::OpenGL::keyDown(unsigned char key,
-                                                                 __attribute__ ((unused)) int x,
-                                                                 __attribute__ ((unused)) int y)
+t_bunny_response                arcade::library::OpenGL::key_response(t_bunny_event_state state,
+                                                                        t_bunny_keysym sym,
+                                                                        __attribute__ ((unused)) void *data)
 {
-  this->normal[key] = true;
-}
-
-void		                arcade::library::OpenGL::keyUp(unsigned char key,
-								__attribute__ ((unused)) int x,
-								__attribute__ ((unused)) int y)
-{
-  this->normal[key] = false;
-}
-
-void		                arcade::library::OpenGL::keySpecDown(int key,
-								 __attribute__ ((unused)) int x,
-								 __attribute__ ((unused)) int y)
-{
-  this->special[key] = true;
-}
-
-void		                arcade::library::OpenGL::keySpecUp(int key,
-								 __attribute__ ((unused)) int x,
-								 __attribute__ ((unused)) int y)
-{
-  this->special[key] = false;
+  if (state == GO_DOWN)
+    this->key[sym] = true;
+  if (state == GO_UP)
+    this->key[sym] = false;
+  return (GO_ON);
 }
 
 bool 	                         arcade::library::OpenGL::isKeyPressed(const arcade::Input &input)
 {
-  if (input.key != arcade::InputKey::LEFT &&
-      input.key != arcade::InputKey::RIGHT &&
-      input.key != arcade::InputKey::UP &&
-      input.key != arcade::InputKey::DOWN)
-  {
-    if (this->normal[this->keymap.find(input.key)->second] == true)
-      return (true);
-  }
-  else if (this->special[this->keymap.find(input.key)->second] == true)
+  if (this->key[this->keymap.find(input.key)->second] == true)
     return (true);
   return (false);
 }
@@ -110,12 +79,12 @@ void                              arcade::library::OpenGL::drawText(const std::s
 
 void                               arcade::library::OpenGL::clear()
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  bunny_clear(&this->win->buffer, BLACK);
 }
 
 void                               arcade::library::OpenGL::display()
 {
-
+  bunny_display(this->win);
 }
 
 extern "C" arcade::library::IArcadeLibrary	*entry_point()
