@@ -44,7 +44,9 @@ namespace			arcade
     LEFT		= 12,
     RIGHT		= 13,
     UP			= 14,
-    DOWN		= 15
+    DOWN		= 15,
+    SPACE		= 16,
+    ENTER		= 17
   };
 
   struct 			Input
