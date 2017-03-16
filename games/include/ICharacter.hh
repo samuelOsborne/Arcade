@@ -9,24 +9,26 @@
 */
 
 #ifndef ICHARACTER_HH_
- #define ICHARACTER_HH_
+# define ICHARACTER_HH_
 
+#include "AGameObject.hpp"
 #include "Arcade.hpp"
 
 namespace 			arcade
 {
   namespace 			games
   {
-    class 			ICharacter
+    class 			ICharacter : arcade::games::AGameObject
     {
      public:
       virtual                	~ICharacter() {};
-      virtual int 		getPosX(void) const = 0;
-      virtual int 		getPosY(void) const = 0;
-      virtual void 		setPosX(const int) = 0;
-      virtual void 		setPosY(const int) = 0;
+
+      virtual arcade::Position 	getPos() const = 0;
+      virtual void 		setPos(const arcade::Position &pos) = 0;
+      virtual void		setTileType() = 0;
+      virtual void		move(const arcade::Position&) = 0;
     };
-  }
-}
+  };
+};
 
 #endif // !ICHARACTER_HH_

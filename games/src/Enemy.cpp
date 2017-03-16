@@ -15,11 +15,8 @@ arcade::games::Enemy::Enemy(const arcade::games::Enemy & other)
 {
   if (this != &other)
     {
-      this->health = other.health;
       this->pos.x = other.pos.x;
       this->pos.y = other.pos.y;
-      this->health = other.health;
-      this->powerup = other.powerup;
     }
 }
 
@@ -28,17 +25,14 @@ arcade::games::Enemy	&arcade::games::Enemy::operator=
 {
   if (this != &other)
     {
-      this->health = other.health;
       this->pos.x = other.pos.x;
       this->pos.y = other.pos.y;
-      this->health = other.health;
-      this->powerup = other.powerup;
     }
   return (*this);
 }
 
 void	arcade::games::Enemy::move(const arcade::Position & pos)
 {
-  this->setPosX(static_cast<int>(pos.x));
-  this->setPosY(static_cast<int>(pos.y));
+  this->pos.x = pos.x;
+  this->pos.y = pos.y;
 }

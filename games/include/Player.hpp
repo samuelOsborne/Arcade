@@ -15,20 +15,25 @@
 #include "Protocol.hpp"
 #include "ACharacter.hpp"
 
-namespace 			arcade
+namespace 					arcade
 {
-  namespace 			games
+  namespace 					games
   {
-    class Player : 		public ACharacter
+    class 					Player : public arcade::games::ACharacter
     {
+     private:
+      bool 					powerup;
      public:
-      Player() : ACharacter() {};
+      virtual					~Player() {};
+
+      Player();
       Player(const arcade::games::Player &);
-      arcade::games::Player &operator=(const arcade::games::Player &);
-      virtual void 		move(const arcade::Position &);
-      ~Player() {};
+      arcade::games::Player 			&operator=(const arcade::games::Player &);
+      virtual void 				move(const arcade::Position &);
+      virtual void				setTileType();
+      virtual arcade::games::ExtTileType	getTileType() const;
     };
-  }
-}
+  };
+};
 
 #endif // !PLAYER_HPP_

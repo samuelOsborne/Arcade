@@ -10,7 +10,7 @@
 
 #include "Powerup.hpp"
 
-arcade::games::Powerup::Powerup() : Objects()
+arcade::games::Powerup::Powerup() : AObjects()
 {
   this->type = arcade::TileType::POWERUP;
 }
@@ -20,7 +20,7 @@ void				arcade::games::Powerup::move(arcade::Position& pos)
   this->setPos(pos);
 }
 
-arcade::games::Powerup::Powerup(const arcade::games::Powerup& other) : Objects()
+arcade::games::Powerup::Powerup(const arcade::games::Powerup& other) : AObjects()
 {
   if (this != &other)
     {
@@ -37,4 +37,9 @@ const arcade::games::Powerup&	arcade::games::Powerup::operator=(const arcade::ga
       this->type = other.type;
     }
   return (*this);
+}
+
+void				arcade::games::Powerup::setTileType()
+{
+  this->type = arcade::TileType::POWERUP;
 }

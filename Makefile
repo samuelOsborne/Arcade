@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:53:13 2017 Lucas Villeneuve
-## Last update Tue Mar 14 16:28:35 2017 Samuel Osborne
+## Last update Thu Mar 16 18:53:35 2017 Samuel Osborne
 ##
 
 NAME		=	arcade
@@ -19,11 +19,11 @@ SRCS		=	$(SRCPATH)/main.cpp			\
 			$(SRCPATH)/Menu.cpp			\
 			$(GMEPATH)/Player.cpp			\
 			$(GMEPATH)/Enemy.cpp			\
+			$(GMEPATH)/AGameObject.cpp		\
 			$(GMEPATH)/ACharacter.cpp		\
-			$(GMEPATH)/Objects.cpp			\
+			$(GMEPATH)/AObjects.cpp			\
 			$(GMEPATH)/Powerup.cpp			\
-			$(GMEPATH)/Pickup.cpp			\
-			$(GMEPATH)/Projectile.cpp
+			$(GMEPATH)/ABlock.cpp			\
 
 OBJS		=	$(SRCS:.cpp=.o)
 

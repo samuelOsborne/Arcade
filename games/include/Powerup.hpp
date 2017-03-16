@@ -8,25 +8,30 @@
 ** Last update Tue Mar 14 15:09:51 2017 Samuel Osborne
 */
 
-#ifndef ARCADE_POWERUP_HPP_
-# define ARCADE_POWERUP_HPP_
+#ifndef POWERUP_HPP_
+# define POWERUP_HPP_
 
-#include "Objects.hpp"
+#include "Protocol.hpp"
+#include "AObjects.hpp"
 
 namespace 		arcade
 {
   namespace 		games
   {
-    class		Powerup : public arcade::games::Objects
+    class		Powerup : public arcade::games::AObjects
     {
+     private:
+      arcade::TileType type;
      public:
+      virtual 		~Powerup() {};
+
       Powerup();
       Powerup(const Powerup&);
       const Powerup&	operator=(const Powerup&);
       void		move(arcade::Position& pos);
-      ~Powerup() {};
+      virtual void	setTileType();
     };
-  }
-}
+  };
+};
 
-#endif //ARCADE_POWERUP_HPP_
+#endif //POWERUP_HPP_

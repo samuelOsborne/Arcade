@@ -8,37 +8,54 @@
 ** Last update Tue Mar 14 11:27:32 2017 Samuel Osborne
 */
 
+#include "AGameObject.hpp"
 #include "Player.hpp"
 
+arcade::games::Player::Player() : arcade::games::ACharacter()
+{
+  this->pos.x = 0;
+  this->pos.y = 0;
+  this->powerup = 0;
+  this->type = arcade::TileType::OTHER;
+  this->extType = arcade::games::ExtTileType::PLAYER;
+}
+
 arcade::games::Player::Player(const arcade::games::Player& other)
-: ACharacter()
+: arcade::games::ACharacter()
 {
   if (this != &other)
     {
-      this->health = other.health;
-      this->pos.x = other.pos.x;
-      this->pos.y = other.pos.y;
-      this->health = other.health;
+      this->pos = other.pos;
       this->powerup = other.powerup;
+      this->extType = other.extType;
+      this->type = other.type;
     }
 }
 
-arcade::games::Player	&arcade::games::Player::operator=(const Player & other)
+arcade::games::Player		&arcade::games::Player::operator=(const Player & other)
 {
   if (this != &other)
     {
-      this->health = other.health;
-      this->pos.x = other.pos.x;
-      this->pos.y = other.pos.y;
-      this->health = other.health;
+      this->pos = other.pos;
       this->powerup = other.powerup;
+      this->extType = other.extType;
+      this->type = other.type;
     }
   return (*this);
 }
 
-void	arcade::games::Player::move(const arcade::Position & pos)
+void				arcade::games::Player::move(const arcade::Position & pos)
 {
-  this->setPosX(static_cast<int>(pos.x));
-  this->setPosY(static_cast<int>(pos.y));
+  this->pos.x = pos.x;
+  this->pos.y = pos.y;
 }
 
+void				arcade::games::Player::setTileType()
+{
+  this->extType = arcade::games::ExtTileType::PLAYER;
+}
+
+arcade::games::ExtTileType	arcade::games::Player::getTileType() const
+{
+  return (this->extType);
+}

@@ -8,16 +8,16 @@
 ** Last update Tue Mar 14 13:40:06 2017 Samuel Osborne
 */
 
-#include "Objects.hpp"
+#include "AObjects.hpp"
 
-arcade::games::Objects::Objects()
+arcade::games::AObjects::AObjects() : arcade::games::AGameObject()
 {
   this->pos.x = 0;
   this->pos.y = 0;
   this->type = arcade::TileType::OTHER;
 }
 
-arcade::games::Objects::Objects(const arcade::games::Objects& other)
+arcade::games::AObjects::AObjects(const arcade::games::AObjects& other) : arcade::games::AGameObject()
 {
   if (this != &other)
     {
@@ -27,8 +27,8 @@ arcade::games::Objects::Objects(const arcade::games::Objects& other)
     }
 }
 
-const arcade::games::Objects&	arcade::games::Objects::operator=
- (const arcade::games::Objects& other)
+const arcade::games::AObjects&	arcade::games::AObjects::operator=
+ (const arcade::games::AObjects& other)
 {
   if (this != &other)
     {
@@ -39,18 +39,12 @@ const arcade::games::Objects&	arcade::games::Objects::operator=
   return (*this);
 }
 
-int	arcade::games::Objects::getPosX() const
+void 				arcade::games::AObjects::setPos(const arcade::Position &pos)
 {
-  return (this->pos.x);
+  this->pos = pos;
 }
 
-int	arcade::games::Objects::getPosY() const
+arcade::Position 		arcade::games::AObjects::getPos() const
 {
-  return (this->pos.y);
-}
-
-void	arcade::games::Objects::setPos(const arcade::Position& pos)
-{
-  this->pos.x = pos.x;
-  this->pos.y = pos.y;
+  return (this->pos);
 }

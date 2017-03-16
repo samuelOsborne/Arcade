@@ -10,7 +10,7 @@
 
 #include "Pickup.hpp"
 
-arcade::games::Pickup::Pickup() : Objects()
+arcade::games::Pickup::Pickup() : AObjects()
 {
   this->type = arcade::TileType::POWERUP;
 }
@@ -20,7 +20,7 @@ void				arcade::games::Pickup::move(arcade::Position& pos)
   this->setPos(pos);
 }
 
-arcade::games::Pickup::Pickup(const arcade::games::Pickup& other) : Objects()
+arcade::games::Pickup::Pickup(const arcade::games::Pickup& other) : AObjects()
 {
   if (this != &other)
     {

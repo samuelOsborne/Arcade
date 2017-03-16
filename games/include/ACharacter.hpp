@@ -8,34 +8,30 @@
 ** Last update Tue Mar 14 11:27:32 2017 Samuel Osborne
 */
 
-#ifndef ARCADE_ACHARACTER_HPP_
-#define ARCADE_ACHARACTER_HPP_
+#ifndef ACHARACTER_HPP_
+# define ACHARACTER_HPP_
 
 #include "Protocol.hpp"
-#include "ICharacter.hh"
+#include "AGameObject.hpp"
 
 namespace 		arcade
 {
   namespace 		games
   {
-    class ACharacter : 	public ICharacter
+    class ACharacter : 	public arcade::games::AGameObject
     {
-     protected:
-      arcade::Position	pos;
-      int 		health;
-      int 		powerup;
      public:
-      virtual int 	getPosX(void) const;
-      virtual int 	getPosY(void) const;
-      virtual void 	setPosX(const int);
-      virtual void 	setPosY(const int);
+      virtual ~ACharacter() {};
+
       ACharacter();
       ACharacter(const ACharacter &);
       ACharacter&	operator=(const ACharacter&);
-      virtual void 	move(const arcade::Position&) = 0;
-      virtual        	~ACharacter() {};
+      virtual void		setTileType() = 0;
+      virtual void 		move(const arcade::Position&) = 0;
+      virtual void 		setPos(const arcade::Position &pos);
+      virtual arcade::Position 		getPos() const;
     };
   };
 }
 
-#endif //ARCADE_ACHARACTER_HPP
+#endif //ACHARACTER_HPP_

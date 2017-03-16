@@ -11,6 +11,8 @@
 #ifndef ARCADE_IGAMEOBJECT_HPP_
 # define ARCADE_IGAMEOBJECT_HPP_
 
+#include "Protocol.hpp"
+
 namespace 			arcade
 {
   namespace			games
@@ -23,7 +25,11 @@ namespace 			arcade
       virtual arcade::Position 	getPos() const = 0;
       virtual void 		setPos(const arcade::Position &pos) = 0;
     };
-  }
-}
+    enum class			ExtTileType : uint16_t
+    {
+      PLAYER			= 8
+    };
+  };
+};
 
 #endif //ARCADE_IGAMEOBJECT_HPP_

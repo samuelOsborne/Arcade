@@ -8,16 +8,16 @@
 ** Last update Tue Mar 14 16:26:35 2017 Samuel Osborne
 */
 
-#ifndef ARCADE_PROJECTILE_HPP_
-# define ARCADE_PROJECTILE_HPP_
+#ifndef PROJECTILE_HPP_
+# define PROJECTILE_HPP_
 
-#include "Objects.hpp"
+#include "AObjects.hpp"
 
 namespace 		arcade
 {
   namespace 		games
   {
-    class		Projectile : public arcade::games::Objects
+    class		Projectile : public arcade::games::AObjects
     {
      public:
       Projectile();
@@ -29,4 +29,4 @@ namespace 		arcade
   }
 }
 
-#endif //ARCADE_PROJECTILE_HPP_
+#endif //PROJECTILE_HPP_

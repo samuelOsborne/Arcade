@@ -10,7 +10,7 @@
 
 #include "../include/Projectile.hpp"
 
-arcade::games::Projectile::Projectile() : Objects()
+arcade::games::Projectile::Projectile() : AObjects()
 {
   this->type = arcade::TileType::POWERUP;
 }
@@ -20,7 +20,7 @@ void					arcade::games::Projectile::move(arcade::Position& pos)
   this->setPos(pos);
 }
 
-arcade::games::Projectile::Projectile(const arcade::games::Projectile& other) : Objects()
+arcade::games::Projectile::Projectile(const arcade::games::Projectile& other) : AObjects()
 {
   if (this != &other)
     {

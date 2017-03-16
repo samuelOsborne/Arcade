@@ -8,17 +8,17 @@
 ** Last update Tue Mar 14 13:31:58 2017 Samuel Osborne
 */
 
-#ifndef ARCADE_ENEMY_HPP_
-# define ARCADE_ENEMY_HPP_
+#ifndef ENEMY_HPP_
+# define ENEMY_HPP_
 
-#include "../../include/Protocol.hpp"
+#include "Protocol.hpp"
 #include "ACharacter.hpp"
 
 namespace 		arcade
 {
   namespace 		games
   {
-    class 		Enemy : public ACharacter
+    class 		Enemy : public arcade::games::ACharacter
     {
      public:
       Enemy() : ACharacter() {};
@@ -27,7 +27,7 @@ namespace 		arcade
       virtual void 	move(const arcade::Position &);
       ~Enemy() {};
     };
-  }
-}
+  };
+};
 
-#endif //ARCADE_ENEMY_HPP_
+#endif //ENEMY_HPP_
