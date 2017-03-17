@@ -13,7 +13,7 @@
 arcade::Pickup::Pickup(const uint16_t x, const uint16_t y)
  : AObjects(x, y)
 {
-  this->type = arcade::TileType::POWERUP;
+  this->setTileType();
 }
 
 arcade::Pickup::Pickup(const arcade::Pickup &other)
@@ -39,4 +39,9 @@ arcade::Pickup	&arcade::Pickup::operator=(const arcade::Pickup &other)
 void	arcade::Pickup::move(arcade::Position &pos)
 {
   this->setPos(pos);
+}
+
+void			arcade::Pickup::setTileType()
+{
+  this->type = arcade::TileType::POWERUP;
 }

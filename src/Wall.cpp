@@ -35,3 +35,8 @@ const arcade::Wall&	arcade::Wall::operator=(const arcade::Wall &other)
     }
   return (*this);
 }
+
+void			arcade::Wall::setTileType()
+{
+  this->extType = arcade::games::ExtTileType::WALL;
+}
