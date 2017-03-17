@@ -13,19 +13,18 @@
 
 #include "AGameObject.hpp"
 
-namespace 		arcade
+namespace 			arcade
 {
-  namespace 		games
+  namespace 			games
   {
-    class		ABlock : public arcade::games::AGameObject
+    class			ABlock : public arcade::games::AGameObject
     {
      public:
-      virtual		~ABlock() {};
+      virtual			~ABlock() {};
 
       ABlock();
       ABlock(const ABlock&);
       ABlock&operator=(const ABlock&);
-      virtual void		setTileType() = 0;
       virtual arcade::Position 	getPos() const;
       virtual void 		setPos(const arcade::Position &pos);
     };

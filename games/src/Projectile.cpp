@@ -8,7 +8,7 @@
 ** Last update Tue Mar 14 16:26:35 2017 Samuel Osborne
 */
 
-#include "../include/Projectile.hpp"
+#include "Projectile.hpp"
 
 arcade::games::Projectile::Projectile() : AObjects()
 {
