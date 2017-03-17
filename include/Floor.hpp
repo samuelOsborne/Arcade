@@ -15,18 +15,17 @@
 
 namespace 		arcade
 {
-  namespace 		games
+  class 		Floor : public arcade::ABlock
   {
-    class 		Floor : public ABlock
-    {
-     public:
-      ~Floor() {};
+   public:
+    Floor(const uint16_t, const uint16_t);
+    Floor(const Floor &);
+    Floor &operator=(const Floor &);
+    ~Floor() {};
 
-      Floor(uint16_t, uint16_t);
-      Floor(const Floor &);
-      const Floor 	&operator=(const Floor &);
-    };
+    virtual void 	setTileType();
   };
+
 };
 
 #endif //FLOOR_HPP_

@@ -16,8 +16,6 @@
 # include <cstdint>
 # include <dirent.h>
 
-# define NB_LIB	2
-
 namespace			arcade
 {
   enum class 			InputState : uint16_t
@@ -85,6 +83,15 @@ namespace			arcade
 	  closedir(dir);
 	}
     }
+  };
+
+  namespace			games
+  {
+    enum class			ExtTileType : uint16_t
+    {
+      PLAYER			= 8
+    };
+
   };
 
 };

@@ -10,14 +10,14 @@
 
 #include "Wall.hpp"
 
-arcade::games::Wall::Wall(uint16_t x, uint16_t y) : ABlock(x, y)
+arcade::Wall::Wall(const uint16_t x, const uint16_t y)
+ : ABlock(x, y)
 {
-  this->pos.x = x;
-  this->pos.y = y;
   this->type = arcade::TileType::BLOCK;
 }
 
-arcade::games::Wall::Wall(const arcade::games::Wall& other) : ABlock(other.pos.x, other.pos.y)
+arcade::Wall::Wall(const arcade::Wall &other)
+ : ABlock(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {
@@ -26,7 +26,7 @@ arcade::games::Wall::Wall(const arcade::games::Wall& other) : ABlock(other.pos.x
     }
 }
 
-const arcade::games::Wall&	arcade::games::Wall::operator=(const arcade::games::Wall& other)
+const arcade::Wall&	arcade::Wall::operator=(const arcade::Wall &other)
 {
   if (this != &other)
     {

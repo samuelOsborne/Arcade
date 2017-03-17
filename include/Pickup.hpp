@@ -11,23 +11,21 @@
 #ifndef PICKUP_HPP_
 # define PICKUP_HPP_
 
-#include "AObjects.hpp"
+# include "AObjects.hpp"
 
 namespace 		arcade
 {
-  namespace 		games
+  class			Pickup : public arcade::AObjects
   {
-    class		Pickup : public arcade::games::AObjects
-    {
-     public:
-      ~Pickup() {};
+   public:
+    Pickup(const uint16_t, const uint16_t);
+    Pickup(const Pickup&);
+    Pickup &operator=(const Pickup&);
+    ~Pickup() {};
 
-      Pickup(uint16_t, uint16_t);
-      Pickup(const Pickup&);
-      const Pickup&	operator=(const Pickup&);
-      void		move(arcade::Position& pos);
-    };
-  }
-}
+    void		move(arcade::Position& pos);
+  };
 
-#endif //PICKUP_HPP_
+};
+
+#endif // !PICKUP_HPP_

@@ -10,13 +10,13 @@
 
 #include "AGameObject.hpp"
 
-arcade::games::AGameObject::AGameObject(uint16_t x, uint16_t y)
+arcade::AGameObject::AGameObject(const uint16_t x, const uint16_t y)
 {
   this->pos.x = x;
   this->pos.y = y;
 }
 
-arcade::games::AGameObject::AGameObject(const arcade::games::AGameObject & other)
+arcade::AGameObject::AGameObject(const arcade::AGameObject & other)
 {
   if (this != &other)
     {
@@ -25,8 +25,8 @@ arcade::games::AGameObject::AGameObject(const arcade::games::AGameObject & other
     }
 }
 
-arcade::games::AGameObject	&arcade::games::AGameObject::operator=
- (const arcade::games::AGameObject & other)
+arcade::AGameObject	&arcade::AGameObject::operator=
+ (const arcade::AGameObject & other)
 {
   if (this != &other)
     {
@@ -36,22 +36,22 @@ arcade::games::AGameObject	&arcade::games::AGameObject::operator=
   return (*this);
 }
 
-void 				arcade::games::AGameObject::setPos(const arcade::Position &pos)
+void 				arcade::AGameObject::setPos(const arcade::Position &pos)
 {
   this->pos = pos;
 }
 
-arcade::Position 		arcade::games::AGameObject::getPos() const
+arcade::Position 		arcade::AGameObject::getPos() const
 {
   return (this->pos);
 }
 
-std::string			arcade::games::AGameObject::getSprite() const
+std::string			arcade::AGameObject::getSprite() const
 {
   return (this->asset);
 }
 
-void				arcade::games::AGameObject::setSprite(std::string a)
+void				arcade::AGameObject::setSprite(const std::string &a)
 {
   this->asset = a;
 }

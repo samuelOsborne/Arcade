@@ -39,6 +39,8 @@ arcade::library::LibSFML::LibSFML()
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::RIGHT, sf::Keyboard::Key::Right));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::UP, sf::Keyboard::Key::Up));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::DOWN, sf::Keyboard::Key::Down));
+  keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::SPACE, sf::Keyboard::Key::Space));
+  keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::ENTER, sf::Keyboard::Key::Return));
 }
 
 arcade::library::LibSFML::~LibSFML()
@@ -121,6 +123,22 @@ void		arcade::library::LibSFML::playMusic(const std::string &musicName)
 void	arcade::library::LibSFML::stopMusic()
 {
   this->music.stop();
+}
+
+void			arcade::library::LibSFML::drawGameObject(const arcade::IGameObject *obj)
+{
+  sf::Texture		texture;
+  sf::Sprite		sprite;
+
+  /* TODO Change this */
+  if (!texture.loadFromFile(obj->getSprite(), sf::IntRect(0, 0, 32, 32)))
+    std::cerr << "Error loading sprite" << std::endl;
+  else
+    {
+      sprite.setTexture(texture);
+      sprite.setOrigin(obj->getPos().x * -32, obj->getPos().y * -32);
+      this->window.draw(sprite);
+    }
 }
 
 extern "C" arcade::library::IArcadeLibrary	*entry_point()

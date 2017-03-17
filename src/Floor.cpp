@@ -10,14 +10,14 @@
 
 #include "Floor.hpp"
 
-arcade::games::Floor::Floor(uint16_t x, uint16_t y) : ABlock(x, y)
+arcade::Floor::Floor(uint16_t x, uint16_t y)
+ : arcade::ABlock(x, y)
 {
-  this->pos.x = x;
-  this->pos.y = y;
-  this->type = arcade::TileType::EMPTY;
+  this->setTileType();
 }
 
-arcade::games::Floor::Floor(const arcade::games::Floor& other) : ABlock(other.pos.x, other.pos.y)
+arcade::Floor::Floor(const arcade::Floor &other)
+ : arcade::ABlock(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {
@@ -26,7 +26,7 @@ arcade::games::Floor::Floor(const arcade::games::Floor& other) : ABlock(other.po
     }
 }
 
-const arcade::games::Floor&	arcade::games::Floor::operator=(const arcade::games::Floor& other)
+arcade::Floor	&arcade::Floor::operator=(const arcade::Floor &other)
 {
   if (this != &other)
     {
@@ -34,4 +34,9 @@ const arcade::games::Floor&	arcade::games::Floor::operator=(const arcade::games:
       this->type = other.type;
     }
   return (*this);
+}
+
+void	arcade::Floor::setTileType()
+{
+  this->type = arcade::TileType::EMPTY;
 }

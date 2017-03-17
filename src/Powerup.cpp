@@ -10,19 +10,14 @@
 
 #include "Powerup.hpp"
 
-arcade::games::Powerup::Powerup(uint16_t x, uint16_t y) : AObjects(x, y)
+arcade::Powerup::Powerup(const uint16_t x, const uint16_t y)
+ : AObjects(x, y)
 {
-  this->pos.x = x;
-  this->pos.y = y;
-  this->type = arcade::TileType::POWERUP;
+  this->setTileType();
 }
 
-void				arcade::games::Powerup::move(arcade::Position& pos)
-{
-  this->setPos(pos);
-}
-
-arcade::games::Powerup::Powerup(const arcade::games::Powerup& other) : AObjects(other.pos.x, other.pos.y)
+arcade::Powerup::Powerup(const arcade::Powerup& other)
+ : AObjects(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {
@@ -31,7 +26,7 @@ arcade::games::Powerup::Powerup(const arcade::games::Powerup& other) : AObjects(
     }
 }
 
-const arcade::games::Powerup&	arcade::games::Powerup::operator=(const arcade::games::Powerup& other)
+arcade::Powerup	&arcade::Powerup::operator=(const arcade::Powerup &other)
 {
   if (this != &other)
     {
@@ -41,7 +36,12 @@ const arcade::games::Powerup&	arcade::games::Powerup::operator=(const arcade::ga
   return (*this);
 }
 
-void				arcade::games::Powerup::setTileType()
+void	arcade::Powerup::move(arcade::Position &pos)
+{
+  this->setPos(pos);
+}
+
+void	arcade::Powerup::setTileType()
 {
   this->type = arcade::TileType::POWERUP;
 }

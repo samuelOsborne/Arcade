@@ -11,17 +11,16 @@
 #include "AGameObject.hpp"
 #include "Player.hpp"
 
-arcade::games::Player::Player(uint16_t x, uint16_t y) : arcade::games::ACharacter(x, y)
+arcade::Player::Player(const uint16_t x, const uint16_t y)
+ : arcade::ACharacter(x, y)
 {
-  this->pos.x = x;
-  this->pos.y = y;
   this->powerup = 0;
-  this->type = arcade::TileType::OTHER;
+  this->setTileType();
   this->extType = arcade::games::ExtTileType::PLAYER;
 }
 
-arcade::games::Player::Player(const arcade::games::Player& other)
-: arcade::games::ACharacter(other.pos.x, other.pos.y)
+arcade::Player::Player(const arcade::Player& other)
+ : arcade::ACharacter(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {
@@ -32,7 +31,7 @@ arcade::games::Player::Player(const arcade::games::Player& other)
     }
 }
 
-arcade::games::Player		&arcade::games::Player::operator=(const Player & other)
+arcade::Player		&arcade::Player::operator=(const Player &other)
 {
   if (this != &other)
     {
@@ -44,18 +43,18 @@ arcade::games::Player		&arcade::games::Player::operator=(const Player & other)
   return (*this);
 }
 
-void				arcade::games::Player::move(const arcade::Position & pos)
+void				arcade::Player::move(const arcade::Position & pos)
 {
   this->pos.x = pos.x;
   this->pos.y = pos.y;
 }
 
-void				arcade::games::Player::setTileType()
+void				arcade::Player::setTileType()
 {
   this->extType = arcade::games::ExtTileType::PLAYER;
 }
 
-arcade::games::ExtTileType	arcade::games::Player::getTileType() const
+arcade::games::ExtTileType	arcade::Player::getTileType() const
 {
   return (this->extType);
 }

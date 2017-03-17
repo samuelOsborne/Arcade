@@ -11,6 +11,7 @@
 #ifndef IARCADELIBRARY_HH_
 # define IARCADELIBRARY_HH_
 
+# include "IGameObject.hpp"
 # include "Arcade.hpp"
 # include "Protocol.hpp"
 
@@ -23,16 +24,17 @@ namespace 				arcade
      public:
       virtual				~IArcadeLibrary() {}
 
-//  virtual std::string const	&getName() const = 0;
       virtual void 			openWindow() = 0;
       virtual void 			closeWindow() = 0;
       virtual bool 			isKeyPressed(const arcade::Input &input) = 0;
       virtual bool			isEventQuit() = 0;
-      virtual void 			drawText(const std::string &str, const arcade::Position &pos) = 0;
       virtual void 			clear() = 0;
       virtual void 			display() = 0;
       virtual void 			playMusic(const std::string &music) = 0;
       virtual void 			stopMusic() = 0;
+      virtual void 			drawText(const std::string &str,
+						   const arcade::Position &pos) = 0;
+      virtual void 			drawGameObject(const arcade::IGameObject*) = 0;
     };
 
   };

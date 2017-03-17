@@ -11,22 +11,19 @@
 #ifndef WALL_HPP_
 # define WALL_HPP_
 
-#include "ABlock.hpp"
+# include "ABlock.hpp"
 
 namespace 		arcade
 {
-  namespace 		games
+  class 		Wall : public arcade::ABlock
   {
-    class 		Wall : public ABlock
-    {
-     public:
-      ~Wall() {};
-
-      Wall(uint16_t, uint16_t);
-      Wall(const Wall &);
-      const Wall 	&operator=(const Wall &);
-    };
+   public:
+    Wall(const uint16_t, const uint16_t);
+    Wall(const Wall &);
+    const Wall 	&operator=(const Wall &);
+    ~Wall() {};
   };
+
 };
 
-#endif //WALL_HPP
+#endif // !WALL_HPP

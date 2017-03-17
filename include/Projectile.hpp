@@ -15,18 +15,17 @@
 
 namespace 		arcade
 {
-  namespace 		games
+  class			Projectile : public arcade::AObjects
   {
-    class		Projectile : public arcade::games::AObjects
-    {
-     public:
-      Projectile();
-      Projectile(const Projectile&);
-      const Projectile&	operator=(const Projectile&);
-      void		move(arcade::Position& pos);
-      ~Projectile() {};
-    };
-  }
-}
+   public:
+    Projectile(const uint16_t x, const uint16_t y);
+    Projectile(const Projectile&);
+    Projectile &operator=(const Projectile&);
+    ~Projectile() {};
 
-#endif //PROJECTILE_HPP_
+    void		move(arcade::Position& pos);
+  };
+
+};
+
+#endif // !PROJECTILE_HPP_

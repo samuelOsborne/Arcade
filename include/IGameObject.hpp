@@ -11,25 +11,21 @@
 #ifndef ARCADE_IGAMEOBJECT_HPP_
 # define ARCADE_IGAMEOBJECT_HPP_
 
-#include "Protocol.hpp"
+# include "Protocol.hpp"
 
 namespace 			arcade
 {
-  namespace			games
+  class 			IGameObject
   {
-    class 			IGameObject
-    {
-     public:
-      virtual			~IGameObject() {};
+   public:
+    virtual			~IGameObject() {};
 
-      virtual arcade::Position 	getPos() const = 0;
-      virtual void 		setPos(const arcade::Position &pos) = 0;
-    };
-    enum class			ExtTileType : uint16_t
-    {
-      PLAYER			= 8
-    };
+    virtual arcade::Position 	getPos() const = 0;
+    virtual void 		setPos(const arcade::Position &pos) = 0;
+    virtual std::string 	getSprite() const = 0;
+    virtual void 		setSprite(const std::string &) = 0;
   };
+
 };
 
-#endif //ARCADE_IGAMEOBJECT_HPP_
+#endif // !ARCADE_IGAMEOBJECT_HPP_

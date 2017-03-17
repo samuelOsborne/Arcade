@@ -10,13 +10,13 @@
 
 #include "AObjects.hpp"
 
-arcade::games::AObjects::AObjects(uint16_t x, uint16_t y) : arcade::games::AGameObject(x, y)
+arcade::AObjects::AObjects(const uint16_t x, const uint16_t y)
+ : arcade::AGameObject(x, y)
 {
-  this->pos.x = x;
-  this->pos.y = y;
 }
 
-arcade::games::AObjects::AObjects(const arcade::games::AObjects& other) : arcade::games::AGameObject(other.pos.x, other.pos.y)
+arcade::AObjects::AObjects(const arcade::AObjects& other)
+ : arcade::AGameObject(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {
@@ -26,8 +26,7 @@ arcade::games::AObjects::AObjects(const arcade::games::AObjects& other) : arcade
     }
 }
 
-const arcade::games::AObjects&	arcade::games::AObjects::operator=
- (const arcade::games::AObjects& other)
+arcade::AObjects &arcade::AObjects::operator=(const arcade::AObjects& other)
 {
   if (this != &other)
     {
@@ -38,12 +37,12 @@ const arcade::games::AObjects&	arcade::games::AObjects::operator=
   return (*this);
 }
 
-void 				arcade::games::AObjects::setPos(const arcade::Position &pos)
+void 	arcade::AObjects::setPos(const arcade::Position &pos)
 {
   this->pos = pos;
 }
 
-arcade::Position 		arcade::games::AObjects::getPos() const
+arcade::Position	arcade::AObjects::getPos() const
 {
   return (this->pos);
 }

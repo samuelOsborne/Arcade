@@ -10,17 +10,14 @@
 
 #include "Projectile.hpp"
 
-arcade::games::Projectile::Projectile() : AObjects()
+arcade::Projectile::Projectile(const uint16_t x, const uint16_t y)
+ : arcade::AObjects(x, y)
 {
   this->type = arcade::TileType::POWERUP;
 }
 
-void					arcade::games::Projectile::move(arcade::Position& pos)
-{
-  this->setPos(pos);
-}
-
-arcade::games::Projectile::Projectile(const arcade::games::Projectile& other) : AObjects()
+arcade::Projectile::Projectile(const arcade::Projectile &other)
+ : arcade::AObjects(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {
@@ -29,7 +26,7 @@ arcade::games::Projectile::Projectile(const arcade::games::Projectile& other) : 
     }
 }
 
-const arcade::games::Projectile&	arcade::games::Projectile::operator=(const arcade::games::Projectile& other)
+arcade::Projectile	&arcade::Projectile::operator=(const arcade::Projectile &other)
 {
   if (this != &other)
     {
@@ -37,4 +34,9 @@ const arcade::games::Projectile&	arcade::games::Projectile::operator=(const arca
       this->type = other.type;
     }
   return (*this);
+}
+
+void	arcade::Projectile::move(arcade::Position &pos)
+{
+  this->setPos(pos);
 }

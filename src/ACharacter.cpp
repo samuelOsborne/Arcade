@@ -11,13 +11,13 @@
 #include "ACharacter.hpp"
 
 
-arcade::games::ACharacter::ACharacter(uint16_t x, uint16_t y) : arcade::games::AGameObject(x, y)
+arcade::ACharacter::ACharacter(const uint16_t x, const uint16_t y)
+ : arcade::AGameObject(x, y)
 {
-  this->pos.x = x;
-  this->pos.y = y;
 }
 
-arcade::games::ACharacter::ACharacter(const ACharacter& other) : arcade::games::AGameObject(other.pos.x, other.pos.y)
+arcade::ACharacter::ACharacter(const arcade::ACharacter &other)
+ : arcade::AGameObject(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {
@@ -26,8 +26,7 @@ arcade::games::ACharacter::ACharacter(const ACharacter& other) : arcade::games::
     }
 }
 
-arcade::games::ACharacter&	arcade::games::ACharacter::operator=
- (const arcade::games::ACharacter& other)
+arcade::ACharacter	&arcade::ACharacter::operator=(const arcade::ACharacter &other)
 {
   if (this != &other)
     {
@@ -37,12 +36,12 @@ arcade::games::ACharacter&	arcade::games::ACharacter::operator=
   return (*this);
 }
 
-void 				arcade::games::ACharacter::setPos(const arcade::Position &pos)
+void	arcade::ACharacter::setPos(const arcade::Position &pos)
 {
   this->pos = pos;
 }
 
-arcade::Position 		arcade::games::ACharacter::getPos() const
+arcade::Position	arcade::ACharacter::getPos() const
 {
   return (this->pos);
 }

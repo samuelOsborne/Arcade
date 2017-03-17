@@ -10,13 +10,13 @@
 
 #include "ABlock.hpp"
 
-arcade::games::ABlock::ABlock(uint16_t x, uint16_t y) : arcade::games::AGameObject(x, y)
+arcade::ABlock::ABlock(const uint16_t x, const uint16_t y)
+ : arcade::AGameObject(x, y)
 {
-  this->pos.x = x;
-  this->pos.y = y;
 }
 
-arcade::games::ABlock::ABlock(const arcade::games::ABlock& other) : arcade::games::AGameObject(other.pos.x, other.pos.y)
+arcade::ABlock::ABlock(const arcade::ABlock& other)
+ : arcade::AGameObject(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {
@@ -26,8 +26,7 @@ arcade::games::ABlock::ABlock(const arcade::games::ABlock& other) : arcade::game
     }
 }
 
-arcade::games::ABlock	&arcade::games::ABlock::operator=
- (const arcade::games::ABlock & other)
+arcade::ABlock	&arcade::ABlock::operator=(const arcade::ABlock & other)
 {
   if (this != &other)
     {
@@ -38,12 +37,12 @@ arcade::games::ABlock	&arcade::games::ABlock::operator=
   return (*this);
 }
 
-void 				arcade::games::ABlock::setPos(const arcade::Position &pos)
+void	arcade::ABlock::setPos(const arcade::Position &pos)
 {
   this->pos = pos;
 }
 
-arcade::Position 		arcade::games::ABlock::getPos() const
+arcade::Position	arcade::ABlock::getPos() const
 {
   return (this->pos);
 }

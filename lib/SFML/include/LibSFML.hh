@@ -40,11 +40,13 @@ namespace 						arcade
       virtual void					closeWindow();
       virtual bool 					isKeyPressed(const arcade::Input &input);
       virtual bool					isEventQuit();
-      virtual void 					drawText(const std::string &str, const arcade::Position &pos);
       virtual void 					clear();
       virtual void 					display();
       virtual void 					playMusic(const std::string &music);
       virtual void 					stopMusic();
+      virtual void 					drawText(const std::string &str,
+								   const arcade::Position &pos);
+      virtual void 					drawGameObject(const arcade::IGameObject*);
     };
 
   };

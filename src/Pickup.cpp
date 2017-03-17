@@ -10,19 +10,14 @@
 
 #include "Pickup.hpp"
 
-arcade::games::Pickup::Pickup(uint16_t x, uint16_t y) : AObjects(x, y)
+arcade::Pickup::Pickup(const uint16_t x, const uint16_t y)
+ : AObjects(x, y)
 {
-  this->pos.x = x;
-  this->pos.y = y;
   this->type = arcade::TileType::POWERUP;
 }
 
-void				arcade::games::Pickup::move(arcade::Position& pos)
-{
-  this->setPos(pos);
-}
-
-arcade::games::Pickup::Pickup(const arcade::games::Pickup& other) : AObjects(other.pos.x, other.pos.y)
+arcade::Pickup::Pickup(const arcade::Pickup &other)
+ : AObjects(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {
@@ -31,7 +26,7 @@ arcade::games::Pickup::Pickup(const arcade::games::Pickup& other) : AObjects(oth
     }
 }
 
-const arcade::games::Pickup&	arcade::games::Pickup::operator=(const arcade::games::Pickup& other)
+arcade::Pickup	&arcade::Pickup::operator=(const arcade::Pickup &other)
 {
   if (this != &other)
     {
@@ -39,4 +34,9 @@ const arcade::games::Pickup&	arcade::games::Pickup::operator=(const arcade::game
       this->type = other.type;
     }
   return (*this);
+}
+
+void	arcade::Pickup::move(arcade::Position &pos)
+{
+  this->setPos(pos);
 }

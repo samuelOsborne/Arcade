@@ -28,7 +28,9 @@ arcade::library::LibCaca::LibCaca()
   this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::LEFT, CACA_KEY_LEFT));
   this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::RIGHT, CACA_KEY_RIGHT));
   this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::UP, CACA_KEY_UP));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::DOWN, CACA_KEY_DOWN));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::SPACE, 32));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::ENTER, CACA_KEY_RETURN));
+
 }
 
 arcade::library::LibCaca::~LibCaca()
@@ -99,6 +101,14 @@ void	arcade::library::LibCaca::display()
 void	arcade::library::LibCaca::playMusic(__attribute__((unused)) const std::string &music)
 {
   std::cerr << "Can't play music with libcaca" << std::endl;
+}
+
+void	arcade::library::LibCaca::drawGameObject(const arcade::IGameObject *obj)
+{
+  caca_set_color_ansi(this->canvas, CACA_BLACK, CACA_BLUE);
+  /* TODO CHANGE THIS */
+  caca_put_char(this->canvas, obj->getPos().x, obj->getPos().y, 'x');
+  caca_set_color_ansi(this->canvas, CACA_BLACK, CACA_BLACK);
 }
 
 extern "C" arcade::library::IArcadeLibrary	*entry_point()

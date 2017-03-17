@@ -10,13 +10,12 @@
 
 #include "Enemy.hpp"
 
-arcade::games::Enemy::Enemy(uint16_t x, uint16_t y) : ACharacter(x, y)
+arcade::Enemy::Enemy(const uint16_t x, const uint16_t y)
+ : arcade::ACharacter(x, y)
 {
-  this->pos.x = x;
-  this->pos.y = y;
 }
 
-arcade::games::Enemy::Enemy(const arcade::games::Enemy & other)
+arcade::Enemy::Enemy(const arcade::Enemy &other)
  : ACharacter(other.pos.x, other.pos.y)
 {
   if (this != &other)
@@ -26,8 +25,7 @@ arcade::games::Enemy::Enemy(const arcade::games::Enemy & other)
     }
 }
 
-arcade::games::Enemy	&arcade::games::Enemy::operator=
- (const arcade::games::Enemy & other)
+arcade::Enemy	&arcade::Enemy::operator=(const arcade::Enemy & other)
 {
   if (this != &other)
     {
@@ -37,7 +35,7 @@ arcade::games::Enemy	&arcade::games::Enemy::operator=
   return (*this);
 }
 
-void	arcade::games::Enemy::move(const arcade::Position & pos)
+void	arcade::Enemy::move(const arcade::Position &pos)
 {
   this->pos.x = pos.x;
   this->pos.y = pos.y;
