@@ -9,6 +9,9 @@
 */
 
 #include <thread>
+#include "IGameObject.hpp"
+#include "Protocol.hpp"
+#include "Map.hh"
 #include "Menu.hh"
 
 arcade::Menu::Menu(const char *nameLib)
@@ -29,7 +32,7 @@ const char	*arcade::Menu::getLibName() const
 void	arcade::Menu::incrementLibListIndex()
 {
   this->libList.index++;
-  if (this->libList.index == NB_LIB)
+  if (this->libList.index == static_cast<int>(this->libList.list.size()))
     this->libList.index = 0;
 }
 
@@ -37,7 +40,7 @@ void 	arcade::Menu::decrementLibListIndex()
 {
   this->libList.index--;
   if (this->libList.index == -1)
-    this->libList.index = NB_LIB - 1;
+    this->libList.index = static_cast<int>(this->libList.list.size() - 1);
 }
 
 void	arcade::Menu::setLib(const char *nameLib)
@@ -67,11 +70,87 @@ void 	arcade::Menu::switchLib(const MenuIndexLib &switchType)
   this->lib->playMusic("./misc/CrashTheme.wav");
 }
 
-void			arcade::Menu::loopMenu()
+
+void			arcade::Menu::drawMap(const arcade::Map &map)
 {
+  uint16_t		width;
+  uint16_t		height;
+  uint16_t		i;
+  uint16_t		j;
   arcade::Position	pos;
 
-  pos.x = 10;
+  width = map.getWidth();
+  height = map.getHeight();
+  i = 0;
+  while (i < height)
+    {
+      j = 0;
+      while (j < width)
+	{
+	  pos.x = j;
+	  pos.y = i;
+	  this->lib->drawGameObject(map.getTile(pos));
+	  j++;
+	}
+      i++;
+    }
+}
+
+//#include "Kappa.hh"
+
+void			arcade::Menu::loopMenu()
+{
+  arcade::Map           map(8, 8);
+//  Kappa			kap(5, 5);
+  arcade::Position	pos;
+  /*
+  arcade::games::IGameObject* test = new arcade::Floor();
+  arcade::Floor 	floor1;
+  arcade::Floor 	floor2;
+  arcade::Floor 	floor3;
+  arcade::Floor 	floor4;
+  arcade::Floor 	floor5;
+  arcade::Floor 	floor6;
+  arcade::Floor 	floor7;
+  arcade::Floor 	floor8;
+  arcade::Floor 	floor9;
+
+  pos.x = 0;
+  pos.y = 0;
+  floor1.setPos(pos);
+  map->setTile(pos, &floor1);
+
+  pos.x += 5;
+  floor2.setPos(pos);
+  map->setTile(pos, &floor2);
+
+  pos.x += 1;
+  floor3.setPos(pos);
+  map->setTile(pos, &floor3);
+
+  pos.x += 1;
+  floor4.setPos(pos);
+  map->setTile(pos, &floor4);
+  pos.x += 1;
+  floor5.setPos(pos);
+  map->setTile(pos, &floor5);
+  pos.x += 1;
+  floor6.setPos(pos);
+  map->setTile(pos, &floor6);
+  pos.x += 1;
+  floor7.setPos(pos);
+  map->setTile(pos, &floor7);
+  pos.x += 1;
+  floor8.setPos(pos);
+  map->setTile(pos, &floor8);
+  pos.y += 1;
+  floor9.setPos(pos);
+  map->setTile(pos, &floor9);
+  */
+  pos.x = 5;
+  pos.y = 5;
+//  map.setTile(pos, &kap);
+
   while (!this->lib->isEventQuit() &&
 	 !this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::ESCAPE)))
     {
@@ -82,14 +161,19 @@ void			arcade::Menu::loopMenu()
 
       this->lib->clear();
 
+      this->drawMap(map);
+/*
       pos.y = 0;
       this->lib->drawText("Controls :", pos);
       pos.y = 35;
       this->lib->drawText("2 : Prev. lib", pos);
       pos.y = 60;
       this->lib->drawText("3 : Next lib", pos);
+*/
 
       this->lib->display();
+
+//      std::this_thread::sleep_for(std::chrono::seconds(3));
     }
   this->closeLib();
 }

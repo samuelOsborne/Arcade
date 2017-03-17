@@ -14,6 +14,7 @@
 # include "Arcade.hpp"
 # include "IArcadeLibrary.hh"
 # include "DLLoader.hpp"
+# include "Map.hh"
 
 namespace						arcade
 {
@@ -41,6 +42,7 @@ namespace						arcade
     void 						closeLib();
     void 						switchLib(const MenuIndexLib&);
     void 						loopMenu();
+    void 						drawMap(const arcade::Map &map);
   };
 
 };
