@@ -10,14 +10,13 @@
 
 #include "ABlock.hpp"
 
-arcade::games::ABlock::ABlock() : arcade::games::AGameObject()
+arcade::games::ABlock::ABlock(uint16_t x, uint16_t y) : arcade::games::AGameObject(x, y)
 {
-  this->pos.x = 0;
-  this->pos.y = 0;
-  this->type = arcade::TileType::OTHER;
+  this->pos.x = x;
+  this->pos.y = y;
 }
 
-arcade::games::ABlock::ABlock(const arcade::games::ABlock& other) : arcade::games::AGameObject()
+arcade::games::ABlock::ABlock(const arcade::games::ABlock& other) : arcade::games::AGameObject(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {

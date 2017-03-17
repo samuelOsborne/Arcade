@@ -22,7 +22,7 @@ namespace 			arcade
      public:
       virtual			~ABlock() {};
 
-      ABlock();
+      ABlock(uint16_t, uint16_t);
       ABlock(const ABlock&);
       ABlock&operator=(const ABlock&);
       virtual arcade::Position 	getPos() const;

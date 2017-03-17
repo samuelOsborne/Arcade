@@ -22,7 +22,7 @@ namespace 		arcade
      public:
       ~Wall() {};
 
-      Wall();
+      Wall(uint16_t, uint16_t);
       Wall(const Wall &);
       const Wall 	&operator=(const Wall &);
     };

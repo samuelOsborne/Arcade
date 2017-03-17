@@ -11,17 +11,17 @@
 #include "AGameObject.hpp"
 #include "Player.hpp"
 
-arcade::games::Player::Player() : arcade::games::ACharacter()
+arcade::games::Player::Player(uint16_t x, uint16_t y) : arcade::games::ACharacter(x, y)
 {
-  this->pos.x = 0;
-  this->pos.y = 0;
+  this->pos.x = x;
+  this->pos.y = y;
   this->powerup = 0;
   this->type = arcade::TileType::OTHER;
   this->extType = arcade::games::ExtTileType::PLAYER;
 }
 
 arcade::games::Player::Player(const arcade::games::Player& other)
-: arcade::games::ACharacter()
+: arcade::games::ACharacter(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {

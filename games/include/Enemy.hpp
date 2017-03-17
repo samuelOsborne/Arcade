@@ -21,7 +21,7 @@ namespace 		arcade
     class 		Enemy : public arcade::games::ACharacter
     {
      public:
-      Enemy() : ACharacter() {};
+      Enemy(uint16_t, uint16_t);
       Enemy(const Enemy &);
       Enemy &operator=(const Enemy &);
       virtual void 	move(const arcade::Position &);

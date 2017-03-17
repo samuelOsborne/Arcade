@@ -23,7 +23,7 @@ namespace 		arcade
      public:
       virtual ~ACharacter() {};
 
-      ACharacter();
+      ACharacter(uint16_t, uint16_t);
       ACharacter(const ACharacter &);
       ACharacter&	operator=(const ACharacter&);
       virtual void		setTileType() = 0;

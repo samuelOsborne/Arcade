@@ -23,7 +23,7 @@ namespace 			arcade
      public:
       virtual 			~AObjects() {};
 
-      AObjects();
+      AObjects(uint16_t, uint16_t);
       AObjects(const AObjects&);
       const AObjects&		operator=(const AObjects&);
       virtual void		setTileType() = 0;

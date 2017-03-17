@@ -11,13 +11,13 @@
 #include "ACharacter.hpp"
 
 
-arcade::games::ACharacter::ACharacter(void) : arcade::games::AGameObject()
+arcade::games::ACharacter::ACharacter(uint16_t x, uint16_t y) : arcade::games::AGameObject(x, y)
 {
-  this->pos.x = 0;
-  this->pos.y = 0;
+  this->pos.x = x;
+  this->pos.y = y;
 }
 
-arcade::games::ACharacter::ACharacter(const ACharacter& other) : arcade::games::AGameObject()
+arcade::games::ACharacter::ACharacter(const ACharacter& other) : arcade::games::AGameObject(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {

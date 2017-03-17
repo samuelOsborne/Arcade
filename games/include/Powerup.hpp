@@ -25,7 +25,7 @@ namespace 		arcade
      public:
       virtual 		~Powerup() {};
 
-      Powerup();
+      Powerup(uint16_t, uint16_t);
       Powerup(const Powerup&);
       const Powerup&	operator=(const Powerup&);
       void		move(arcade::Position& pos);

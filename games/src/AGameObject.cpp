@@ -10,10 +10,10 @@
 
 #include "AGameObject.hpp"
 
-arcade::games::AGameObject::AGameObject()
+arcade::games::AGameObject::AGameObject(uint16_t x, uint16_t y)
 {
-  this->pos.x = 0;
-  this->pos.y = 0;
+  this->pos.x = x;
+  this->pos.y = y;
 }
 
 arcade::games::AGameObject::AGameObject(const arcade::games::AGameObject & other)
@@ -44,4 +44,14 @@ void 				arcade::games::AGameObject::setPos(const arcade::Position &pos)
 arcade::Position 		arcade::games::AGameObject::getPos() const
 {
   return (this->pos);
+}
+
+std::string			arcade::games::AGameObject::getSprite() const
+{
+  return (this->asset);
+}
+
+void				arcade::games::AGameObject::setSprite(std::string a)
+{
+  this->asset = a;
 }

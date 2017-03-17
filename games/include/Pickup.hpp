@@ -22,7 +22,7 @@ namespace 		arcade
      public:
       ~Pickup() {};
 
-      Pickup();
+      Pickup(uint16_t, uint16_t);
       Pickup(const Pickup&);
       const Pickup&	operator=(const Pickup&);
       void		move(arcade::Position& pos);

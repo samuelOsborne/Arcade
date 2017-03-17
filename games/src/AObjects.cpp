@@ -10,14 +10,13 @@
 
 #include "AObjects.hpp"
 
-arcade::games::AObjects::AObjects() : arcade::games::AGameObject()
+arcade::games::AObjects::AObjects(uint16_t x, uint16_t y) : arcade::games::AGameObject(x, y)
 {
-  this->pos.x = 0;
-  this->pos.y = 0;
-  this->type = arcade::TileType::OTHER;
+  this->pos.x = x;
+  this->pos.y = y;
 }
 
-arcade::games::AObjects::AObjects(const arcade::games::AObjects& other) : arcade::games::AGameObject()
+arcade::games::AObjects::AObjects(const arcade::games::AObjects& other) : arcade::games::AGameObject(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {

@@ -26,7 +26,7 @@ namespace 					arcade
      public:
       virtual					~Player() {};
 
-      Player();
+      Player(uint16_t, uint16_t);
       Player(const arcade::games::Player &);
       arcade::games::Player 			&operator=(const arcade::games::Player &);
       virtual void 				move(const arcade::Position &);

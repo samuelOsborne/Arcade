@@ -11,9 +11,9 @@
 #ifndef AGAMEOBJECT_HPP_
 # define AGAMEOBJECT_HPP_
 
-
+#include <string>
+#include <iostream>
 #include "IGameObject.hpp"
-
 #include "Protocol.hpp"
 
 namespace 				arcade
@@ -23,16 +23,19 @@ namespace 				arcade
     class 				AGameObject : public arcade::games::IGameObject
     {
      protected:
+      std::string			asset;
       arcade::Position			pos;
       arcade::TileType 			type;
       arcade::games::ExtTileType 	extType;
      public:
       virtual ~AGameObject() {};
 
-      AGameObject();
+      AGameObject(uint16_t, uint16_t);
       AGameObject(const AGameObject&);
       AGameObject&			operator=(const AGameObject&);
       virtual arcade::Position 		getPos() const;
+      virtual std::string 		getSprite() const;
+      virtual void 			setSprite(std::string);
       virtual void 			setPos(const arcade::Position &pos);
       virtual void			setTileType() = 0;
     };

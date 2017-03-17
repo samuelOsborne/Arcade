@@ -10,12 +10,14 @@
 
 #include "Floor.hpp"
 
-arcade::games::Floor::Floor() : ABlock()
+arcade::games::Floor::Floor(uint16_t x, uint16_t y) : ABlock(x, y)
 {
+  this->pos.x = x;
+  this->pos.y = y;
   this->type = arcade::TileType::EMPTY;
 }
 
-arcade::games::Floor::Floor(const arcade::games::Floor& other) : ABlock()
+arcade::games::Floor::Floor(const arcade::games::Floor& other) : ABlock(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {

@@ -22,7 +22,7 @@ namespace 		arcade
      public:
       ~Floor() {};
 
-      Floor();
+      Floor(uint16_t, uint16_t);
       Floor(const Floor &);
       const Floor 	&operator=(const Floor &);
     };

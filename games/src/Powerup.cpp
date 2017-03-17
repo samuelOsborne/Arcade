@@ -10,8 +10,10 @@
 
 #include "Powerup.hpp"
 
-arcade::games::Powerup::Powerup() : AObjects()
+arcade::games::Powerup::Powerup(uint16_t x, uint16_t y) : AObjects(x, y)
 {
+  this->pos.x = x;
+  this->pos.y = y;
   this->type = arcade::TileType::POWERUP;
 }
 
@@ -20,7 +22,7 @@ void				arcade::games::Powerup::move(arcade::Position& pos)
   this->setPos(pos);
 }
 
-arcade::games::Powerup::Powerup(const arcade::games::Powerup& other) : AObjects()
+arcade::games::Powerup::Powerup(const arcade::games::Powerup& other) : AObjects(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {

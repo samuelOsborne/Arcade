@@ -10,8 +10,14 @@
 
 #include "Enemy.hpp"
 
+arcade::games::Enemy::Enemy(uint16_t x, uint16_t y) : ACharacter(x, y)
+{
+  this->pos.x = x;
+  this->pos.y = y;
+}
+
 arcade::games::Enemy::Enemy(const arcade::games::Enemy & other)
- : ACharacter()
+ : ACharacter(other.pos.x, other.pos.y)
 {
   if (this != &other)
     {
