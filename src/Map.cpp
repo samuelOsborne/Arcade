@@ -31,6 +31,20 @@ arcade::Map::Map(const uint16_t _width, const uint16_t _height)
     }
 }
 
+arcade::Map::Map(const Map &other)
+ : width(other.width), height(other.height)
+{
+  if (this != &other)
+    this->tiles = other.tiles;
+}
+
+arcade::Map	&arcade::Map::operator=(const Map &other)
+{
+  if (this != &other)
+    this->tiles = other.tiles;
+  return (*this);
+}
+
 uint16_t	arcade::Map::getWidth() const
 {
   return (this->width);

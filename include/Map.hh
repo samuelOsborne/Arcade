@@ -28,7 +28,8 @@ namespace						arcade
 
    public:
     Map(const uint16_t _width, const uint16_t _height);
-    /* TODO COPY CONSTRUCTOR */
+    Map(const Map &other);
+    Map &operator=(const Map &other);
     ~Map() {};
 
     virtual uint16_t 					getWidth() const;

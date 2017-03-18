@@ -8,7 +8,9 @@
 // Last update Sun Mar 12 00:32:04 2017 Lucas Villeneuve
 //
 
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include "LibCaca.hh"
 
 arcade::library::LibCaca::LibCaca()
@@ -105,10 +107,26 @@ void	arcade::library::LibCaca::playMusic(__attribute__((unused)) const std::stri
 
 void	arcade::library::LibCaca::drawGameObject(const arcade::IGameObject *obj)
 {
-  caca_set_color_ansi(this->canvas, CACA_BLACK, CACA_BLUE);
-  /* TODO CHANGE THIS */
-  caca_put_char(this->canvas, obj->getPos().x, obj->getPos().y, 'x');
-  caca_set_color_ansi(this->canvas, CACA_BLACK, CACA_BLACK);
+  std::string		color;
+  std::string		character;
+  std::ifstream		file((obj->getSprite() + ".txt").c_str());
+  std::stringstream 	ss;
+  uint16_t		colornb;
+
+  if (file.is_open())
+    {
+      if (getline(file, color) && getline(file, character))
+	{
+	  ss << color;
+	  ss >> colornb;
+	  caca_set_color_ansi(this->canvas, CACA_BLACK, colornb);
+	  caca_put_char(this->canvas, obj->getPos().x, obj->getPos().y, *(character.c_str()));
+	  caca_set_color_ansi(this->canvas, CACA_BLACK, CACA_BLACK);
+	  return ;
+	}
+      file.close();
+    }
+  std::cerr << "Can't read file" << std::endl;
 }
 
 extern "C" arcade::library::IArcadeLibrary	*entry_point()
