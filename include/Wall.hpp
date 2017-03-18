@@ -22,6 +22,7 @@ namespace 		arcade
     Wall(const Wall &);
     const Wall 	&operator=(const Wall &);
     ~Wall() {};
+    void 	setTileType();
   };
 
 };

@@ -89,7 +89,8 @@ namespace			arcade
   {
     enum class			ExtTileType : uint16_t
     {
-      PLAYER			= 8
+      PLAYER			= 8,
+      WALL			= 9
     };
 
   };

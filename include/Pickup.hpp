@@ -24,6 +24,7 @@ namespace 		arcade
     ~Pickup() {};
 
     void		move(arcade::Position& pos);
+    void		setTileType();
   };
 
 };

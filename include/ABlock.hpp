@@ -25,6 +25,7 @@ namespace 			arcade
 
     virtual arcade::Position 	getPos() const;
     virtual void 		setPos(const arcade::Position &pos);
+    virtual void		setTileType() = 0;
   };
 
 };
