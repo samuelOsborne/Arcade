@@ -105,7 +105,7 @@ void	arcade::library::LibCaca::playMusic(__attribute__((unused)) const std::stri
   std::cerr << "Can't play music with libcaca" << std::endl;
 }
 
-void	arcade::library::LibCaca::drawGameObject(const arcade::IGameObject *obj)
+void			arcade::library::LibCaca::drawGameObject(const arcade::IGameObject *obj)
 {
   std::string		color;
   std::string		character;

@@ -14,9 +14,9 @@
 # include <vector>
 # include <map>
 # include "IMap.hh"
-# include "Protocol.hpp"
 # include "IArcadeLibrary.hh"
 # include "IGameObject.hpp"
+# include "Protocol.hpp"
 
 namespace						arcade
 {

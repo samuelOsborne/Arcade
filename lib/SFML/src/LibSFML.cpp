@@ -130,7 +130,6 @@ void			arcade::library::LibSFML::drawGameObject(const arcade::IGameObject *obj)
   sf::Texture		texture;
   sf::Sprite		sprite;
 
-  /* TODO Change this */
   if (!texture.loadFromFile(obj->getSprite() + ".png", sf::IntRect(0, 0, 32, 32)))
     std::cerr << "Error loading sprite" << std::endl;
   else
