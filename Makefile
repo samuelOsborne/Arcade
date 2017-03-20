@@ -5,15 +5,17 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:53:13 2017 Lucas Villeneuve
-## Last update Fri Mar 17 17:05:12 2017 Samuel Osborne
+## Last update Mon Mar 20 12:15:47 2017 Samuel Osborne
 ##
 
 NAME		=	arcade
 
 SRCPATH		=	./src
-GMEPATH		=	./games/src
+GMEPATH		=	./games
+PCMPATH		=	./games/Pacman/src
 INCPATH		=	./include
 INCGMEPATH	=	./games/include
+PACMANINC	=	./games/Pacman/include
 
 SRCS		=	$(SRCPATH)/main.cpp			\
 			$(SRCPATH)/Menu.cpp			\
@@ -26,11 +28,14 @@ SRCS		=	$(SRCPATH)/main.cpp			\
 			$(SRCPATH)/Powerup.cpp			\
 			$(SRCPATH)/ABlock.cpp			\
 			$(SRCPATH)/Wall.cpp			\
-			$(SRCPATH)/Floor.cpp
+			$(SRCPATH)/Floor.cpp			\
+			$(PCMPATH)/Pacman.cpp			\
+			$(PCMPATH)/Ghost.cpp			\
+			$(GMEPATH)/AGame.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 
-CXX		=	g++
+CXX		=	g++ -g
 
 RM		=	rm -f
 
@@ -42,7 +47,7 @@ BANNER		=	./misc/banner.txt
 LIBPATH		=	./lib
 
 CXXFLAGS	=	-W -Wextra -Wall -std=c++11
-CXXFLAGS	+=	-I$(INCPATH) -I$(INCGMEPATH)
+CXXFLAGS	+=	-I$(INCPATH) -I$(INCGMEPATH) -I$(PACMANINC)
 
 LDFLAGS		=	-ldl
 

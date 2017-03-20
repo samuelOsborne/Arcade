@@ -11,7 +11,8 @@
 #ifndef ARCADE_AGAME_HPP_
 # define ARCADE_AGAME_HPP_
 
-#include "ICharacter.hh"
+#include "Map.hh"
+#include "Player.hpp"
 #include "IGame.hpp"
 
 namespace 			arcade
@@ -21,11 +22,15 @@ namespace 			arcade
     class 			AGame : public IGame
     {
      protected:
-      arcade::ICharacter	player;
+      arcade::Player		player;
+      arcade::Map		map;
+
      public:
       virtual ~AGame() {};
 
-      AGame() {};
+      AGame(uint16_t width, uint16_t height) : map(width, height) {};
+      AGame(AGame const &other);
+      AGame &operator=(AGame const &other);
       virtual void		launch() = 0;
     };
   };

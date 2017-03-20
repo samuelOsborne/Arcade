@@ -14,10 +14,14 @@
 #include "Map.hh"
 #include "Menu.hh"
 
+//Sam test
+#include "../games/Pacman/include/Pacman.hpp"
+
 arcade::Menu::Menu(const char *nameLib)
 {
   this->setLib(nameLib);
-  this->lib->playMusic("./misc/CrashTheme.wav");
+//  this->lib->playMusic("./misc/CrashTheme.wav");
+  this->lib->playMusic("./misc/Pacman/Pacman.wav");
 }
 
 arcade::Menu::~Menu()
@@ -100,7 +104,12 @@ void			arcade::Menu::drawMap(const arcade::Map &map)
 
 void			arcade::Menu::loopMenu()
 {
-  arcade::Map           map(8, 8);
+  arcade::games::Pacman	pacMan;
+  pacMan.launch();
+//  map. = pacMan.getPacMap();
+
+  //arcade::Map           map(8, 8);
+  arcade::Map           map = pacMan.getPacMap();
 //  Kappa			kap(5, 5);
   arcade::Position	pos;
   /*
@@ -154,26 +163,55 @@ void			arcade::Menu::loopMenu()
   while (!this->lib->isEventQuit() &&
 	 !this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::ESCAPE)))
     {
+      this->lib->clear();
       if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM2)))
 	this->switchLib(MenuIndexLib::DECREMENT);
       else if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM3)))
 	this->switchLib(MenuIndexLib::INCREMENT);
-
-      this->lib->clear();
-
-      this->drawMap(map);
-/*
-      pos.y = 0;
-      this->lib->drawText("Controls :", pos);
-      pos.y = 35;
-      this->lib->drawText("2 : Prev. lib", pos);
-      pos.y = 60;
-      this->lib->drawText("3 : Next lib", pos);
-*/
-
+      else if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM4)))
+	{
+	  this->launchGame("Pacman");
+	  break;
+	}
+      else
+	{
+	  //this->drawMap(map);
+	  //this->drawMap(map);
+	  pos.y = 0;
+	  this->lib->drawText("Controls :", pos);
+	  pos.y = 35;
+	  this->lib->drawText("2 : Prev. lib", pos);
+	  pos.y = 60;
+	  this->lib->drawText("3 : Next lib", pos);
+	  pos.y = 75;
+	  this->lib->drawText("4 : Play Pacman!", pos);
+	}
       this->lib->display();
-
 //      std::this_thread::sleep_for(std::chrono::seconds(3));
     }
-  this->closeLib();
+	  this->closeLib();
+}
+
+void 			arcade::Menu::launchGame(std::string gameName)
+{
+  arcade::games::Pacman	pacMan;
+  arcade::Map           map = pacMan.getPacMap();
+  arcade::Player	player;
+  arcade::CommandType 	cmd;
+
+  if (gameName == "Pacman")
+    {
+      while (!this->lib->isEventQuit() &&
+	     !this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::ESCAPE)))
+	{
+	  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM3)))
+	    this->loopMenu();
+	  // cmd = process input -> pass cmd to the game
+	  map = pacMan.receiveMapAndCtrl(map, this->lib->processInput());
+	  this->lib->clear();
+	  this->drawMap(map);
+	  this->lib->display();
+	  std::this_thread::sleep_for(std::chrono::milliseconds(250));
+	}
+    }
 }

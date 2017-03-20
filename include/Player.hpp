@@ -23,6 +23,7 @@ namespace 				arcade
     bool 				powerup;
 
    public:
+    Player();
     Player(const uint16_t, const uint16_t);
     Player(const Player &);
     Player &operator=(const Player &);

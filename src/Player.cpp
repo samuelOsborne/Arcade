@@ -11,12 +11,19 @@
 #include "AGameObject.hpp"
 #include "Player.hpp"
 
+arcade::Player::Player()
+ : arcade::ACharacter(0, 0)
+{
+  this->powerup = 0;
+  this->asset = "./misc/Pacman/Pacman";
+  this->setTileType();
+}
+
 arcade::Player::Player(const uint16_t x, const uint16_t y)
  : arcade::ACharacter(x, y)
 {
   this->powerup = 0;
   this->setTileType();
-  this->extType = arcade::games::ExtTileType::PLAYER;
 }
 
 arcade::Player::Player(const arcade::Player& other)

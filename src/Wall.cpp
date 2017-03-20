@@ -14,6 +14,8 @@ arcade::Wall::Wall(const uint16_t x, const uint16_t y)
  : ABlock(x, y)
 {
   this->type = arcade::TileType::BLOCK;
+  this->asset = "./misc/Pacman/Horizontalpipe";
+  this->setTileType();
 }
 
 arcade::Wall::Wall(const arcade::Wall &other)

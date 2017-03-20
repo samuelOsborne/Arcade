@@ -43,6 +43,7 @@ namespace						arcade
     void 						switchLib(const MenuIndexLib&);
     void 						loopMenu();
     void 						drawMap(const arcade::Map &map);
+    void 						launchGame(std::string);
   };
 
 };
