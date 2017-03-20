@@ -91,6 +91,19 @@ bool		arcade::library::LibSFML::isEventQuit()
   return (false);
 }
 
+arcade::CommandType	arcade::library::LibSFML::processInput()
+{
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    return (arcade::CommandType::GO_LEFT);
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    return (arcade::CommandType::GO_RIGHT);
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    return (arcade::CommandType::GO_UP);
+  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    return (arcade::CommandType::GO_DOWN);
+  return (arcade::CommandType::GET_MAP);
+}
+
 void		arcade::library::LibSFML::drawText(const std::string &str, const arcade::Position &pos)
 {
   if (this->text)

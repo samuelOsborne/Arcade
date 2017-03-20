@@ -85,6 +85,24 @@ bool	arcade::library::LibCaca::isEventQuit()
   return (false);
 }
 
+arcade::CommandType	arcade::library::LibCaca::processInput()
+{
+  caca_event_t		event;
+
+  if (caca_get_event(this->window, CACA_EVENT_KEY_PRESS, &event, 250) == 1)
+    {
+      if (caca_get_event_key_ch(&event) == CACA_KEY_LEFT)
+	  return (arcade::CommandType::GO_LEFT);
+      if (caca_get_event_key_ch(&event) == CACA_KEY_RIGHT)
+	  return (arcade::CommandType::GO_RIGHT);
+      if (caca_get_event_key_ch(&event) == CACA_KEY_UP)
+	  return (arcade::CommandType::GO_UP);
+      if (caca_get_event_key_ch(&event) == CACA_KEY_DOWN)
+	  return (arcade::CommandType::GO_DOWN);
+    }
+  return (arcade::CommandType::GET_MAP);
+}
+
 void	arcade::library::LibCaca::drawText(const std::string &str, const arcade::Position &pos)
 {
   caca_put_str(this->canvas, pos.x / 8, pos.y / 16, str.c_str());

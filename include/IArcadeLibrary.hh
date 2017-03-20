@@ -35,6 +35,7 @@ namespace 				arcade
       virtual void 			drawText(const std::string &str,
 						   const arcade::Position &pos) = 0;
       virtual void 			drawGameObject(const arcade::IGameObject*) = 0;
+      virtual arcade::CommandType 	processInput() = 0;
     };
 
   };
