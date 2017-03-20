@@ -1,3 +1,4 @@
+
 //
 // OpenGL.hh for cpp_arcade in /home/escorn_t/Rendu/cpp_arcade/OpenGL.hh
 //
@@ -5,7 +6,7 @@
 // Login    <thomas.escorne@epitech.eu>
 //
 // Started on Tue Mar 14 11:03:50 2017 Thomas Escorne
-// Last update Wed Mar 15 14:24:24 2017 escorn_t
+// Last update Sun Mar 19 13:46:43 2017 escorn_t
 //
 //
 
@@ -13,7 +14,10 @@
 # define OPENGL_HH_
 
 # include <map>
-# include <gl/glut.h>
+# include <GL/glew.h>
+# include <GLFW/glfw3.h>
+# include <glm/glm.hpp>
+# include <stdlib.h> 
 # include "IArcadeLibrary.hh"
 # include "Arcade.hpp"
 # include "Protocol.hpp"
@@ -22,30 +26,14 @@ namespace		 		arcade
 {
   namespace 				library
   {
-    class				OpenGL : public arcade::library::IArcadeLibrary
+    class				LibOpenGL : public arcade::library::IArcadeLibrary
     {
       std::map<arcade::InputKey, int>	keymap;
-      int         			win;
-      bool                              normal[256];
-      bool                              special[256];
-
-     private:
-      void                              keyDown(unsigned char key,
-						__attribute__ ((unused)) int x,
-						__attribute__ ((unused)) int y);
-      void                              keyUp(unsigned char key,
-                                              __attribute__ ((unused)) int x,
-                                              __attribute__ ((unused)) int y);
-      void                              keySpecDown(int key,
-						    __attribute__ ((unused)) int x,
-						    __attribute__ ((unused)) int y);
-      void                              keySpecUp(int key,
-						  __attribute__ ((unused)) int x,
-						  __attribute__ ((unused)) int y);
+      GLFWwindow			*win;
 
      public:
-      OpenGL();
-      ~OpenGL();
+      LibOpenGL();
+      ~LibOpenGL();
 
       virtual void			openWindow();
       virtual void 			closeWindow();
@@ -54,6 +42,10 @@ namespace		 		arcade
       virtual void 			drawText(const std::string &str, const arcade::Position &pos);
       virtual void 			clear();
       virtual void 			display();
+      virtual void 			playMusic(const std::string &music);
+      virtual void 			stopMusic();
+      virtual void 			drawGameObject(const arcade::IGameObject *obj);
+      virtual arcade::CommandType 	processInput();
     };
   };
 };

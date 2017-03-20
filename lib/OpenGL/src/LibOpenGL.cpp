@@ -5,120 +5,110 @@
 // Login    <thomas.escorne@epitech.eu>
 //
 // Started on Tue Mar 14 11:22:25 2017 Thomas Escorne
-// Last update Wed Mar 15 14:25:02 2017 escorn_t
+// Last update Fri Mar 17 14:37:05 2017 escorn_t
 //
 
-#include "OpenGL.hh"
+#include "LibOpenGL.hh"
 
-arcade::library::OpenGL::OpenGL()
+arcade::library::LibOpenGL::LibOpenGL()
 {
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::UNKNOWN, -1));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::ESCAPE, 27));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM0, '0'));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM1, '1'));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM2, '2'));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM3, '3'));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM4, '4'));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM5, '5'));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM6, '6'));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM7, '7'));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM8, '8'));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM9, '9'));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::LEFT, GLUT_KEY_LEFT));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::RIGHT, GLUT_KEY_RIGHT));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::UP, GLUT_KEY_UP));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::DOWN, GLUT_KEY_DOWN));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::SPACE, 32));
-  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::ENTER, 13));
-  glutInitDisplayMode(GLUT_RGBA);
-  glutInitWindowSize(800,600);
-  glutKeyboardFunc(this->keyDown);
-  glutKeyboardUpFunc(this->keyUp);
-  glutSpecialFunc(this->keySpecDown);
-  glutSpecialUpFunc(this->keySpecUp);
-  glutDisplayFunc(/* Fonction de display */);
-  glutMainLoop(/* Fonction de loop */);
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::UNKNOWN, GLFW_KEY_UNKNOWN));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::ESCAPE, GLFW_KEY_ESCAPE));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM0, GLFW_KEY_0));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM1, GLFW_KEY_1));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM2, GLFW_KEY_2));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM3, GLFW_KEY_3));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM4, GLFW_KEY_4));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM5, GLFW_KEY_5));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM6, GLFW_KEY_6));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM7, GLFW_KEY_7));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM8, GLFW_KEY_8));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM9, GLFW_KEY_9));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::LEFT, GLFW_KEY_LEFT));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::RIGHT, GLFW_KEY_RIGHT));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::UP, GLFW_KEY_UP));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::DOWN, GLFW_KEY_DOWN));
+  this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::ENTER, GLFW_KEY_ENTER));
+  /*if (!*/glfwInit()/*)*/;
 }
 
-arcade::library::OpenGL::~OpenGL()
+arcade::library::LibOpenGL::~LibOpenGL()
 {
+  glfwTerminate();
 }
 
-void	                        arcade::library::OpenGL::openWindow()
+void	                        	arcade::library::LibOpenGL::openWindow()
 {
-  this->win = glutCreateWindow("Arcade OpenGL");
-  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+  glfwWindowHint(GLFW_SAMPLES, 4);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  this->win = glfwCreateWindow(800, 600, "Arcade OpenGL", NULL, NULL);
+  // If (this->win == NULL)
+  // glfwTerminate();
+  //throw
+  glfwMakeContextCurrent(this->win);
+  glewInit(); // if (glewInit != GLEW_OK) throw
+  glfwSetInputMode(this->win, GLFW_STICKY_KEYS, GL_TRUE);
 }
 
-void                            arcade::library::OpenGL::closeWindow()
+void                            	arcade::library::LibOpenGL::closeWindow()
 {
-  bunny_stop(this->win);
+  glfwDestroyWindow(this->win);
 }
 
-void		                arcade::library::OpenGL::keyDown(unsigned char key,
-                                                                 __attribute__ ((unused)) int x,
-                                                                 __attribute__ ((unused)) int y)
+bool 	                         	arcade::library::LibOpenGL::isKeyPressed(const arcade::Input &input)
 {
-  this->normal[key] = true;
-}
-
-void		                arcade::library::OpenGL::keyUp(unsigned char key,
-								__attribute__ ((unused)) int x,
-								__attribute__ ((unused)) int y)
-{
-  this->normal[key] = false;
-}
-
-void		                arcade::library::OpenGL::keySpecDown(int key,
-								 __attribute__ ((unused)) int x,
-								 __attribute__ ((unused)) int y)
-{
-  this->special[key] = true;
-}
-
-void		                arcade::library::OpenGL::keySpecUp(int key,
-								 __attribute__ ((unused)) int x,
-								 __attribute__ ((unused)) int y)
-{
-  this->special[key] = false;
-}
-
-bool 	                         arcade::library::OpenGL::isKeyPressed(const arcade::Input &input)
-{
-  if (input.key != arcade::InputKey::LEFT &&
-      input.key != arcade::InputKey::RIGHT &&
-      input.key != arcade::InputKey::UP &&
-      input.key != arcade::InputKey::DOWN)
-  {
-    if (this->normal[this->keymap.find(input.key)->second] == true)
-      return (true);
-  }
-  else if (this->special[this->keymap.find(input.key)->second] == true)
+  if (glfwGetKey(this->win, this->keymap.find(input.key)->second) == GLFW_PRESS)
     return (true);
   return (false);
 }
 
-bool                              arcade::library::OpenGL::isEventQuit()
+bool                              	arcade::library::LibOpenGL::isEventQuit()
 {
+  if (glfwWindowShouldClose(this->win) != 0)
+    return (true);
   return (false);
 }
 
-void                              arcade::library::OpenGL::drawText(const std::string &str, const arcade::Position &pos)
+void                              	arcade::library::LibOpenGL::drawText(const std::string &str, const arcade::Position &pos)
 {
-  
+  (void)str;
+  (void)pos;
 }
 
-void                               arcade::library::OpenGL::clear()
+void                               	arcade::library::LibOpenGL::clear()
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void                               arcade::library::OpenGL::display()
+void                               	arcade::library::LibOpenGL::display()
+{
+  glfwSwapBuffers(this->win);
+  glfwPollEvents();
+}
+
+void 					arcade::library::LibOpenGL::playMusic(const std::string &music)
+{
+  (void)music;
+}
+
+void 					arcade::library::LibOpenGL::stopMusic()
+{
+
+}
+
+void 					arcade::library::LibOpenGL::drawGameObject(const arcade::IGameObject *obj)
+{
+
+}
+
+arcade::CommandType 		arcade::library::LibOpenGL::processInput()
 {
 
 }
 
 extern "C" arcade::library::IArcadeLibrary	*entry_point()
 {
-  return (new arcade::library::OpenGL());
+  return (new arcade::library::LibOpenGL());
 }
