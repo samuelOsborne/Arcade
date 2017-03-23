@@ -29,6 +29,22 @@ namespace	arcade
       virtual void 					launch();
       arcade::Map					getPacMap() const;
       arcade::Map					receiveMapAndCtrl(arcade::Map, arcade::CommandType);
+      void 						createWallsHor(int start, int end, int y);
+      void 						createWallsLine(int x, int y, int length);
+      void 						createWallsVer(int startX, int startY, int endY);
+      void 						createStraightWall(int startX, int startY, int size);
+      void 						createWallsNOpipe(int startX, int startY);
+      void 						createWallsNEpipe(int startX, int startY);
+      void 						createWallsSEpipe(int startX, int startY);
+      void 						createWallsSOpipe(int startX, int startY);
+      void 						createCube(int length, int height, int x, int y);
+      void						createUpRightT(int x, int y, int size);
+      void						createUpLeftT(int x, int y, int size);
+      void						createRightSideT(int x, int y, int size);
+      void						initPacgum();
+      arcade::Player					*getPlayer();
+      void						runAi();
+      int 						checkIfCanMove(arcade::Position pos, arcade::CommandType);
     };
 
   };
