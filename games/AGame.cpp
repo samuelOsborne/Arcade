@@ -26,3 +26,8 @@ arcade::games::AGame &arcade::games::AGame::operator=(arcade::games::AGame const
     }
   return (*this);
 }
+
+std::vector<arcade::Enemy*>	arcade::games::AGame::getEnemy() const
+{
+  return (this->enemies);
+}

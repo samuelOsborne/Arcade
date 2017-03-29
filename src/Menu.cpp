@@ -21,7 +21,7 @@ arcade::Menu::Menu(const char *nameLib)
 {
   this->setLib(nameLib);
 //  this->lib->playMusic("./misc/CrashTheme.wav");
-  this->lib->playMusic("./misc/Pacman/Pacman.wav");
+  //this->lib->playMusic("./misc/Pacman/Pacman.wav");
 }
 
 arcade::Menu::~Menu()
@@ -105,7 +105,6 @@ void			arcade::Menu::drawMap(const arcade::Map &map)
 void			arcade::Menu::loopMenu()
 {
   arcade::games::Pacman	pacMan;
-  pacMan.launch();
 //  map. = pacMan.getPacMap();
 
   //arcade::Map           map(8, 8);
@@ -170,6 +169,7 @@ void			arcade::Menu::loopMenu()
 	this->switchLib(MenuIndexLib::INCREMENT);
       else if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM4)))
 	{
+	  pacMan.launch();
 	  this->launchGame("Pacman");
 	  break;
 	}
@@ -192,6 +192,18 @@ void			arcade::Menu::loopMenu()
 	  this->closeLib();
 }
 
+void 						arcade::Menu::drawGameEnemies(std::vector<arcade::Enemy*> en)
+{
+  std::vector<arcade::Enemy*>::iterator 	it = en.begin();
+
+  while (it != en.end())
+    {
+      //TODO
+      this->lib->drawGameObject(*it);
+      ++it;
+    }
+}
+
 void 			arcade::Menu::launchGame(std::string gameName)
 {
   arcade::games::Pacman	pacMan;
@@ -206,11 +218,13 @@ void 			arcade::Menu::launchGame(std::string gameName)
 	{
 	  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM3)))
 	    this->loopMenu();
-	  // cmd = process input -> pass cmd to the game
-	  map = pacMan.receiveMapAndCtrl(map, this->lib->processInput());
 	  this->lib->clear();
+	  map = pacMan.receiveMapAndCtrl(map, this->lib->processInput());
 	  this->drawMap(map);
+	  this->lib->drawGameObject(pacMan.getPlayer());
+	  this->drawGameEnemies(pacMan.getEnemy());
 	  this->lib->display();
+	  map = pacMan.getPacMap();
 	  std::this_thread::sleep_for(std::chrono::milliseconds(250));
 	}
     }

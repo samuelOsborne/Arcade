@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:53:13 2017 Lucas Villeneuve
-## Last update Mon Mar 20 12:15:47 2017 Samuel Osborne
+## Last update Wed Mar 29 12:11:33 2017 Samuel Osborne
 ##
 
 NAME		=	arcade
@@ -29,7 +29,9 @@ SRCS		=	$(SRCPATH)/main.cpp			\
 			$(SRCPATH)/ABlock.cpp			\
 			$(SRCPATH)/Wall.cpp			\
 			$(SRCPATH)/Floor.cpp			\
+			$(SRCPATH)/Pickup.cpp			\
 			$(PCMPATH)/Pacman.cpp			\
+			$(PCMPATH)/Pacgum.cpp			\
 			$(PCMPATH)/Ghost.cpp			\
 			$(GMEPATH)/AGame.cpp
 

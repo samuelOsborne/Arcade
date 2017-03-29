@@ -5,15 +5,16 @@
 ** Login   <samuel.osborne@epitech.eu>
 **
 ** Started on  Sat Mar 18 13:29:23 2017 Samuel Osborne
-// Last update Wed Mar 29 11:27:40 2017 Samuel Osborne
+** Last update Sat Mar 18 13:29:23 2017 Samuel Osborne
 */
 
-#include <iostream>
 #include <cmath>
+#include <typeinfo>
+#include <iostream>
+#include "Ghost.hpp"
 #include "Pacgum.hh"
 #include "Wall.hpp"
 #include "Floor.hpp"
-#include "Ghost.hpp"
 #include "Pacman.hpp"
 
 arcade::games::Pacman::Pacman() : arcade::games::AGame(27, 31)

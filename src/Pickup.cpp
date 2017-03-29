@@ -45,3 +45,8 @@ void			arcade::Pickup::setTileType()
 {
   this->type = arcade::TileType::POWERUP;
 }
+
+std::string		arcade::Pickup::getObj() const
+{
+  return ("Pickup");
+}

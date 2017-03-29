@@ -11,6 +11,7 @@
 #ifndef MENU_HH_
 # define MENU_HH_
 
+# include "Enemy.hpp"
 # include "Arcade.hpp"
 # include "IArcadeLibrary.hh"
 # include "DLLoader.hpp"
@@ -44,6 +45,7 @@ namespace						arcade
     void 						loopMenu();
     void 						drawMap(const arcade::Map &map);
     void 						launchGame(std::string);
+    void 						drawGameEnemies(std::vector<arcade::Enemy*>);
   };
 
 };

@@ -27,6 +27,7 @@ namespace 			arcade
     virtual void		setTileType() = 0;
     virtual arcade::Position 	getPos() const;
     virtual void 		setPos(const arcade::Position &pos);
+    virtual std::string		getObj() const = 0;
   };
 
 };

@@ -14,6 +14,7 @@ arcade::Floor::Floor(uint16_t x, uint16_t y)
  : arcade::ABlock(x, y)
 {
   this->setTileType();
+  this->asset = "./misc/Pacman/black";
 }
 
 arcade::Floor::Floor(const arcade::Floor &other)
@@ -34,6 +35,11 @@ arcade::Floor	&arcade::Floor::operator=(const arcade::Floor &other)
       this->type = other.type;
     }
   return (*this);
+}
+
+std::string	arcade::Floor::getObj() const
+{
+  return ("Floor");
 }
 
 void	arcade::Floor::setTileType()

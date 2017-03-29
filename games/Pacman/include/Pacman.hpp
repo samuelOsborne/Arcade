@@ -13,6 +13,7 @@
 
 #include "Map.hh"
 #include "AGame.hpp"
+#include "Enemy.hpp"
 
 namespace	arcade
 {
@@ -42,9 +43,11 @@ namespace	arcade
       void						createUpLeftT(int x, int y, int size);
       void						createRightSideT(int x, int y, int size);
       void						initPacgum();
+      void						initEnemies();
       arcade::Player					*getPlayer();
       void						runAi();
-      int 						checkIfCanMove(arcade::Position pos, arcade::CommandType);
+      int 						checkIfCanMove(arcade::Position pos);
+      double 						calcDistance(arcade::Position, arcade::Position);
     };
 
   };

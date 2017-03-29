@@ -8,6 +8,7 @@
 ** Last update Fri Mar 17 13:06:12 2017 Samuel Osborne
 */
 
+#include <string.h>
 #include "Wall.hpp"
 
 arcade::Wall::Wall(const uint16_t x, const uint16_t y)
@@ -38,7 +39,17 @@ const arcade::Wall&	arcade::Wall::operator=(const arcade::Wall &other)
   return (*this);
 }
 
+void			arcade::Wall::setAsset(std::string assetPath)
+{
+  this->asset = assetPath;
+}
+
 void			arcade::Wall::setTileType()
 {
   this->extType = arcade::games::ExtTileType::WALL;
+}
+
+std::string		arcade::Wall::getObj() const
+{
+  return ("Wall");
 }
