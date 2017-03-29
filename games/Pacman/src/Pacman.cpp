@@ -5,15 +5,16 @@
 ** Login   <samuel.osborne@epitech.eu>
 **
 ** Started on  Sat Mar 18 13:29:23 2017 Samuel Osborne
-** Last update Sat Mar 18 13:29:23 2017 Samuel Osborne
+// Last update Wed Mar 29 11:27:40 2017 Samuel Osborne
 */
 
-#include <typeinfo>
 #include <iostream>
-#include "../include/Pacgum.hh"
+#include <cmath>
+#include "Pacgum.hh"
 #include "Wall.hpp"
 #include "Floor.hpp"
-#include "../include/Pacman.hpp"
+#include "Ghost.hpp"
+#include "Pacman.hpp"
 
 arcade::games::Pacman::Pacman() : arcade::games::AGame(27, 31)
 {
@@ -22,6 +23,7 @@ arcade::games::Pacman::Pacman() : arcade::games::AGame(27, 31)
   pos.y = 24;
   this->player.setPos(pos);
   this->launch();
+  this->initEnemies();
 }
 
 arcade::games::Pacman::Pacman(const arcade::games::Pacman &other)
@@ -30,7 +32,16 @@ arcade::games::Pacman::Pacman(const arcade::games::Pacman &other)
   if (this != &other)
     {
       this->player = other.player;
+      this->enemies = other.enemies;
     }
+}
+
+void 						arcade::games::Pacman::initEnemies()
+{
+  this->enemies.push_back(new arcade::games::Ghost(14, 15));
+  this->enemies.push_back(new arcade::games::Ghost(15, 16));
+  this->enemies.push_back(new arcade::games::Ghost(16, 15));
+  this->enemies.push_back(new arcade::games::Ghost(15, 13));
 }
 
 arcade::games::Pacman 				&arcade::games::Pacman::operator=(const Pacman& other)
@@ -417,12 +428,23 @@ arcade::Player					*arcade::games::Pacman::getPlayer()
   return (&this->player);
 }
 
-void						arcade::games::Pacman::runAi()
+double						arcade::games::Pacman::calcDistance(arcade::Position posA, arcade::Position posB)
 {
+  int distancex = (posB.x - posA.x) * 2;
+  int distancey = (posB.y - posA.y) * 2;
 
+  std::cout << distancex << " : " << distancey << std::endl;
+  double distance = sqrt(distancex - distancey);
+  std::cout << "distance : " << distance << std::endl;
+  return (distance);
 }
 
-int 						arcade::games::Pacman::checkIfCanMove(arcade::Position pos, arcade::CommandType cmd)
+void						arcade::games::Pacman::runAi()
+{
+  std::cout << this->calcDistance(this->player.getPos(), this->enemies.front()->getPos()) << std::endl;
+}
+
+int 						arcade::games::Pacman::checkIfCanMove(arcade::Position pos)
 {
 
   std::cout << this->map.getTile(pos)->getObj() << std::endl;
@@ -446,7 +468,7 @@ arcade::Map					arcade::games::Pacman::receiveMapAndCtrl(arcade::Map map, arcade
   if (cmd == arcade::CommandType::GO_RIGHT)
     {
       pos.x++;
-      if (this->checkIfCanMove(pos, arcade::CommandType::GO_RIGHT) != 1)
+      if (this->checkIfCanMove(pos) != 1)
 	this->player.move(pos);
       else
 	pos.x--;
@@ -454,7 +476,7 @@ arcade::Map					arcade::games::Pacman::receiveMapAndCtrl(arcade::Map map, arcade
   else if (cmd == arcade::CommandType::GO_LEFT)
     {
       pos.x--;
-      if (this->checkIfCanMove(pos, arcade::CommandType::GO_LEFT) != 1)
+      if (this->checkIfCanMove(pos) != 1)
 	this->player.move(pos);
       else
       	pos.x++;
@@ -462,7 +484,7 @@ arcade::Map					arcade::games::Pacman::receiveMapAndCtrl(arcade::Map map, arcade
   else if (cmd == arcade::CommandType::GO_UP)
     {
       pos.y--;
-      if (this->checkIfCanMove(pos, arcade::CommandType::GO_UP) != 1)
+      if (this->checkIfCanMove(pos) != 1)
 	  this->player.move(pos);
       else
 	pos.y++;
@@ -470,7 +492,7 @@ arcade::Map					arcade::games::Pacman::receiveMapAndCtrl(arcade::Map map, arcade
   else if (cmd == arcade::CommandType::GO_DOWN)
     {
       pos.y++;
-      if (this->checkIfCanMove(pos, arcade::CommandType::GO_DOWN) != 1)
+      if (this->checkIfCanMove(pos) != 1)
 	this->player.move(pos);
       else
 	pos.y--;
