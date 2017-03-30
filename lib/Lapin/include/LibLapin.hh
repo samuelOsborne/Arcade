@@ -26,11 +26,17 @@ namespace		 		arcade
     {
       std::map<arcade::InputKey, int>	keymap;
       t_bunny_window			*win;
+      t_bunny_picture			*font;
+      std::string			txt;
+      arcade::Position			txt_pos;
+      unsigned int			color;
       bool 				keytab[256];
 
-     public:
+     private:
       static t_bunny_response			key_response(t_bunny_event_state state, t_bunny_keysym sym, void *data);
-      static t_bunny_response			main_loop(void *data);
+      static t_bunny_response			clear_loop(void *data);
+      static t_bunny_response			display_loop(void *data);
+      static t_bunny_response			drawtext_loop(void *data);
 
      public:
       LibLapin();
