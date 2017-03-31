@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:53:13 2017 Lucas Villeneuve
-## Last update Mon Mar 20 12:15:47 2017 Samuel Osborne
+## Last update Fri Mar 24 22:21:41 2017 Lucas Villeneuve
 ##
 
 NAME		=	arcade
@@ -19,19 +19,20 @@ PACMANINC	=	./games/Pacman/include
 
 SRCS		=	$(SRCPATH)/main.cpp			\
 			$(SRCPATH)/Menu.cpp			\
-			$(SRCPATH)/Map.cpp			\
-			$(SRCPATH)/Player.cpp			\
-			$(SRCPATH)/Enemy.cpp			\
-			$(SRCPATH)/AGameObject.cpp		\
-			$(SRCPATH)/ACharacter.cpp		\
-			$(SRCPATH)/AObjects.cpp			\
-			$(SRCPATH)/Powerup.cpp			\
-			$(SRCPATH)/ABlock.cpp			\
-			$(SRCPATH)/Wall.cpp			\
-			$(SRCPATH)/Floor.cpp			\
-			$(PCMPATH)/Pacman.cpp			\
-			$(PCMPATH)/Ghost.cpp			\
-			$(GMEPATH)/AGame.cpp
+			$(SRCPATH)/LibraryList.cpp
+#			$(SRCPATH)/Map.cpp			
+#			$(SRCPATH)/Player.cpp			\
+#			$(SRCPATH)/Enemy.cpp			\
+#			$(SRCPATH)/AGameObject.cpp		\
+#			$(SRCPATH)/ACharacter.cpp		\
+#			$(SRCPATH)/AObjects.cpp			\
+#			$(SRCPATH)/Powerup.cpp			\
+#			$(SRCPATH)/ABlock.cpp			\
+#			$(SRCPATH)/Wall.cpp			\
+#			$(SRCPATH)/Floor.cpp			\
+#			$(GMEPATH)/AGame.cpp			
+#			$(PCMPATH)/Ghost.cpp			\
+#			$(PCMPATH)/Pacman.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 

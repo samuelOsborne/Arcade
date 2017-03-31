@@ -18,15 +18,26 @@ namespace 			arcade
 {
   class 			AObjects : public arcade::AGameObject
   {
+   protected:
+    bool 			taken;
+    std::string			secondAsset;
+
+    void 			switchAsset();
+
    public:
     AObjects(const uint16_t, const uint16_t);
     AObjects(const AObjects&);
     AObjects &operator=(const AObjects&);
     virtual ~AObjects() {};
 
-    virtual void		setTileType() = 0;
+
     virtual arcade::Position 	getPos() const;
+    bool 			getTaken() const;
+    std::string			getSecondAsset() const;
     virtual void 		setPos(const arcade::Position &pos);
+    virtual void		setTileType() = 0;
+    void 			setSecondAsset(const std::string &asset);
+    void			take();
   };
 
 };

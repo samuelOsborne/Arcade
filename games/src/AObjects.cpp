@@ -13,6 +13,7 @@
 arcade::AObjects::AObjects(const uint16_t x, const uint16_t y)
  : arcade::AGameObject(x, y)
 {
+  this->taken = false;
 }
 
 arcade::AObjects::AObjects(const arcade::AObjects& other)
@@ -45,4 +46,30 @@ void 	arcade::AObjects::setPos(const arcade::Position &pos)
 arcade::Position	arcade::AObjects::getPos() const
 {
   return (this->pos);
+}
+
+void	arcade::AObjects::switchAsset()
+{
+  this->asset = this->secondAsset;
+}
+
+std::string	arcade::AObjects::getSecondAsset() const
+{
+  return (this->secondAsset);
+}
+
+void	arcade::AObjects::setSecondAsset(const std::string &asset)
+{
+  this->secondAsset = asset;
+}
+
+void arcade::AObjects::take()
+{
+  this->taken = true;
+  this->switchAsset();
+}
+
+bool	arcade::AObjects::getTaken() const
+{
+  return (this->taken);
 }

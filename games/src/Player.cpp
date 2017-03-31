@@ -61,7 +61,7 @@ void				arcade::Player::setTileType()
   this->extType = arcade::games::ExtTileType::PLAYER;
 }
 
-arcade::games::ExtTileType	arcade::Player::getTileType() const
+arcade::games::ExtTileType	arcade::Player::getExtTileType() const
 {
   return (this->extType);
 }

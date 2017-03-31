@@ -8,7 +8,8 @@
 // Last update Sun Mar 12 15:21:16 2017 Lucas Villeneuve
 //
 
-#include <Menu.hh>
+#include <stdexcept>
+#include "Menu.hh"
 
 int		main(int argc, char **argv)
 {
@@ -20,12 +21,15 @@ int		main(int argc, char **argv)
        		<< "\t" << argv[0] << "./lib/lib_arcade_XXX.so" << std::endl;
       return (1);
     }
-  /*
-   * TODO
-   * Catch std::exception	
-   */
-  menu = new arcade::Menu(argv[1]);
-  menu->loopMenu();
+  try
+    {
+      menu = new arcade::Menu(argv[1]);
+      menu->loopMenu();
+    }
+  catch (const std::exception &e)
+    {
+      menu->closeGame();
+    }
   delete (menu);
   return (0);
 }

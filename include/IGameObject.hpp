@@ -11,6 +11,7 @@
 #ifndef ARCADE_IGAMEOBJECT_HPP_
 # define ARCADE_IGAMEOBJECT_HPP_
 
+# include <string>
 # include "Protocol.hpp"
 
 namespace 			arcade
@@ -24,6 +25,7 @@ namespace 			arcade
     virtual void 		setPos(const arcade::Position &pos) = 0;
     virtual std::string 	getSprite() const = 0;
     virtual void 		setSprite(const std::string &) = 0;
+    virtual arcade::TileType 	getTileType() const = 0;
   };
 
 };

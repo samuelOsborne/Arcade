@@ -11,16 +11,25 @@
 #ifndef ARCADE_IGAME_HPP_
 # define ARCADE_IGAME_HPP_
 
-namespace 	arcade
+# include <vector>
+# include <string>
+
+namespace 				arcade
 {
-  namespace 	games
+  namespace 				games
   {
-    class IGame
+    class 				IGame
     {
      public:
       virtual ~IGame() {};
 
-      virtual void launch() = 0;
+      virtual void 				launch() = 0;
+      virtual std::string			getName() const = 0;
+      virtual arcade::IMap			*getMap() /* const */ = 0;
+      virtual arcade::IGameObject		*getPlayer() /* const */ = 0;
+      virtual std::vector<arcade::IGameObject*> getEnemies() const = 0;
+      virtual bool				playRound(const arcade::CommandType &cmd) = 0;
+//      virtual void 				Play() = 0;
     };
   }
 }

@@ -31,7 +31,7 @@ namespace 				arcade
 
     virtual void 			move(const arcade::Position &);
     virtual void			setTileType();
-    virtual arcade::games::ExtTileType	getTileType() const;
+    virtual arcade::games::ExtTileType	getExtTileType() const;
   };
 
 };

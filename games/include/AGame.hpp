@@ -15,23 +15,33 @@
 #include "Player.hpp"
 #include "IGame.hpp"
 
-namespace 			arcade
+namespace 					arcade
 {
-  namespace 			games
+  namespace 					games
   {
-    class 			AGame : public IGame
+    class 					AGame : public IGame
     {
      protected:
-      arcade::Player		player;
-      arcade::Map		map;
+      arcade::Player				player;
+      arcade::Map				map;
+      std::string				name;
+
+      virtual bool				processCmd(const arcade::CommandType&) = 0;
+      virtual bool 				checkIfCanMove(const arcade::Position &) const;
 
      public:
-      virtual ~AGame() {};
-
-      AGame(uint16_t width, uint16_t height) : map(width, height) {};
+      AGame(const uint16_t width, const uint16_t height) : map(width, height) {};
       AGame(AGame const &other);
       AGame &operator=(AGame const &other);
-      virtual void		launch() = 0;
+      virtual ~AGame() {};
+
+      virtual void				launch() = 0;
+      virtual std::string			getName() const;
+      virtual arcade::IMap			*getMap() /* const */;
+      virtual arcade::IGameObject		*getPlayer() /* const */;
+      virtual std::vector<arcade::IGameObject*>	getEnemies() const = 0;
+      virtual bool				playRound(const arcade::CommandType &cmd) = 0;
+//      virtual void 				Play() = 0;
     };
   };
 };

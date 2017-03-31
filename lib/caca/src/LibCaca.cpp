@@ -89,7 +89,7 @@ arcade::CommandType	arcade::library::LibCaca::processInput()
 {
   caca_event_t		event;
 
-  if (caca_get_event(this->window, CACA_EVENT_KEY_PRESS, &event, 250) == 1)
+  if (caca_get_event(this->window, CACA_EVENT_KEY_PRESS, &event, 0) == 1)
     {
       if (caca_get_event_key_ch(&event) == CACA_KEY_LEFT)
 	  return (arcade::CommandType::GO_LEFT);
