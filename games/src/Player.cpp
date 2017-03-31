@@ -65,3 +65,8 @@ arcade::games::ExtTileType	arcade::Player::getExtTileType() const
 {
   return (this->extType);
 }
+
+std::string			arcade::Player::getObj() const
+{
+  return ("Player");
+}

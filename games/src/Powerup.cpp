@@ -45,3 +45,8 @@ void	arcade::Powerup::setTileType()
 {
   this->type = arcade::TileType::POWERUP;
 }
+
+std::string	arcade::Powerup::getObj() const
+{
+  return ("Powerup");
+}

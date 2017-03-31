@@ -38,6 +38,7 @@ namespace 			arcade
     virtual void		setTileType() = 0;
     void 			setSecondAsset(const std::string &asset);
     void			take();
+    virtual std::string		getObj() const = 0;
   };
 
 };

@@ -50,7 +50,7 @@ void	arcade::library::LibCaca::openWindow()
    * Width = 8 * nbWidth
    * Height = 16 * nbLength
    */
-  this->canvas = caca_create_canvas(38, 19);
+  this->canvas = caca_create_canvas(38, 38);
   this->window = caca_create_display(this->canvas);
 }
 

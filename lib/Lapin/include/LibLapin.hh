@@ -1,23 +1,19 @@
-
 //
-// OpenGL.hh for cpp_arcade in /home/escorn_t/Rendu/cpp_arcade/OpenGL.hh
+// LibLapin.hh for cpp_arcade in /home/escorn_t/Rendu/cpp_arcade/LibLapin.hh
 //
 // Made by Thomas Escorne
 // Login    <thomas.escorne@epitech.eu>
 //
 // Started on Tue Mar 14 11:03:50 2017 Thomas Escorne
-// Last update Sun Mar 19 13:46:43 2017 escorn_t
+// Last update Thu Mar 23 16:25:25 2017 escorn_t
 //
 //
 
-#ifndef OPENGL_HH_
-# define OPENGL_HH_
+#ifndef LIBLAPIN_HH_
+# define LIBLAPIN_HH_
 
 # include <map>
-# include <GL/glew.h>
-# include <GLFW/glfw3.h>
-# include <glm/glm.hpp>
-# include <stdlib.h> 
+# include "lapin.h"
 # include "IArcadeLibrary.hh"
 # include "Arcade.hpp"
 # include "Protocol.hpp"
@@ -26,14 +22,25 @@ namespace		 		arcade
 {
   namespace 				library
   {
-    class				LibOpenGL : public arcade::library::IArcadeLibrary
+    class				LibLapin : public arcade::library::IArcadeLibrary
     {
       std::map<arcade::InputKey, int>	keymap;
-      GLFWwindow			*win;
+      t_bunny_window			*win;
+      t_bunny_picture			*font;
+      std::string			txt;
+      arcade::Position			txt_pos;
+      unsigned int			color;
+      bool 				keytab[256];
+
+     private:
+      static t_bunny_response			key_response(t_bunny_event_state state, t_bunny_keysym sym, void *data);
+      static t_bunny_response			clear_loop(void *data);
+      static t_bunny_response			display_loop(void *data);
+      static t_bunny_response			drawtext_loop(void *data);
 
      public:
-      LibOpenGL();
-      ~LibOpenGL();
+      LibLapin();
+      ~LibLapin();
 
       virtual void			openWindow();
       virtual void 			closeWindow();
@@ -50,4 +57,4 @@ namespace		 		arcade
   };
 };
 
-#endif // !OPENGL_HH_
+#endif // !LIBLAPIN_HH_

@@ -24,6 +24,7 @@ namespace 		arcade
     ~Floor() {};
 
     virtual void 	setTileType();
+    virtual std::string getObj() const;
   };
 
 };

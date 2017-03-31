@@ -5,12 +5,12 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sat Mar 11 17:28:24 2017 Lucas Villeneuve
-## Last update Mon Mar 20 10:26:40 2017 escorn_t
+## Last update Fri Mar 24 10:32:07 2017 escorn_t
 ##
 
-NAME		=	../lib_arcade_opengl.so
+NAME		=	../lib_arcade_lapin.so
 
-SRCS		=	$(SRCPATH)/LibOpenGL.cpp
+SRCS		=	$(SRCPATH)/LibLapin.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 
@@ -25,7 +25,9 @@ CXXFLAGS	=	-W -Wextra -Wall
 CXXFLAGS	+=	-std=c++11 -fPIC
 CXXFLAGS	+=	-I$(INCPATH) -I../../include
 
-LDFLAGS		+=	-ldl -lGL -lGLU -lglfw3 -lGLEW -lX11 -lXxf86vm -lXrandr -lpthread -lXi -lXcursor -lXinerama
+LDFLAGS		+=	-L${HOME}/.froot/lib/
+LDFLAGS		+=	-llapin -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAGS		+=	-lsfml-audio -lstdc++ -lm -ldl -lpthread
 
 RED		=	\033[0;31m
 GREEN		=	\033[0;32m
@@ -42,7 +44,7 @@ all:		$(NAME)
 		@$(call compile,  $(CXX) -c $(CXXFLAGS) -o $@ $<)
 
 obj_echo:
-		@echo "\n $(BLUE)OPENGL$(NO_COLOR)"
+		@echo "\n $(BLUE)LibLapin$(NO_COLOR)"
 
 clean:
 		$(RM) $(OBJS)

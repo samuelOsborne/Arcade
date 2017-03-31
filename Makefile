@@ -20,7 +20,7 @@ PACMANINC	=	./games/Pacman/include
 SRCS		=	$(SRCPATH)/main.cpp			\
 			$(SRCPATH)/Menu.cpp			\
 			$(SRCPATH)/LibraryList.cpp
-#			$(SRCPATH)/Map.cpp			
+#			$(SRCPATH)/Map.cpp
 #			$(SRCPATH)/Player.cpp			\
 #			$(SRCPATH)/Enemy.cpp			\
 #			$(SRCPATH)/AGameObject.cpp		\
@@ -30,7 +30,7 @@ SRCS		=	$(SRCPATH)/main.cpp			\
 #			$(SRCPATH)/ABlock.cpp			\
 #			$(SRCPATH)/Wall.cpp			\
 #			$(SRCPATH)/Floor.cpp			\
-#			$(GMEPATH)/AGame.cpp			
+#			$(GMEPATH)/AGame.cpp
 #			$(PCMPATH)/Ghost.cpp			\
 #			$(PCMPATH)/Pacman.cpp
 

@@ -13,14 +13,14 @@
 
 #include "Enemy.hpp"
 
-namespace 		arcade
+namespace 			arcade
 {
-  namespace 		games
+  namespace 			games
   {
-    class Ghost : public arcade::Enemy
+    class Ghost : public 	arcade::Enemy
     {
      public:
-      Ghost() : Enemy(10, 10)
+      Ghost(uint16_t x, uint16_t y) : Enemy(x, y)
       {
 	this->asset = "./misc/Pacman/RedGhost";
       };

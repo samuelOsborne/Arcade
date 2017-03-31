@@ -46,3 +46,8 @@ void	arcade::Enemy::setTileType()
 {
   this->type = arcade::TileType::EVIL_DUDE;
 }
+
+std::string	arcade::Enemy::getObj() const
+{
+  return ("Enemy");
+}
