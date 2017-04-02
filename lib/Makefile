@@ -5,25 +5,28 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:41:51 2017 Lucas Villeneuve
-## Last update Fri Mar 31 15:15:57 2017 Lucas Villeneuve
+## Last update Sun Apr  2 14:30:30 2017 escorn_t
 ##
 
 SFMLPATH	=	./SFML
 
 CACAPATH	=	./caca
 
-OPENGLPATH	=	./OpenGL
+LAPINPATH	=	./Lapin
 
 all:
 		@$(MAKE) --no-print-directory -C $(SFMLPATH)
 		@$(MAKE) --no-print-directory -C $(CACAPATH)
+		@$(MAKE) --no-print-directory -C $(LAPINPATH)
 
 clean:
 		@$(MAKE) --no-print-directory -C $(SFMLPATH) clean
 		@$(MAKE) --no-print-directory -C $(CACAPATH) clean
+		@$(MAKE) --no-print-directory -C $(LAPINPATH) clean
 
 fclean:		clean
 		@$(MAKE) --no-print-directory -C $(SFMLPATH) fclean
 		@$(MAKE) --no-print-directory -C $(CACAPATH) fclean
+		@$(MAKE) --no-print-directory -C $(LAPINPATH) fclean
 
 re:		fclean all
