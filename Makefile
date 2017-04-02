@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:53:13 2017 Lucas Villeneuve
-## Last update Fri Mar 24 22:21:41 2017 Lucas Villeneuve
+## Last update Sun Apr  2 13:53:22 2017 Lucas Villeneuve
 ##
 
 NAME		=	arcade
@@ -20,19 +20,6 @@ PACMANINC	=	./games/Pacman/include
 SRCS		=	$(SRCPATH)/main.cpp			\
 			$(SRCPATH)/Menu.cpp			\
 			$(SRCPATH)/LibraryList.cpp
-#			$(SRCPATH)/Map.cpp
-#			$(SRCPATH)/Player.cpp			\
-#			$(SRCPATH)/Enemy.cpp			\
-#			$(SRCPATH)/AGameObject.cpp		\
-#			$(SRCPATH)/ACharacter.cpp		\
-#			$(SRCPATH)/AObjects.cpp			\
-#			$(SRCPATH)/Powerup.cpp			\
-#			$(SRCPATH)/ABlock.cpp			\
-#			$(SRCPATH)/Wall.cpp			\
-#			$(SRCPATH)/Floor.cpp			\
-#			$(GMEPATH)/AGame.cpp
-#			$(PCMPATH)/Ghost.cpp			\
-#			$(PCMPATH)/Pacman.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 
@@ -46,6 +33,7 @@ BANNER		=	./misc/banner.txt
 
 
 LIBPATH		=	./lib
+GAMESPATH	=	./games
 
 CXXFLAGS	=	-W -Wextra -Wall -std=c++11
 CXXFLAGS	+=	-I$(INCPATH) -I$(INCGMEPATH) -I$(PACMANINC)
@@ -60,13 +48,17 @@ BLUE		=	\033[0;34m
 NO_COLOR	=	\033[m
 
 
-$(NAME):	banner obj_echo $(OBJS)
+$(NAME):	banner gameslib obj_echo $(OBJS)
 		@echo "\n$(GREEN)Compiling binary : $(NO_COLOR)"
 		@$(call compile , $(CXX) $(OBJS) -o $(NAME) $(LDFLAGS))
 
 libraries:
 		@echo "\n$(GREEN)Compiling libraries :$(NO_COLOR)"
 		@$(MAKE) --no-print-directory -C $(LIBPATH)
+
+gameslib:
+		@echo "\n$(GREEN)Compiling games :$(NO_COLOR)"
+		@$(MAKE) --no-print-directory -C $(GAMESPATH)
 
 all:		$(NAME) libraries
 
@@ -85,10 +77,12 @@ clean:
 		@echo "$(YELLOW)Cleaning :$(NO_COLOR)"
 		$(RM) $(OBJS)
 		@$(MAKE) --no-print-directory -C $(LIBPATH) clean
+		@$(MAKE) --no-print-directory -C $(GAMESPATH) clean
 
 fclean:		clean
 		$(RM) $(NAME)
 		@$(MAKE) --no-print-directory -C $(LIBPATH) fclean
+		@$(MAKE) --no-print-directory -C $(GAMESPATH) fclean
 
 re:		fclean all
 

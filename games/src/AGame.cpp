@@ -11,7 +11,7 @@
 #include "AGame.hpp"
 
 arcade::games::AGame::AGame(arcade::games::AGame const &other)
- : map(other.map.getWidth(), other.map.getHeight())
+ : map(other.map.getWidth(), other.map.getHeight()), score(0)
 {
   if (this != &other)
     this->player = other.player;
@@ -44,4 +44,9 @@ arcade::IMap	*arcade::games::AGame::getMap()
 arcade::IGameObject	*arcade::games::AGame::getPlayer()
 {
   return (&this->player);
+}
+
+std::string	arcade::games::AGame::getScore() const
+{
+  return (std::to_string(this->score));
 }

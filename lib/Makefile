@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:41:51 2017 Lucas Villeneuve
-## Last update Fri Mar 17 15:29:11 2017 escorn_t
+## Last update Fri Mar 31 15:15:57 2017 Lucas Villeneuve
 ##
 
 SFMLPATH	=	./SFML
@@ -17,16 +17,13 @@ OPENGLPATH	=	./OpenGL
 all:
 		@$(MAKE) --no-print-directory -C $(SFMLPATH)
 		@$(MAKE) --no-print-directory -C $(CACAPATH)
-		@$(MAKE) --no-print-directory -C $(OPENGLPATH)
 
 clean:
 		@$(MAKE) --no-print-directory -C $(SFMLPATH) clean
 		@$(MAKE) --no-print-directory -C $(CACAPATH) clean
-		@$(MAKE) --no-print-directory -C $(OPENGLPATH) clean
 
 fclean:		clean
 		@$(MAKE) --no-print-directory -C $(SFMLPATH) fclean
 		@$(MAKE) --no-print-directory -C $(CACAPATH) fclean
-		@$(MAKE) --no-print-directory -C $(OPENGLPATH) fclean
 
 re:		fclean all

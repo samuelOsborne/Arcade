@@ -11,7 +11,7 @@
 #ifndef PACGUM_HH_
 # define PACGUM_HH_
 
-#include "Pickup.hpp"
+# include "Pickup.hpp"
 
 namespace 	arcade
 {

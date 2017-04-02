@@ -11,46 +11,74 @@
 #ifndef PACMAN_HPP_
 # define PACMAN_HPP_
 
-#include "Map.hh"
-#include "AGame.hpp"
-#include "Enemy.hpp"
+# include "Protocol.hpp"
+# include "Map.hh"
+# include "AGame.hpp"
+# include "Ghost.hpp"
 
-namespace	arcade
+namespace					arcade
 {
-  namespace 	games
+  namespace 					games
   {
-    class 	Pacman : public AGame
+    class 					Pacman : public arcade::games::AGame
     {
+      arcade::CommandType 			oldcmd;
+      std::vector<arcade::IGameObject*>		enemies;
+      char 					textmap[31][28] = {{3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
+								     {2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2},
+								     {2, 7, 3, 1, 1, 4, 7, 3, 1, 1, 1, 4, 7, 2, 2, 7, 3, 1, 1, 1, 4, 7, 3, 1, 1, 4, 7, 2},
+								     {2, 0, 2, 0, 0, 2, 7, 2, 0, 0, 0, 2, 7, 2, 2, 7, 2, 0, 0, 0, 2, 7, 2, 0, 0, 2, 0, 2},
+								     {2, 7, 6, 1, 1, 5, 7, 6, 1, 1, 1, 5, 7, 6, 5, 7, 6, 1, 1, 1, 5, 7, 6, 1, 1, 5, 7, 2},
+								     {2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2},
+								     {2, 7, 3, 1, 1, 4, 7, 3, 4, 7, 3, 1, 1, 1, 1, 1, 1, 4, 7, 3, 4, 7, 3, 1, 1, 4, 7, 2},
+								     {2, 7, 6, 1, 1, 5, 7, 2, 2, 7, 6, 1, 1, 4, 3, 1, 1, 5, 7, 2, 2, 7, 6, 1, 1, 5, 7, 2},
+								     {2, 7, 7, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 7, 7, 2},
+								     {6, 1, 1, 1, 1, 4, 7, 2, 6, 1, 1, 4, 0, 2, 2, 0, 3, 1, 1, 5, 2, 7, 3, 1, 1, 1, 1, 5},
+								     {0, 0, 0, 0, 0, 2, 7, 2, 3, 1, 1, 5, 0, 6, 5, 0, 6, 1, 1, 4, 2, 7, 2, 0, 0, 0, 0, 0},
+								     {0, 0, 0, 0, 0, 2, 7, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 7, 2, 0, 0, 0, 0, 0},
+								     {0, 0, 0, 0, 0, 2, 7, 2, 2, 0, 3, 1, 1, 0, 0, 1, 1, 4, 0, 2, 2, 7, 2, 0, 0, 0, 0, 0},
+								     {1, 1, 1, 1, 1, 5, 7, 6, 5, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 6, 5, 7, 6, 1, 1, 1, 1, 1},
+								     {0, 0, 0, 0, 0, 0, 7, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 7, 0, 0, 0, 0, 0, 0},
+								     {1, 1, 1, 1, 1, 4, 7, 3, 4, 0, 2, 0, 0, 0, 0, 0, 0, 2, 0, 3, 4, 7, 3, 1, 1, 1, 1, 1},
+								     {0, 0, 0, 0, 0, 2, 7, 2, 2, 0, 6, 1, 1, 1, 1, 1, 1, 5, 0, 2, 2, 7, 2, 0, 0, 0, 0, 0},
+								     {0, 0, 0, 0, 0, 2, 7, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 7, 2, 0, 0, 0, 0, 0},
+								     {0, 0, 0, 0, 0, 2, 7, 2, 2, 0, 3, 1, 1, 1, 1, 1, 1, 4, 0, 2, 2, 7, 2, 0, 0, 0, 0, 0},
+								     {3, 1, 1, 1, 1, 5, 7, 6, 5, 0, 6, 1, 1, 4, 3, 1, 1, 5, 0, 6, 5, 7, 6, 1, 1, 1, 1, 4},
+								     {2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2},
+								     {2, 7, 3, 1, 1, 4, 7, 3, 1, 1, 1, 4, 7, 2, 2, 7, 3, 1, 1, 1, 4, 7, 3, 1, 1, 4, 7, 2},
+								     {2, 7, 6, 1, 4, 2, 7, 6, 1, 1, 1, 5, 7, 6, 5, 7, 6, 1, 1, 1, 5, 7, 2, 3, 1, 5, 7, 2},
+								     {2, 0, 7, 7, 2, 2, 7, 7, 7, 7, 7, 7, 7, 7, 0, 7, 7, 7, 7, 7, 7, 7, 2, 2, 7, 7, 0, 2},
+								     {6, 1, 4, 7, 2, 2, 7, 3, 4, 7, 3, 1, 1, 1, 1, 1, 1, 4, 7, 3, 4, 7, 2, 2, 7, 3, 1, 5},
+								     {3, 1, 5, 7, 6, 5, 7, 2, 2, 7, 6, 1, 1, 4, 3, 1, 1, 5, 7, 2, 2, 7, 6, 5, 7, 6, 1, 4},
+								     {2, 7, 7, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 7, 7, 2},
+								     {2, 7, 3, 1, 1, 1, 1, 5, 6, 1, 1, 4, 7, 2, 2, 7, 3, 1, 1, 5, 6, 1, 1, 1, 1, 4, 7, 2},
+								     {2, 7, 6, 1, 1, 1, 1, 1, 1, 1, 1, 5, 7, 6, 5, 7, 6, 1, 1, 1, 1, 1, 1, 1, 1, 5, 7, 2},
+								     {2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2},
+								     {6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5}};
+
+      void 					takePowerUp(const arcade::Position &pos);
+      arcade::Position				checkIfTeleport(const arcade::Position &pos) const;
+      bool 					movePlayer(const arcade::Position &pos,
+							     const arcade::CommandType &cmd);
+      void 					moveAi(arcade::games::Ghost*);
+      bool 					checkCollision() const;
+
      public:
       Pacman();
       Pacman(const Pacman &);
       Pacman &operator=(const Pacman &);
       virtual ~Pacman() {};
 
-      virtual void 					launch();
-      arcade::Map					getPacMap() const;
-      arcade::Map					receiveMapAndCtrl(arcade::Map, arcade::CommandType);
-      void 						createWallsHor(int start, int end, int y);
-      void 						createWallsLine(int x, int y, int length);
-      void 						createWallsVer(int startX, int startY, int endY);
-      void 						createStraightWall(int startX, int startY, int size);
-      void 						createWallsNOpipe(int startX, int startY);
-      void 						createWallsNEpipe(int startX, int startY);
-      void 						createWallsSEpipe(int startX, int startY);
-      void 						createWallsSOpipe(int startX, int startY);
-      void 						createCube(int length, int height, int x, int y);
-      void						createUpRightT(int x, int y, int size);
-      void						createUpLeftT(int x, int y, int size);
-      void						createRightSideT(int x, int y, int size);
-      void						initPacgum();
-      void						initEnemies();
-      arcade::Player					*getPlayer();
-      void						runAi();
-      int 						checkIfCanMove(arcade::Position pos);
-      double 						calcDistance(arcade::Position, arcade::Position);
+      void					initEnemies();
+      arcade::Player				*getPlayer();
+      void					runAi();
+      double 					calcDistance(arcade::Position, arcade::Position);
+      virtual std::vector<arcade::IGameObject*>	getEnemies() const;
+      virtual void				launch();
+      virtual bool				playRound(const arcade::CommandType &cmd);
+      virtual bool				processCmd(const arcade::CommandType &cmd);
     };
-
   };
 };
 
-#endif //!PACMAN_HPP_
+#endif // !PACMAN_HPP_

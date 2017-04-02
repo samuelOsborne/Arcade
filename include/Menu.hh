@@ -29,7 +29,9 @@ namespace						arcade
     arcade::DLLoader<arcade::games::IGame*>		gameLoader;
     arcade::library::IArcadeLibrary			*lib;
     arcade::games::IGame				*game;
+    int 						loopCounter;
     bool 						gameLaunched;
+    arcade::CommandType 				bufferCmd;
 
     void 						update();
 
@@ -50,6 +52,7 @@ namespace						arcade
     void 						setGame(const char *nameGame);
     void 						closeGame();
     void 						switchLib(const MenuIndexLib&);
+    void 						switchGame(const MenuIndexLib&);
     void 						loopMenu();
     void 						drawMap(const arcade::IMap *map);
     void 						drawEnemies(const std::vector<arcade::IGameObject*> &);

@@ -8,27 +8,39 @@
 ** Last update Sat Mar 18 13:29:23 2017 Samuel Osborne
 */
 
+#include <ctime>
 #include <cmath>
 #include <typeinfo>
 #include <iostream>
 #include "Ghost.hpp"
 #include "Pacgum.hh"
-#include "Wall.hpp"
-#include "Floor.hpp"
 #include "Pacman.hpp"
+#include "PacmanFloor.hh"
+#include "SEPipe.hh"
+#include "SOPipe.hh"
+#include "NEPipe.hh"
+#include "NOPipe.hh"
+#include "VerticalPipe.hh"
+#include "HorizontalPipe.hh"
 
-arcade::games::Pacman::Pacman() : arcade::games::AGame(27, 31)
+arcade::games::Pacman::Pacman()
+ : arcade::games::AGame(28, 31)
 {
   arcade::Position pos;
-  pos.x = 15;
-  pos.y = 24;
+
+  this->name = "Pacman";
+  pos.x = 14;
+  pos.y = 23;
   this->player.setPos(pos);
+  this->oldcmd = arcade::CommandType::ILLEGAL;
+  this->score = 0;
+  srand(time(0));
   this->launch();
   this->initEnemies();
 }
 
 arcade::games::Pacman::Pacman(const arcade::games::Pacman &other)
- : arcade::games::AGame(27, 31)
+ : arcade::games::AGame(28, 31)
 {
   if (this != &other)
     {
@@ -39,10 +51,10 @@ arcade::games::Pacman::Pacman(const arcade::games::Pacman &other)
 
 void 						arcade::games::Pacman::initEnemies()
 {
+  this->enemies.push_back(new arcade::games::Ghost(13, 14));
   this->enemies.push_back(new arcade::games::Ghost(14, 15));
-  this->enemies.push_back(new arcade::games::Ghost(15, 16));
-  this->enemies.push_back(new arcade::games::Ghost(16, 15));
-  this->enemies.push_back(new arcade::games::Ghost(15, 13));
+  this->enemies.push_back(new arcade::games::Ghost(15, 14));
+  this->enemies.push_back(new arcade::games::Ghost(14, 11));
 }
 
 arcade::games::Pacman 				&arcade::games::Pacman::operator=(const Pacman& other)
@@ -54,374 +66,36 @@ arcade::games::Pacman 				&arcade::games::Pacman::operator=(const Pacman& other)
   return (*this);
 }
 
-void						arcade::games::Pacman::createWallsHor(int start, int end, int y)
+void			arcade::games::Pacman::launch()
 {
-  std::vector<arcade::Wall*>			walls;
-
-  while (start < end)
-    {
-      walls.push_back(new arcade::Wall(start, y));
-      this->map.setTile(walls.back()->getPos(), walls.back());
-      start++;
-    }
-}
-
-void						arcade::games::Pacman::createWallsVer(int startX, int startY, int endY)
-{
-  std::vector<arcade::Wall*>			walls;
-
-  while (startY < endY)
-    {
-      walls.push_back(new arcade::Wall(startX, startY));
-      walls.back()->setAsset("./misc/Pacman/Verticalpipe");
-      this->map.setTile(walls.back()->getPos(), walls.back());
-      startY++;
-    }
-}
-
-void						arcade::games::Pacman::createWallsNOpipe(int startX, int startY)
-{
-  arcade::Wall					*wall = new arcade::Wall(startX, startY);
-
-  wall->setAsset("./misc/Pacman/NOpipe");
-  this->map.setTile(wall->getPos(), wall);
-}
-
-void						arcade::games::Pacman::createWallsNEpipe(int startX, int startY)
-{
-  arcade::Wall					*wall = new arcade::Wall(startX, startY);
-
-  wall->setAsset("./misc/Pacman/NEpipe");
-  this->map.setTile(wall->getPos(), wall);
-}
-
-void						arcade::games::Pacman::createWallsSEpipe(int startX, int startY)
-{
-  arcade::Wall					*wall = new arcade::Wall(startX, startY);
-
-  wall->setAsset("./misc/Pacman/SEpipe");
-  this->map.setTile(wall->getPos(), wall);
-}
-
-void						arcade::games::Pacman::createWallsLine(int x, int y, int length)
-{
-  int 						i = 0;
-  std::vector<arcade::Wall*>			walls;
-
-  while (i < length)
-    {
-      walls.push_back(new arcade::Wall(x + i, y));
-      walls.back()->setAsset("./misc/Pacman/Horizontalpipe");
-      this->map.setTile(walls.back()->getPos(), walls.back());
-      i++;
-    }
-}
-
-void						arcade::games::Pacman::createCube(int length, int height, int x, int y)
-{
-  this->createWallsNOpipe(x, y);
-  this->createWallsLine(x + 1, y, length - 1);
-  this->createWallsNEpipe(x + length, y);
-  this->createWallsVer(x, y + 1, y + height);
-
-  this->createWallsVer(x + length, y + 1, y + height);
-  this->createWallsSOpipe(x, y + height);
-  this->createWallsLine(x + 1, y + height, length - 1);
-  this->createWallsSEpipe(x + length, y + height);
-}
-
-void 						arcade::games::Pacman::createStraightWall(int startX, int startY, int size)
-{
-  int						i = 0;
-
-  while (i < size)
-    {
-      createWallsLine(startX, startY++, 1);
-      i++;
-    }
-}
-
-void						arcade::games::Pacman::createWallsSOpipe(int startX, int startY)
-{
-  arcade::Wall					*wall = new arcade::Wall(startX, startY);
-
-  wall->setAsset("./misc/Pacman/SOpipe");
-  this->map.setTile(wall->getPos(), wall);
-}
-
-void						arcade::games::Pacman::createUpRightT(int x, int y, int size)
-{
-  this->createWallsLine(x, y, size + 1);
-  this->createWallsVer(x + size / 2 , y + 1, y + size);
-}
-
-void						arcade::games::Pacman::createUpLeftT(int x, int y, int size)
-{
-  this->createWallsVer(x, y, y + size + 1);
-  this->createWallsLine(x + 1, y + size / 2, size);
-}
-
-void 						arcade::games::Pacman::createRightSideT(int x, int y, int size)
-{
-  this->createWallsVer(x, 8, 11);
-  this->createWallsHor(x - size, x, y + size / 2);
-}
-
-void						arcade::games::Pacman::initPacgum()
-{
-  int 						x = 0;
-  int 						y = 1;
-  std::vector<arcade::games::Pacgum*>		gum;
-  int						a[30][40]= {{0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-								   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-								   0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 0, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 0, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 0, 0, 1, 1,
-								  1, 1, 0, 1, 1, 1, 1, 1, 0, 1,
-								  1, 1, 1, 0, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-								  1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-								  1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 0, 0, 1, 0, 0, 0, 0, 1,
-								  1, 0, 0, 0, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-								  1, 0, 0, 1, 0, 0, 0, 0, 0, 1,
-								  1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-								  1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-								  1, 1, 0, 0, 1, 1, 1, 1, 0, 1,
-								  1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 0, 0, 0, 0, 0, 0, 0, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 0, 1, 1,
-								  1, 1, 1, 1, 1, 0, 1, 1, 0, 1,
-								  1, 1, 1, 0, 0, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-								 {0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-								  1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-								  0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
-
   arcade::Position	pos;
-  while (y < 30)
+
+  pos.y = 0;
+  while (pos.y < this->map.getHeight())
     {
-      x = 0;
-       while (x < 27)
-	 {
-	   if (a[y][x] == 1)
-	     {
-	       gum.push_back(new arcade::games::Pacgum(x, y));
-	       pos.x = x;
-	       pos.y = y;
-	       if (this->map.getTile(pos)->getObj() == "Floor")
-	       	this->map.setTile(gum.back()->getPos(), gum.back());
-	     }
-	   x++;
-	 }
-      y++;
+      pos.x = 0;
+      while (pos.x < this->map.getWidth())
+	{
+	  if (this->textmap[pos.y][pos.x] == 0)
+	    this->map.setTile(pos, new arcade::games::PacmanFloor(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 1)
+	    this->map.setTile(pos, new arcade::games::HorizontalPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 2)
+	    this->map.setTile(pos, new arcade::games::VerticalPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 3)
+	    this->map.setTile(pos, new arcade::games::NOPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 4)
+	    this->map.setTile(pos, new arcade::games::NEPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 5)
+	    this->map.setTile(pos, new arcade::games::SEPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 6)
+	    this->map.setTile(pos, new arcade::games::SOPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 7)
+	    this->map.setTile(pos, new arcade::games::Pacgum(pos.x, pos.y));
+	  pos.x++;
+	}
+      pos.y++;
     }
-}
-
-void						arcade::games::Pacman::launch()
-{
-  this->createCube(2, 2, 6, 2);
-  this->createCube(2, 2, 11, 2);
-
-  this->createCube(2, 2, 17, 2);
-  this->createCube(2, 2, 22, 2);
-
-  this->createCube(2, 1, 6, 7);
-  this->createCube(2, 1, 22, 7);
-  //top line
-  this->createWallsHor(5, 26, 0);
-
-  //top right corner
-  this->createWallsNOpipe(4, 0);
-  //right vert line and weird square thing
-  this->createWallsVer(26, 0, 12);
-  this->createWallsSEpipe(26,12);
-  this->createWallsHor(21, 26, 12);
-  this->createWallsNOpipe(21, 12);
-  this->createWallsVer(21, 13, 14);
-  this->createWallsSOpipe(21, 14);
-  this->createWallsHor(22, 26, 14);
-
-  this->createWallsHor(23, 26, 24);
-  this->createWallsHor(4, 8, 24);
-
-  this->createWallsNEpipe(26, 18);
-  this->createWallsHor(22, 26, 18);
-  this->createWallsSOpipe(21, 18);
-  this->createWallsVer(21, 17, 18);
-  this->createWallsNOpipe(21, 16);
-  this->createWallsHor(22, 26, 16);
-
-  //end of right line
-  this->createWallsVer(26, 19, 30);
-  //top left corner
-  this->createWallsNEpipe(26, 0);
-  //left wall
-  this->createWallsVer(4, 1, 12);
-  this->createWallsSOpipe(4, 12);
-  this->createWallsHor(5, 9, 12);
-  this->createWallsNEpipe(9,12);
-  this->createWallsVer(9, 13, 14);
-  this->createWallsSEpipe(9, 14);
-  this->createWallsHor(5, 9, 14);
-
-
-  //middle linedays
-  this->createWallsVer(15, 1, 3);
-  //bottom line
-  this->createWallsHor(5, 26, 30);
-  //bottom right corner
-  this->createWallsSEpipe(26, 30);
-  //bottom left corner
-  this->createWallsSOpipe(4, 30);
-
-
-  //left wall and box
-  this->createWallsVer(4, 19, 30);
-  this->createWallsNOpipe(4, 18);
-  this->createWallsHor(5, 9, 18);
-  this->createWallsSEpipe(9, 18);
-  this->createWallsVer(9, 17, 18);
-  this->createWallsNEpipe(9, 16);
-  this->createWallsHor(5, 9, 16);
-
-
-  //enemy spawn point
-  this->createWallsHor(14, 15, 14);
-  this->createWallsHor(16, 17, 14);
-  this->createWallsNOpipe(13, 14);
-  this->createWallsVer(13, 15, 17);
-  this->createWallsSOpipe(13, 17);
-  this->createWallsHor(14, 17, 17);
-  //right line middle spawn
-  this->createWallsSEpipe(17, 17);
-  this->createWallsVer(17, 15, 17);
-  this->createWallsNEpipe(17, 14);
-
-  //creating the t's
-  this->createUpRightT(14, 6, 2);
-  this->createUpLeftT(11, 8, 2);
-  this->createRightSideT(19, 8, 2);
-
-  //mid obstacle lines
-  this->createWallsVer(11, 13, 18);
-  this->createWallsVer(19, 13, 18);
-
-  //bottom sections
-  this->createUpRightT(13, 19, 4);
-  this->createUpRightT(13, 25, 4);
-  this->createWallsLine(7, 27, 4);
-  this->createWallsVer(7, 26, 29);
-  this->createCube(1, 1, 12, 27);
-  this->createCube(1, 1, 17, 27);
-  this->createWallsLine(20, 27, 3);
-  this->createWallsVer(23, 26, 29);
-  this->createWallsLine(18, 21, 3);
-  this->createCube(2, 2, 22, 20);
-  this->createWallsLine(10, 21, 3);
-  this->createCube(2, 2, 6, 20);
-
-  this->initPacgum();
-}
-
-arcade::Map					arcade::games::Pacman::getPacMap() const
-{
-  return (this->map);
 }
 
 arcade::Player					*arcade::games::Pacman::getPlayer()
@@ -440,64 +114,174 @@ double						arcade::games::Pacman::calcDistance(arcade::Position posA, arcade::P
   return (distance);
 }
 
+void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
+{
+  arcade::Position		pos;
+  std::vector<arcade::Position> dir;
+  std::vector<arcade::CommandType> newDir;
+  int 				i;
+
+  pos = ghost->getPos();
+  pos.y++;
+  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7) &&
+      ghost->getDirection() != arcade::CommandType::GO_DOWN)
+    {
+      dir.push_back(pos);
+      newDir.push_back(arcade::CommandType::GO_UP);
+    }
+  pos.y -= 2;
+  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7) &&
+      ghost->getDirection() != arcade::CommandType::GO_UP)
+    {
+      dir.push_back(pos);
+      newDir.push_back(arcade::CommandType::GO_DOWN);
+    }
+  pos.y++;
+  pos.x++;
+  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7) &&
+      ghost->getDirection() != arcade::CommandType::GO_LEFT)
+    {
+      dir.push_back(pos);
+      newDir.push_back(arcade::CommandType::GO_RIGHT);
+    }
+  pos.x -= 2;
+  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7) &&
+      ghost->getDirection() != arcade::CommandType::GO_RIGHT)
+    {
+      dir.push_back(pos);
+      newDir.push_back(arcade::CommandType::GO_LEFT);
+    }
+  if (dir.size() == 0)
+    std::cerr << "Error : cannot find directions for ghost" << std::endl;
+  else
+    {
+      i = rand() % dir.size();
+      ghost->move(this->checkIfTeleport(dir[i]));
+      ghost->setDirection(newDir[i]);
+    }
+}
+
 void						arcade::games::Pacman::runAi()
 {
-  std::cout << this->calcDistance(this->player.getPos(), this->enemies.front()->getPos()) << std::endl;
-}
+  std::vector<arcade::IGameObject*>::iterator	it;
 
-int 						arcade::games::Pacman::checkIfCanMove(arcade::Position pos)
-{
-
-  std::cout << this->map.getTile(pos)->getObj() << std::endl;
-  if (this->map.getTile(pos)->getObj() == "Floor" ||
-   this->map.getTile(pos)->getObj() == "Pickup" ||
-   this->map.getTile(pos)->getObj() == "Powerup" ||
-   this->map.getTile(pos)->getObj() == "Pacgum")
+  it = this->enemies.begin();
+  while (it != this->enemies.end())
     {
-      if (this->map.getTile(pos)->getObj() == "Pacgum")
-	this->map.setTile(pos, new arcade::Floor(pos.x, pos.y));
-      return (0);
+      this->moveAi(dynamic_cast<arcade::games::Ghost*>(*it));
+      it++;
     }
-  return (1);
 }
 
-arcade::Map					arcade::games::Pacman::receiveMapAndCtrl(arcade::Map map, arcade::CommandType cmd)
+void			arcade::games::Pacman::takePowerUp(const arcade::Position &pos)
 {
-  arcade::Position				pos;
+  arcade::AObjects	*pu;
+
+  if (this->map.getTile(pos)->getTileType() == arcade::TileType::POWERUP &&
+   !((pu = dynamic_cast<arcade::AObjects *>(this->map.getTile(pos)))->getTaken()))
+    {
+      pu->take();
+      this->score += 100;
+    }
+}
+
+arcade::Position	arcade::games::Pacman::checkIfTeleport(const arcade::Position &pos) const
+{
+  arcade::Position	posTeleport;
+
+  posTeleport.y = 14;
+  if (pos.x == 0 && pos.y == 14)
+    {
+      posTeleport.x = 26;
+      return (posTeleport);
+    }
+  else if (pos.x == 27 && pos.y == 14)
+    {
+      posTeleport.x = 1;
+      return (posTeleport);
+    }
+  return (pos);
+}
+
+bool	arcade::games::Pacman::movePlayer(const arcade::Position &pos,
+					      const arcade::CommandType &cmd)
+{
+  if (checkIfCanMove(pos))
+    {
+      this->oldcmd = cmd;
+      this->takePowerUp(pos);
+      this->player.move(this->checkIfTeleport(pos));
+      return (true);
+    }
+  else if (this->oldcmd != cmd)
+    return (processCmd(this->oldcmd));
+  return (true);
+}
+
+bool			arcade::games::Pacman::processCmd(const arcade::CommandType &cmd)
+{
+  arcade::Position	pos;
 
   pos = this->player.getPos();
   if (cmd == arcade::CommandType::GO_RIGHT)
     {
       pos.x++;
-      if (this->checkIfCanMove(pos) != 1)
-	this->player.move(pos);
-      else
-	pos.x--;
+      this->movePlayer(pos, cmd);
     }
   else if (cmd == arcade::CommandType::GO_LEFT)
     {
       pos.x--;
-      if (this->checkIfCanMove(pos) != 1)
-	this->player.move(pos);
-      else
-      	pos.x++;
+      this->movePlayer(pos, cmd);
     }
   else if (cmd == arcade::CommandType::GO_UP)
     {
       pos.y--;
-      if (this->checkIfCanMove(pos) != 1)
-	  this->player.move(pos);
-      else
-	pos.y++;
+      this->movePlayer(pos, cmd);
     }
   else if (cmd == arcade::CommandType::GO_DOWN)
     {
       pos.y++;
-      if (this->checkIfCanMove(pos) != 1)
-	this->player.move(pos);
-      else
-	pos.y--;
+      this->movePlayer(pos, cmd);
     }
+  return (!this->checkCollision());
+}
+
+bool							arcade::games::Pacman::checkCollision() const
+{
+  arcade::Position					playerPos;
+  arcade::Position					ghostPos;
+  std::vector<arcade::IGameObject*>::const_iterator	it;
+
+  playerPos = this->player.getPos();
+  it = this->enemies.begin();
+  while (it != this->enemies.end())
+    {
+      ghostPos = (*it)->getPos();
+      if (playerPos.x == ghostPos.x && playerPos.y == ghostPos.y)
+	return (true);
+      it++;
+    }
+  return (false);
+}
+
+bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
+{
   this->runAi();
-  return (map);
+  if (this->checkCollision())
+    return (false);
+  if (cmd == arcade::CommandType::GET_MAP
+      && this->oldcmd != arcade::CommandType::ILLEGAL)
+    return (this->processCmd(this->oldcmd));
+  else
+    return (this->processCmd(cmd));
+}
+
+std::vector<arcade::IGameObject*>	arcade::games::Pacman::getEnemies() const
+{
+  return (this->enemies);
+}
+
+extern "C" arcade::games::IGame	*entry_point()
+{
+  return (new arcade::games::Pacman());
 }

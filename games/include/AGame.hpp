@@ -11,9 +11,9 @@
 #ifndef ARCADE_AGAME_HPP_
 # define ARCADE_AGAME_HPP_
 
-#include "Map.hh"
-#include "Player.hpp"
-#include "IGame.hpp"
+# include "Map.hh"
+# include "Player.hpp"
+# include "IGame.hpp"
 
 namespace 					arcade
 {
@@ -25,6 +25,7 @@ namespace 					arcade
       arcade::Player				player;
       arcade::Map				map;
       std::string				name;
+      int 					score;
 
       virtual bool				processCmd(const arcade::CommandType&) = 0;
       virtual bool 				checkIfCanMove(const arcade::Position &) const;
@@ -40,6 +41,7 @@ namespace 					arcade
       virtual arcade::IMap			*getMap() /* const */;
       virtual arcade::IGameObject		*getPlayer() /* const */;
       virtual std::vector<arcade::IGameObject*>	getEnemies() const = 0;
+      virtual std::string			getScore() const;
       virtual bool				playRound(const arcade::CommandType &cmd) = 0;
 //      virtual void 				Play() = 0;
     };
