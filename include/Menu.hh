@@ -11,41 +11,51 @@
 #ifndef MENU_HH_
 # define MENU_HH_
 
-# include "Enemy.hpp"
+# include <vector>
 # include "Arcade.hpp"
+# include "LibraryList.hh"
 # include "IArcadeLibrary.hh"
 # include "DLLoader.hpp"
-# include "Map.hh"
+# include "IMap.hh"
+# include "IGame.hpp"
 
 namespace						arcade
 {
-  enum class						MenuIndexLib
-  {
-    INCREMENT						= 0,
-    DECREMENT						= 1
-  };
-
   class 						Menu
   {
     arcade::LibraryList					libList;
-    arcade::DLLoader<arcade::library::IArcadeLibrary*>	loader;
+    arcade::LibraryList					gamesList;
+    arcade::DLLoader<arcade::library::IArcadeLibrary*>	libLoader;
+    arcade::DLLoader<arcade::games::IGame*>		gameLoader;
     arcade::library::IArcadeLibrary			*lib;
+    arcade::games::IGame				*game;
+    int 						loopCounter;
+    bool 						gameLaunched;
+    arcade::CommandType 				bufferCmd;
 
-    void 						incrementLibListIndex();
-    void 						decrementLibListIndex();
+    void 						update();
+
+    enum						MenuIndexLib
+    {
+      INCREMENT						= 0,
+      DECREMENT						= 1
+    };
 
    public:
     Menu(const char *nameLib);
-    ~Menu();
+    Menu(const Menu &other) = delete;
+    Menu &operator=(const Menu &other) = delete;
+    ~Menu() {};
 
-    const char 						*getLibName() const;
     void 						setLib(const char *nameLib);
     void 						closeLib();
+    void 						setGame(const char *nameGame);
+    void 						closeGame();
     void 						switchLib(const MenuIndexLib&);
+    void 						switchGame(const MenuIndexLib&);
     void 						loopMenu();
-    void 						drawMap(const arcade::Map &map);
-    void 						launchGame(std::string);
-    void 						drawGameEnemies(std::vector<arcade::Enemy*>);
+    void 						drawMap(const arcade::IMap *map);
+    void 						drawEnemies(const std::vector<arcade::IGameObject*> &);
   };
 
 };

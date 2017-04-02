@@ -59,32 +59,6 @@ namespace			arcade
     }
   };
 
-  struct			LibraryList
-  {
-    std::vector<std::string>	list;
-    int 			index;
-
-    LibraryList()
-    {
-      DIR			*dir;
-      struct dirent		*ent;
-      std::string		str;
-      std::string::size_type 	i;
-
-      if ((dir = opendir("./lib")))
-	{
-	  while ((ent = readdir(dir)))
-	    {
-	      str = ent->d_name;
-	      i = str.find_last_of(".");
-	      if (i != std::string::npos && str.substr(i) == ".so")
-		list.push_back("./lib/" + str);
-	    }
-	  closedir(dir);
-	}
-    }
-  };
-
   namespace			games
   {
     enum class			ExtTileType : uint16_t
@@ -93,7 +67,6 @@ namespace			arcade
       WALL			= 9,
       PICKUP			= 10
     };
-
   };
 
 };

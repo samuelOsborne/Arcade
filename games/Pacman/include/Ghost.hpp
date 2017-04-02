@@ -19,15 +19,23 @@ namespace 			arcade
   {
     class Ghost : public 	arcade::Enemy
     {
+      arcade::CommandType	direction;
+
      public:
       Ghost(uint16_t x, uint16_t y) : Enemy(x, y)
       {
+	this->direction = arcade::CommandType::GO_UP;
 	this->asset = "./misc/Pacman/RedGhost";
       };
 
       Ghost(const Ghost &);
       Ghost &operator=(const Ghost &);
       ~Ghost() {};
+
+      arcade::CommandType	getDirection() const
+      {return (this->direction);}
+      void 			setDirection(const arcade::CommandType &dir)
+      {this->direction = dir;}
     };
 
   };

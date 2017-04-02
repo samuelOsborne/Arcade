@@ -14,6 +14,7 @@ arcade::games::Pacgum::Pacgum(uint16_t x, uint16_t y) :
  arcade::Pickup(x, y)
 {
   this->asset = "./misc/Pacman/Pacgum";
+  this->secondAsset = "./misc/Pacman/floor";
   this->setTileType();
 }
 
@@ -23,6 +24,7 @@ arcade::games::Pacgum::Pacgum(const arcade::games::Pacgum& other) :
   if (this != &other)
     {
       this->asset = other.asset;
+      this->secondAsset = other.secondAsset;
       this->pos = other.pos;
       this->type = other.type;
     }
@@ -33,6 +35,7 @@ arcade::games::Pacgum&		arcade::games::Pacgum::operator=(const Pacgum& other)
   if (this != &other)
     {
       this->asset = other.asset;
+      this->secondAsset = other.secondAsset;
       this->pos = other.pos;
       this->type = other.type;
     }

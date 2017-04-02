@@ -9,56 +9,74 @@
 */
 
 #include <thread>
+#include <chrono>
 #include "IGameObject.hpp"
 #include "Protocol.hpp"
-#include "Map.hh"
+#include "IMap.hh"
 #include "Menu.hh"
 
-//Sam test
-#include "../games/Pacman/include/Pacman.hpp"
-
 arcade::Menu::Menu(const char *nameLib)
+ : libList("./lib/"), gamesList("./games/")
 {
+  this->loopCounter = 1;
+  this->lib = 0;
+  this->game = 0;
+  this->gameLaunched = false;
+  this->bufferCmd = arcade::CommandType::GET_MAP;
   this->setLib(nameLib);
-//  this->lib->playMusic("./misc/CrashTheme.wav");
-  //this->lib->playMusic("./misc/Pacman/Pacman.wav");
-}
-
-arcade::Menu::~Menu()
-{
-}
-
-const char	*arcade::Menu::getLibName() const
-{
-  return (this->libList.list[this->libList.index].c_str());
-}
-
-void	arcade::Menu::incrementLibListIndex()
-{
-  this->libList.index++;
-  if (this->libList.index == static_cast<int>(this->libList.list.size()))
-    this->libList.index = 0;
-}
-
-void 	arcade::Menu::decrementLibListIndex()
-{
-  this->libList.index--;
-  if (this->libList.index == -1)
-    this->libList.index = static_cast<int>(this->libList.list.size() - 1);
+  if (this->gamesList.getName())
+    this->setGame(this->gamesList.getName());
+  this->lib->playMusic("./misc/CrashTheme.wav");
+//  this->lib->playMusic("./misc/Pacman/Pacman.wav");
 }
 
 void	arcade::Menu::setLib(const char *nameLib)
 {
-  if (!(this->lib = this->loader.getInstance(nameLib)))
-    throw (std::exception());
+  try
+    {
+      this->lib = this->libLoader.getInstance(nameLib);
+    }
+  catch (const std::exception &e)
+    {
+      this->lib = 0;
+      throw (e);
+    }
   this->lib->openWindow();
 }
 
 void	arcade::Menu::closeLib()
 {
-  this->lib->closeWindow();
-  delete (lib);
-  this->loader.closeHandler();
+  if (this->lib != 0)
+    {
+      this->lib->closeWindow();
+      delete (this->lib);
+      this->lib = 0;
+    }
+  this->libLoader.closeHandler();
+}
+
+
+void	arcade::Menu::setGame(const char *nameGame)
+{
+  try
+    {
+      this->game = this->gameLoader.getInstance(nameGame);
+    }
+  catch (const std::exception &e)
+    {
+      this->game = 0;
+    }
+}
+
+void	arcade::Menu::closeGame()
+{
+  if (this->game != 0)
+    {
+      delete (this->game);
+      this->game = 0;
+    }
+  this->gameLoader.closeHandler();
+  this->bufferCmd = arcade::CommandType::GET_MAP;
 }
 
 void 	arcade::Menu::switchLib(const MenuIndexLib &switchType)
@@ -66,16 +84,26 @@ void 	arcade::Menu::switchLib(const MenuIndexLib &switchType)
   this->lib->stopMusic();
   this->closeLib();
   if (switchType == MenuIndexLib::INCREMENT)
-    this->incrementLibListIndex();
+    this->libList.incrementIndex();
   else if (switchType == MenuIndexLib::DECREMENT)
-    this->decrementLibListIndex();
+    this->libList.decrementIndex();
   std::this_thread::sleep_for(std::chrono::milliseconds(250));
-  this->setLib(this->getLibName());
+  this->setLib(this->libList.getName());
   this->lib->playMusic("./misc/CrashTheme.wav");
 }
 
+void 	arcade::Menu::switchGame(const MenuIndexLib &switchType)
+{
+  this->closeGame();
+  if (switchType == MenuIndexLib::INCREMENT)
+    this->gamesList.incrementIndex();
+  else if (switchType == MenuIndexLib::DECREMENT)
+    this->gamesList.decrementIndex();
+  std::this_thread::sleep_for(std::chrono::milliseconds(250));
+  this->setGame(this->gamesList.getName());
+}
 
-void			arcade::Menu::drawMap(const arcade::Map &map)
+void			arcade::Menu::drawMap(const arcade::IMap *map)
 {
   uint16_t		width;
   uint16_t		height;
@@ -83,8 +111,8 @@ void			arcade::Menu::drawMap(const arcade::Map &map)
   uint16_t		j;
   arcade::Position	pos;
 
-  width = map.getWidth();
-  height = map.getHeight();
+  width = map->getWidth();
+  height = map->getHeight();
   i = 0;
   while (i < height)
     {
@@ -93,139 +121,176 @@ void			arcade::Menu::drawMap(const arcade::Map &map)
 	{
 	  pos.x = j;
 	  pos.y = i;
-	  this->lib->drawGameObject(map.getTile(pos));
+	  this->lib->drawGameObject(map->getTile(pos));
 	  j++;
 	}
       i++;
     }
 }
 
-//#include "Kappa.hh"
-
-void			arcade::Menu::loopMenu()
+void	arcade::Menu::drawEnemies(const std::vector<arcade::IGameObject*> &tab)
 {
-  arcade::games::Pacman	pacMan;
-//  map. = pacMan.getPacMap();
+  std::vector<arcade::IGameObject*>::const_iterator	it;
 
-  //arcade::Map           map(8, 8);
-  arcade::Map           map = pacMan.getPacMap();
-//  Kappa			kap(5, 5);
-  arcade::Position	pos;
-  /*
-  arcade::games::IGameObject* test = new arcade::Floor();
-  arcade::Floor 	floor1;
-  arcade::Floor 	floor2;
-  arcade::Floor 	floor3;
-  arcade::Floor 	floor4;
-  arcade::Floor 	floor5;
-  arcade::Floor 	floor6;
-  arcade::Floor 	floor7;
-  arcade::Floor 	floor8;
-  arcade::Floor 	floor9;
-
-  pos.x = 0;
-  pos.y = 0;
-  floor1.setPos(pos);
-  map->setTile(pos, &floor1);
-
-  pos.x += 5;
-  floor2.setPos(pos);
-  map->setTile(pos, &floor2);
-
-  pos.x += 1;
-  floor3.setPos(pos);
-  map->setTile(pos, &floor3);
-
-  pos.x += 1;
-  floor4.setPos(pos);
-  map->setTile(pos, &floor4);
-  pos.x += 1;
-  floor5.setPos(pos);
-  map->setTile(pos, &floor5);
-  pos.x += 1;
-  floor6.setPos(pos);
-  map->setTile(pos, &floor6);
-  pos.x += 1;
-  floor7.setPos(pos);
-  map->setTile(pos, &floor7);
-  pos.x += 1;
-  floor8.setPos(pos);
-  map->setTile(pos, &floor8);
-  pos.y += 1;
-  floor9.setPos(pos);
-  map->setTile(pos, &floor9);
-  */
-  pos.x = 5;
-  pos.y = 5;
-//  map.setTile(pos, &kap);
-
-  while (!this->lib->isEventQuit() &&
-	 !this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::ESCAPE)))
+  it = tab.begin();
+  while (it != tab.end())
     {
-      this->lib->clear();
-      if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM2)))
-	this->switchLib(MenuIndexLib::DECREMENT);
-      else if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM3)))
-	this->switchLib(MenuIndexLib::INCREMENT);
-      else if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM4)))
+      this->lib->drawGameObject((*it));
+      it++;
+    }
+}
+
+void 				arcade::Menu::update()
+{
+  arcade::Position		pos;
+  arcade::Position		posScore;
+  arcade::CommandType 		cmd;
+
+  cmd = this->lib->processInput();
+  if (cmd != arcade::CommandType::ILLEGAL && cmd != arcade::CommandType::WHERE_AM_I && cmd != arcade::CommandType::GET_MAP)
+    this->bufferCmd = cmd;
+  posScore.x = 900;
+  posScore.y = 50;
+  pos.x = 10;
+  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM2)))
+    this->switchLib(MenuIndexLib::DECREMENT);
+  else if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM3)))
+    this->switchLib(MenuIndexLib::INCREMENT);
+  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM4)))
+    this->switchGame(MenuIndexLib::DECREMENT);
+  else if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM5)))
+    this->switchGame(MenuIndexLib::INCREMENT);
+  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::ENTER))
+      && !this->gameLaunched)
+    {
+      if (this->game != 0)
 	{
-	  pacMan.launch();
-	  this->launchGame("Pacman");
-	  break;
+	  this->game->launch();
+	  this->gameLaunched = true;
 	}
+      else if (this->gamesList.getName())
+	{
+	  this->setGame(this->gamesList.getName());
+	  this->gameLaunched = true;
+	}
+      std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    }
+
+  if (this->gameLaunched)
+    {
+      if (this->loopCounter % 240 == 0)
+	{
+	  if (!this->game->playRound(this->bufferCmd))
+	    {
+	      this->drawMap(this->game->getMap());
+	      this->lib->drawGameObject(this->game->getPlayer());
+	      this->drawEnemies(this->game->getEnemies());
+	      this->gameLaunched = false;
+	      this->closeGame();
+	    }
+	  else
+	    {
+	      this->drawMap(this->game->getMap());
+	      this->lib->drawGameObject(this->game->getPlayer());
+	      this->drawEnemies(this->game->getEnemies());
+	      this->lib->drawText("Score : " + this->game->getScore(),
+				  posScore);
+	    }
+	}
+    }
+  else
+    {
+      pos.y = 0;
+      this->lib->drawText("Controls :", pos);
+      pos.y = 35;
+      this->lib->drawText("2 : Prev. lib", pos);
+      pos.y = 60;
+      this->lib->drawText("3 : Next lib", pos);
+      pos.y = 75;
+      if (this->game != 0)
+	this->lib->drawText("4 : Launch " + this->game->getName(), pos);
       else
-	{
-	  //this->drawMap(map);
-	  //this->drawMap(map);
-	  pos.y = 0;
-	  this->lib->drawText("Controls :", pos);
-	  pos.y = 35;
-	  this->lib->drawText("2 : Prev. lib", pos);
-	  pos.y = 60;
-	  this->lib->drawText("3 : Next lib", pos);
-	  pos.y = 75;
-	  this->lib->drawText("4 : Play Pacman!", pos);
-	}
-      this->lib->display();
-//      std::this_thread::sleep_for(std::chrono::seconds(3));
+	this->lib->drawText("4 : Set game and launch", pos);
+      pos.y = 120;
+      this->lib->drawText("8 : Reset game", pos);
+      pos.y = 135;
+      this->lib->drawText("9 : Return to menu", pos);
     }
-	  this->closeLib();
-}
-
-void 						arcade::Menu::drawGameEnemies(std::vector<arcade::Enemy*> en)
-{
-  std::vector<arcade::Enemy*>::iterator 	it = en.begin();
-
-  while (it != en.end())
+  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM8)))
     {
-      //TODO
-      this->lib->drawGameObject(*it);
-      ++it;
-    }
-}
-
-void 			arcade::Menu::launchGame(std::string gameName)
-{
-  arcade::games::Pacman	pacMan;
-  arcade::Map           map = pacMan.getPacMap();
-  arcade::Player	player;
-  arcade::CommandType 	cmd;
-
-  if (gameName == "Pacman")
-    {
-      while (!this->lib->isEventQuit() &&
-	     !this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::ESCAPE)))
+      if (this->gameLaunched)
 	{
-	  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM3)))
-	    this->loopMenu();
-	  this->lib->clear();
-	  map = pacMan.receiveMapAndCtrl(map, this->lib->processInput());
-	  this->drawMap(map);
-	  this->lib->drawGameObject(pacMan.getPlayer());
-	  this->drawGameEnemies(pacMan.getEnemy());
-	  this->lib->display();
-	  map = pacMan.getPacMap();
+	  this->closeGame();
+	  if (this->gamesList.getName())
+	    this->setGame(this->gamesList.getName());
 	  std::this_thread::sleep_for(std::chrono::milliseconds(250));
 	}
     }
+  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM9)))
+    {
+      if (this->gameLaunched)
+	{
+	  this->gameLaunched = false;
+	  this->closeGame();
+	  std::this_thread::sleep_for(std::chrono::milliseconds(250));
+	}
+    }
+
+}
+
+void								arcade::Menu::loopMenu()
+{
+  std::chrono::time_point<std::chrono::system_clock>		prev;
+  std::chrono::time_point<std::chrono::system_clock>		cur;
+  std::chrono::milliseconds					lag(std::chrono::milliseconds(0));
+  std::chrono::milliseconds					timestep(std::chrono::milliseconds(16));
+  std::chrono::time_point<std::chrono::system_clock>::duration	elapsed;
+
+/*
+  const int FRAMES_PER_SECOND = 25;
+  const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
+*/
+
+//  std::chrono::duration = std::chrono::time_point::time_since_epoch();
+/*
+  long next_game_tick =
+  int sleep_time = 0;
+*/
+
+/*
+ prev = std::chrono::system_clock::now();
+*/
+  while (!this->lib->isEventQuit() &&
+	 !this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::ESCAPE)))
+    {
+/*
+      cur = std::chrono::system_clock::now();
+      elapsed = cur - prev;
+      prev = cur;
+      lag += std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
+*/
+
+/*
+      next_game_tick += std::chrono::duration_cast<std::chrono::milliseconds>(SKIP_TICKS);
+*/
+
+      if (this->loopCounter % 240 == 0)
+	this->lib->clear();
+      this->update();
+      if (this->loopCounter % 240 == 0)
+	this->lib->display();
+
+
+      this->loopCounter++;
+      if (this->loopCounter > 240)
+	this->loopCounter = 1;
+
+
+/*
+      while (lag >= timestep)
+	lag -= timestep;
+*/
+    }
+  this->closeGame();
+  this->closeLib();
 }

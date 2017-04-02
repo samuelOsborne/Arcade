@@ -13,6 +13,7 @@
 
 # include <iostream>
 # include <dlfcn.h>
+# include <stdexcept>
 
 namespace 		arcade
 {
@@ -22,7 +23,11 @@ namespace 		arcade
     void		*dlhandle;
 
    public:
-    DLLoader<T>() {};
+    DLLoader<T>()
+    {
+      this->dlhandle = 0;
+    };
+
     ~DLLoader<T>() {};
 
     T			getInstance(const char *name)
@@ -32,24 +37,19 @@ namespace 		arcade
       if (!(this->dlhandle = dlopen(name, RTLD_LAZY)))
 	{
 	  std::cerr << "Can't open lib : " << dlerror() << std::endl;
-	  /*
-	   * TODO Throw std::exception
-	   */
-	  return (NULL);
+	  throw (std::exception());
 	}
-
       if (!(func = reinterpret_cast<T(*)()>(dlsym(this->dlhandle, "entry_point"))))
 	{
 	  std::cerr << "Can't load symbol" << std::endl;
-	  return (NULL);
+	  throw (std::exception());
 	}
-
       return (func());
     }
 
     void		closeHandler()
     {
-      if (this->dlhandle)
+      if (this->dlhandle != 0)
 	dlclose(this->dlhandle);
     }
 

@@ -36,22 +36,27 @@ arcade::AGameObject	&arcade::AGameObject::operator=
   return (*this);
 }
 
-void 				arcade::AGameObject::setPos(const arcade::Position &pos)
+void 			arcade::AGameObject::setPos(const arcade::Position &pos)
 {
   this->pos = pos;
 }
 
-arcade::Position 		arcade::AGameObject::getPos() const
+arcade::Position 	arcade::AGameObject::getPos() const
 {
   return (this->pos);
 }
 
-std::string			arcade::AGameObject::getSprite() const
+std::string		arcade::AGameObject::getSprite() const
 {
   return (this->asset);
 }
 
-void				arcade::AGameObject::setSprite(const std::string &a)
+void			arcade::AGameObject::setSprite(const std::string &a)
 {
   this->asset = a;
+}
+
+arcade::TileType	arcade::AGameObject::getTileType() const
+{
+  return (this->type);
 }

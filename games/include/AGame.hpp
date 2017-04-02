@@ -11,10 +11,9 @@
 #ifndef ARCADE_AGAME_HPP_
 # define ARCADE_AGAME_HPP_
 
-#include "Map.hh"
-#include "Player.hpp"
-#include "Enemy.hpp"
-#include "IGame.hpp"
+# include "Map.hh"
+# include "Player.hpp"
+# include "IGame.hpp"
 
 namespace 					arcade
 {
@@ -24,18 +23,27 @@ namespace 					arcade
     {
      protected:
       arcade::Player				player;
-      std::vector<arcade::Enemy*>		enemies;
       arcade::Map				map;
+      std::string				name;
+      int 					score;
+
+      virtual bool				processCmd(const arcade::CommandType&) = 0;
+      virtual bool 				checkIfCanMove(const arcade::Position &) const;
 
      public:
-      virtual ~AGame() {};
-
-      AGame(uint16_t width, uint16_t height) : map(width, height) {};
+      AGame(const uint16_t width, const uint16_t height) : map(width, height) {};
       AGame(AGame const &other);
       AGame &operator=(AGame const &other);
-      virtual void				launch() = 0;
-      virtual std::vector<arcade::Enemy*>	getEnemy() const;
+      virtual ~AGame() {};
 
+      virtual void				launch() = 0;
+      virtual std::string			getName() const;
+      virtual arcade::IMap			*getMap() /* const */;
+      virtual arcade::IGameObject		*getPlayer() /* const */;
+      virtual std::vector<arcade::IGameObject*>	getEnemies() const = 0;
+      virtual std::string			getScore() const;
+      virtual bool				playRound(const arcade::CommandType &cmd) = 0;
+//      virtual void 				Play() = 0;
     };
   };
 };
