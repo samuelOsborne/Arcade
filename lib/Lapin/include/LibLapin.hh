@@ -30,6 +30,8 @@ namespace		 		arcade
       std::string			txt;
       arcade::Position			txt_pos;
       unsigned int			color;
+      t_bunny_picture			*png;
+      t_bunny_position			pngPos;
       bool 				keytab[256];
 
      private:
@@ -37,6 +39,7 @@ namespace		 		arcade
       static t_bunny_response			clear_loop(void *data);
       static t_bunny_response			display_loop(void *data);
       static t_bunny_response			drawtext_loop(void *data);
+      static t_bunny_response 			object_loop(void *data);
 
      public:
       LibLapin();

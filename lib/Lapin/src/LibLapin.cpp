@@ -111,8 +111,7 @@ t_bunny_response			arcade::library::LibLapin::drawtext_loop(void *data)
 {
   LibLapin				*obj;
   t_bunny_position			pos;
-//  t_bunny_position			size;
-  const char 					*str;
+  const char 				*str;
   int 					i;
 
   obj = static_cast<LibLapin *>(data);
@@ -137,6 +136,18 @@ t_bunny_response			arcade::library::LibLapin::drawtext_loop(void *data)
       }
       i++;
     }
+  }
+  return (EXIT_ON_SUCCESS);
+}
+
+t_bunny_response			arcade::library::LibLapin::object_loop(void *data)
+{
+  LibLapin				*obj;
+
+  obj = static_cast<LibLapin *>(data);
+  if (obj->png != NULL)
+  {
+    bunny_blit(&obj->win->buffer, obj->png, &obj->pngPos);
   }
   return (EXIT_ON_SUCCESS);
 }
@@ -173,7 +184,15 @@ void 					arcade::library::LibLapin::stopMusic()
 
 void 					arcade::library::LibLapin::drawGameObject(const arcade::IGameObject *obj)
 {
-  (void)obj;
+  std::string				filename;
+
+  this->pngPos.x = obj->getPos().x * 32;
+  this->pngPos.y = obj->getPos().y * 32;
+  std::cout << "print at x = " << this->pngPos.x << " y = " << this->pngPos.y << std::endl;
+  filename = obj->getSprite() + ".png";
+  this->png = bunny_load_picture(filename.c_str());
+  bunny_set_loop_main_function(&object_loop);
+  bunny_loop(this->win, 30, this);
 }
 
 arcade::CommandType	 		arcade::library::LibLapin::processInput()
