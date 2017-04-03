@@ -12,21 +12,26 @@ SFMLPATH	=	./SFML
 
 CACAPATH	=	./caca
 
+NCURSEPATH	=	./Ncurses
+
 LAPINPATH	=	./Lapin
 
 all:
 		@$(MAKE) --no-print-directory -C $(SFMLPATH)
 		@$(MAKE) --no-print-directory -C $(CACAPATH)
 		@$(MAKE) --no-print-directory -C $(LAPINPATH)
+		@$(MAKE) --no-print-directory -C $(NCURSEPATH)
 
 clean:
 		@$(MAKE) --no-print-directory -C $(SFMLPATH) clean
 		@$(MAKE) --no-print-directory -C $(CACAPATH) clean
 		@$(MAKE) --no-print-directory -C $(LAPINPATH) clean
+		@$(MAKE) --no-print-directory -C $(NCURSEPATH) clean
 
 fclean:		clean
 		@$(MAKE) --no-print-directory -C $(SFMLPATH) fclean
 		@$(MAKE) --no-print-directory -C $(CACAPATH) fclean
 		@$(MAKE) --no-print-directory -C $(LAPINPATH) fclean
+		@$(MAKE) --no-print-directory -C $(NCURSEPATH) fclean
 
 re:		fclean all
