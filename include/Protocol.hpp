@@ -8,6 +8,7 @@
 
 #ifndef			__ARCADE_PROTOCOL_HPP__
 # define		__ARCADE_PROTOCOL_HPP__
+
 # include		<stdint.h>
 
 namespace		arcade

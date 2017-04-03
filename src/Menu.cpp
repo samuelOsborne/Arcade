@@ -140,18 +140,13 @@ void	arcade::Menu::drawEnemies(const std::vector<arcade::IGameObject*> &tab)
     }
 }
 
-void 				arcade::Menu::update()
+void	arcade::Menu::eventHandler()
 {
-  arcade::Position		pos;
-  arcade::Position		posScore;
   arcade::CommandType 		cmd;
 
   cmd = this->lib->processInput();
   if (cmd != arcade::CommandType::ILLEGAL && cmd != arcade::CommandType::WHERE_AM_I && cmd != arcade::CommandType::GET_MAP)
     this->bufferCmd = cmd;
-  posScore.x = 900;
-  posScore.y = 50;
-  pos.x = 10;
   if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM2)))
     this->switchLib(MenuIndexLib::DECREMENT);
   else if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM3)))
@@ -175,27 +170,48 @@ void 				arcade::Menu::update()
 	}
       std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
+  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM8)) &&
+   this->gameLaunched)
+    {
+      this->closeGame();
+      if (this->gamesList.getName())
+	this->setGame(this->gamesList.getName());
+      std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    }
+  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM9)) &&
+      this->gameLaunched)
+    {
+      this->gameLaunched = false;
+      this->closeGame();
+      std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    }
+}
 
+void 				arcade::Menu::update()
+{
+  arcade::Position		pos;
+  arcade::Position		posScore;
+
+  posScore.x = 900;
+  posScore.y = 50;
+  pos.x = 10;
   if (this->gameLaunched)
     {
-      if (this->loopCounter % 240 == 0)
+      if (!this->game->playRound(this->bufferCmd))
 	{
-	  if (!this->game->playRound(this->bufferCmd))
-	    {
-	      this->drawMap(this->game->getMap());
-	      this->lib->drawGameObject(this->game->getPlayer());
-	      this->drawEnemies(this->game->getEnemies());
-	      this->gameLaunched = false;
-	      this->closeGame();
-	    }
-	  else
-	    {
-	      this->drawMap(this->game->getMap());
-	      this->lib->drawGameObject(this->game->getPlayer());
-	      this->drawEnemies(this->game->getEnemies());
-	      this->lib->drawText("Score : " + this->game->getScore(),
-				  posScore);
-	    }
+	  this->drawMap(this->game->getMap());
+	  this->lib->drawGameObject(this->game->getPlayer());
+	  this->drawEnemies(this->game->getEnemies());
+	  this->gameLaunched = false;
+	  this->closeGame();
+	}
+      else
+	{
+	  this->drawMap(this->game->getMap());
+	  this->lib->drawGameObject(this->game->getPlayer());
+	  this->drawEnemies(this->game->getEnemies());
+	  this->lib->drawText("Score : " + this->game->getScore(),
+			      posScore);
 	}
     }
   else
@@ -216,80 +232,60 @@ void 				arcade::Menu::update()
       pos.y = 135;
       this->lib->drawText("9 : Return to menu", pos);
     }
-  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM8)))
-    {
-      if (this->gameLaunched)
-	{
-	  this->closeGame();
-	  if (this->gamesList.getName())
-	    this->setGame(this->gamesList.getName());
-	  std::this_thread::sleep_for(std::chrono::milliseconds(250));
-	}
-    }
-  if (this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::NUM9)))
-    {
-      if (this->gameLaunched)
-	{
-	  this->gameLaunched = false;
-	  this->closeGame();
-	  std::this_thread::sleep_for(std::chrono::milliseconds(250));
-	}
-    }
-
 }
 
 void								arcade::Menu::loopMenu()
 {
   std::chrono::time_point<std::chrono::system_clock>		prev;
   std::chrono::time_point<std::chrono::system_clock>		cur;
+  std::chrono::time_point<std::chrono::system_clock>::duration	deltaTime;
   std::chrono::milliseconds					lag(std::chrono::milliseconds(0));
   std::chrono::milliseconds					timestep(std::chrono::milliseconds(16));
   std::chrono::time_point<std::chrono::system_clock>::duration	elapsed;
 
-/*
-  const int FRAMES_PER_SECOND = 25;
-  const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
-*/
-
 //  std::chrono::duration = std::chrono::time_point::time_since_epoch();
-/*
-  long next_game_tick =
-  int sleep_time = 0;
-*/
 
-/*
- prev = std::chrono::system_clock::now();
-*/
   while (!this->lib->isEventQuit() &&
 	 !this->lib->isKeyPressed(arcade::Input(arcade::InputState::KEY_PRESSED, arcade::InputKey::ESCAPE)))
     {
-/*
-      cur = std::chrono::system_clock::now();
+
+/*      cur = std::chrono::system_clock::now();
       elapsed = cur - prev;
       prev = cur;
-      lag += std::chrono::duration_cast<std::chrono::milliseconds>(elapsed);
 */
+
 
 /*
-      next_game_tick += std::chrono::duration_cast<std::chrono::milliseconds>(SKIP_TICKS);
+      if (this->loopCounter % 128 == 0)
+	{
 */
+/*
+      while (elapsed > std::chrono::milliseconds(0))
+	{
+	  if (elapsed > std::chrono::milliseconds(16))
+	    deltaTime = std::chrono::milliseconds(16);
+	  else
+	    deltaTime = elapsed;
+	  elapsed -= deltaTime;
+	}
+*/
+    //}
 
-      if (this->loopCounter % 240 == 0)
-	this->lib->clear();
+      prev = std::chrono::system_clock::now();
+      while (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - prev) < std::chrono::milliseconds(64))
+	this->eventHandler();
+
+      this->eventHandler();
+      this->lib->clear();
       this->update();
-      if (this->loopCounter % 240 == 0)
-	this->lib->display();
-
-
-      this->loopCounter++;
-      if (this->loopCounter > 240)
-	this->loopCounter = 1;
-
+      this->lib->display();
 
 /*
-      while (lag >= timestep)
-	lag -= timestep;
+      this->loopCounter++;
+      if (this->loopCounter > 128)
+	this->loopCounter = 1;
 */
+
     }
   this->closeGame();
   this->closeLib();

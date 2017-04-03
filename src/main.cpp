@@ -24,12 +24,18 @@ int		main(int argc, char **argv)
   try
     {
       menu = new arcade::Menu(argv[1]);
-      menu->loopMenu();
+      try
+	{
+	  menu->loopMenu();
+	}
+      catch (const std::exception &e)
+	{
+	  menu->closeGame();
+	}
+      delete (menu);
     }
   catch (const std::exception &e)
     {
-      menu->closeGame();
     }
-  delete (menu);
   return (0);
 }
