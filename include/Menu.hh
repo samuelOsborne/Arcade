@@ -34,6 +34,7 @@ namespace						arcade
     arcade::CommandType 				bufferCmd;
 
     void 						update();
+    void 						eventHandler();
 
     enum						MenuIndexLib
     {
