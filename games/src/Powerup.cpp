@@ -13,7 +13,7 @@
 arcade::Powerup::Powerup(const uint16_t x, const uint16_t y)
  : AObjects(x, y)
 {
-  this->setTileType();
+  this->setTileType(arcade::TileType::POWERUP);
 }
 
 arcade::Powerup::Powerup(const arcade::Powerup& other)
@@ -39,14 +39,4 @@ arcade::Powerup	&arcade::Powerup::operator=(const arcade::Powerup &other)
 void	arcade::Powerup::move(arcade::Position &pos)
 {
   this->setPos(pos);
-}
-
-void	arcade::Powerup::setTileType()
-{
-  this->type = arcade::TileType::POWERUP;
-}
-
-std::string	arcade::Powerup::getObj() const
-{
-  return ("Powerup");
 }

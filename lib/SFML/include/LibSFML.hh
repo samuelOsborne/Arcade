@@ -31,6 +31,7 @@ namespace 						arcade
       sf::Music						music;
       bool 						fontLoaded;
       std::map<arcade::InputKey, sf::Keyboard::Key>	keymap;
+      std::map<std::string, sf::Texture>		loadedTextures;
 
      public:
       LibSFML();

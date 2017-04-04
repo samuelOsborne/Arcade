@@ -25,8 +25,6 @@ namespace 		arcade
     ~Powerup() {};
 
     void		move(arcade::Position& pos);
-    virtual void	setTileType();
-    virtual std::string	getObj() const;
   };
 
 };

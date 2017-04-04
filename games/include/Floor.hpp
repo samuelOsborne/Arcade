@@ -22,9 +22,6 @@ namespace 		arcade
     Floor(const Floor &);
     Floor &operator=(const Floor &);
     ~Floor() {};
-
-    virtual void 	setTileType();
-    virtual std::string getObj() const;
   };
 
 };

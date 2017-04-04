@@ -98,22 +98,6 @@ void			arcade::games::Pacman::launch()
     }
 }
 
-arcade::Player					*arcade::games::Pacman::getPlayer()
-{
-  return (&this->player);
-}
-
-double						arcade::games::Pacman::calcDistance(arcade::Position posA, arcade::Position posB)
-{
-  int distancex = (posB.x - posA.x) * 2;
-  int distancey = (posB.y - posA.y) * 2;
-
-  std::cout << distancex << " : " << distancey << std::endl;
-  double distance = sqrt(distancex - distancey);
-  std::cout << "distance : " << distance << std::endl;
-  return (distance);
-}
-
 void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
 {
   arcade::Position		pos;
@@ -269,14 +253,14 @@ bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
   this->runAi();
   if (this->checkCollision())
     return (false);
-  if (cmd == arcade::CommandType::GET_MAP
+  if (cmd == arcade::CommandType::PLAY
       && this->oldcmd != arcade::CommandType::ILLEGAL)
     return (this->processCmd(this->oldcmd));
   else
     return (this->processCmd(cmd));
 }
 
-std::vector<arcade::IGameObject*>	arcade::games::Pacman::getEnemies() const
+const std::vector<arcade::IGameObject*>	&arcade::games::Pacman::getEnemies() const
 {
   return (this->enemies);
 }

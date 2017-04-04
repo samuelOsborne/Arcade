@@ -37,6 +37,7 @@ namespace						arcade
     arcade::IGameObject					*getTile(const arcade::Position &pos) const;
     void 						setTile(const arcade::Position &pos,
 								arcade::IGameObject *type);
+    virtual void 					deleteTile(const Position &pos);
   };
 
 };

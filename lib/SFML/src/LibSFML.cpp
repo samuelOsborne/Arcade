@@ -20,9 +20,6 @@ arcade::library::LibSFML::LibSFML()
     }
   else
     this->text = new sf::Text("", this->font, 15);
-
-//  this->music = new sf::Music;
-
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::UNKNOWN, sf::Keyboard::Key::Unknown));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::ESCAPE, sf::Keyboard::Key::Escape));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::NUM0, sf::Keyboard::Key::Num0));
@@ -47,10 +44,6 @@ arcade::library::LibSFML::~LibSFML()
 {
   if (this->text)
     delete (this->text);
-/*
-  if (this->music)
-    delete (this->music);
-*/
 }
 
 void	arcade::library::LibSFML::openWindow()
@@ -86,7 +79,7 @@ bool		arcade::library::LibSFML::isEventQuit()
   sf::Event	event;
 
   if (this->window.pollEvent(event))
-    if (event.type == sf::Event::Closed)
+    if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
       return (true);
   return (false);
 }
@@ -95,13 +88,29 @@ arcade::CommandType	arcade::library::LibSFML::processInput()
 {
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     return (arcade::CommandType::GO_LEFT);
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     return (arcade::CommandType::GO_RIGHT);
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     return (arcade::CommandType::GO_UP);
-  else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     return (arcade::CommandType::GO_DOWN);
-  return (arcade::CommandType::GET_MAP);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+    return (arcade::CommandType::PREV_LIB);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+    return (arcade::CommandType::NEXT_LIB);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
+    return (arcade::CommandType::PREV_GAME);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5))
+    return (arcade::CommandType::NEXT_GAME);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+    return (arcade::CommandType::LAUNCH);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+    return (arcade::CommandType::EXIT);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8))
+    return (arcade::CommandType::RESET);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9))
+    return (arcade::CommandType::MENU);
+  return (arcade::CommandType::PLAY);
 }
 
 void		arcade::library::LibSFML::drawText(const std::string &str, const arcade::Position &pos)
@@ -138,19 +147,27 @@ void	arcade::library::LibSFML::stopMusic()
   this->music.stop();
 }
 
-void			arcade::library::LibSFML::drawGameObject(const arcade::IGameObject *obj)
+void						arcade::library::LibSFML::drawGameObject(const arcade::IGameObject *obj)
 {
-  sf::Texture		texture;
-  sf::Sprite		sprite;
+  sf::Texture					texture;
+  sf::Sprite					sprite;
+  std::map<std::string, sf::Texture>::iterator 	pos;
 
-  if (!texture.loadFromFile(obj->getSprite() + ".png", sf::IntRect(0, 0, 32, 32)))
-    std::cerr << "Error loading sprite : " << obj->getSprite() << ".png" << std::endl;
-  else
+  if ((pos = this->loadedTextures.find(obj->getSprite())) == this->loadedTextures.end())
     {
-      sprite.setTexture(texture);
-      sprite.setOrigin(obj->getPos().x * -32, obj->getPos().y * -32);
-      this->window.draw(sprite);
+      if (!texture.loadFromFile(obj->getSprite() + ".png", sf::IntRect(0, 0, 32, 32)))
+	{
+	  std::cerr << "Error loading sprite : " << obj->getSprite() << ".png"
+		    << std::endl;
+	  return ;
+	}
+      this->loadedTextures.insert(std::pair<std::string, sf::Texture>(obj->getSprite(), texture));
     }
+  else
+    texture = pos->second;
+  sprite.setTexture(texture);
+  sprite.setOrigin(obj->getPos().x * -32, obj->getPos().y * -32);
+  this->window.draw(sprite);
 }
 
 extern "C" arcade::library::IArcadeLibrary	*entry_point()

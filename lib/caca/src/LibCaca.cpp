@@ -32,7 +32,6 @@ arcade::library::LibCaca::LibCaca()
   this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::UP, CACA_KEY_UP));
   this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::SPACE, 32));
   this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::ENTER, CACA_KEY_RETURN));
-
 }
 
 arcade::library::LibCaca::~LibCaca()
@@ -64,23 +63,20 @@ bool 		arcade::library::LibCaca::isKeyPressed(const arcade::Input &input)
 {
   caca_event_t	event;
 
-  if (input.key == arcade::InputKey::UNKNOWN)
-    {
-      if (caca_get_event(this->window, CACA_EVENT_KEY_PRESS, NULL, 0) == 1)
-	return (true);
-    }
-  else
-    {
-      if (caca_get_event(this->window, CACA_EVENT_KEY_PRESS, &event, 100) == 1)
-	if (caca_get_event_key_ch(&event) == this->keymap.find(input.key)->second)
-	  return (true);
-    }
+  if (caca_get_event(this->window, CACA_EVENT_KEY_PRESS, &event, 0) == 1)
+    if (caca_get_event_key_ch(&event) == this->keymap.find(input.key)->second)
+      return (true);
   return (false);
 }
 
-bool	arcade::library::LibCaca::isEventQuit()
+bool		arcade::library::LibCaca::isEventQuit()
 {
-  if (caca_get_event(this->window, CACA_EVENT_QUIT, NULL, 0) == 1)
+  caca_event_t	event;
+
+  caca_get_event(this->window, CACA_EVENT_ANY, &event, 0);
+  if (caca_get_event_type(&event) == CACA_EVENT_QUIT)
+      return (true);
+  else if (caca_get_event_key_ch(&event) == CACA_KEY_ESCAPE)
     return (true);
   return (false);
 }
@@ -88,19 +84,41 @@ bool	arcade::library::LibCaca::isEventQuit()
 arcade::CommandType	arcade::library::LibCaca::processInput()
 {
   caca_event_t		event;
+  int 			key;
 
   if (caca_get_event(this->window, CACA_EVENT_KEY_PRESS, &event, 0) == 1)
     {
-      if (caca_get_event_key_ch(&event) == CACA_KEY_LEFT)
-	  return (arcade::CommandType::GO_LEFT);
-      if (caca_get_event_key_ch(&event) == CACA_KEY_RIGHT)
-	  return (arcade::CommandType::GO_RIGHT);
-      if (caca_get_event_key_ch(&event) == CACA_KEY_UP)
-	  return (arcade::CommandType::GO_UP);
-      if (caca_get_event_key_ch(&event) == CACA_KEY_DOWN)
-	  return (arcade::CommandType::GO_DOWN);
+      key = caca_get_event_key_ch(&event);
+      std::cout << "Input : " << key << std::endl;
+      if (key == CACA_KEY_LEFT)
+	return (arcade::CommandType::GO_LEFT);
+      if (key == CACA_KEY_RIGHT)
+	return (arcade::CommandType::GO_RIGHT);
+      if (key == CACA_KEY_UP)
+	return (arcade::CommandType::GO_UP);
+      if (key == CACA_KEY_DOWN)
+	return (arcade::CommandType::GO_DOWN);
+      if (key == '2')
+	return (arcade::CommandType::PREV_LIB);
+      if (key == '3')
+	return (arcade::CommandType::NEXT_LIB);
+      if (key == '4')
+	return (arcade::CommandType::PREV_GAME);
+      if (key == '5')
+	return (arcade::CommandType::NEXT_GAME);
+      if (key == CACA_KEY_RETURN)
+	return (arcade::CommandType::LAUNCH);
+      if (key == CACA_KEY_ESCAPE)
+	{
+	  std::cout << "OUI" << std::endl;
+	  return (arcade::CommandType::EXIT);
+	}
+      if (key == '8')
+	return (arcade::CommandType::RESET);
+      if (key == '9')
+	return (arcade::CommandType::MENU);
     }
-  return (arcade::CommandType::GET_MAP);
+  return (arcade::CommandType::PLAY);
 }
 
 void	arcade::library::LibCaca::drawText(const std::string &str, const arcade::Position &pos)

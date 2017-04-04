@@ -26,7 +26,7 @@ namespace 			arcade
     virtual std::string 	getSprite() const = 0;
     virtual void 		setSprite(const std::string &) = 0;
     virtual arcade::TileType 	getTileType() const = 0;
-    virtual std::string		getObj() const = 0;
+    virtual void		setTileType(const arcade::TileType &) = 0;
   };
 
 };

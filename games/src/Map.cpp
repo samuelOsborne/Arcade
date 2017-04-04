@@ -64,3 +64,7 @@ void	arcade::Map::setTile(const arcade::Position &pos, arcade::IGameObject *type
 {
   this->tiles[pos.y][pos.x] = type;
 }
+
+void	arcade::Map::deleteTile(const arcade::Position &pos)
+{
+}

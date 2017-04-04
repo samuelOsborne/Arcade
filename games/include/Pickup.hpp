@@ -24,8 +24,6 @@ namespace 		arcade
     ~Pickup() {};
 
     void		move(arcade::Position& pos);
-    virtual void	setTileType();
-    virtual std::string	getObj() const;
   };
 
 };

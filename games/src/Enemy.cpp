@@ -13,7 +13,7 @@
 arcade::Enemy::Enemy(const uint16_t x, const uint16_t y)
  : arcade::ACharacter(x, y)
 {
-  this->setTileType();
+  this->setTileType(arcade::TileType::EVIL_DUDE);
 }
 
 arcade::Enemy::Enemy(const arcade::Enemy &other)
@@ -40,14 +40,4 @@ void	arcade::Enemy::move(const arcade::Position &pos)
 {
   this->pos.x = pos.x;
   this->pos.y = pos.y;
-}
-
-void	arcade::Enemy::setTileType()
-{
-  this->type = arcade::TileType::EVIL_DUDE;
-}
-
-std::string	arcade::Enemy::getObj() const
-{
-  return ("Enemy");
 }

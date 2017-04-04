@@ -35,10 +35,8 @@ namespace 			arcade
     bool 			getTaken() const;
     std::string			getSecondAsset() const;
     virtual void 		setPos(const arcade::Position &pos);
-    virtual void		setTileType() = 0;
     void 			setSecondAsset(const std::string &asset);
     void			take();
-    virtual std::string		getObj() const = 0;
   };
 
 };

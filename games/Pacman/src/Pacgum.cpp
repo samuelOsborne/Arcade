@@ -15,7 +15,6 @@ arcade::games::Pacgum::Pacgum(uint16_t x, uint16_t y) :
 {
   this->asset = "./misc/Pacman/Pacgum";
   this->secondAsset = "./misc/Pacman/floor";
-  this->setTileType();
 }
 
 arcade::games::Pacgum::Pacgum(const arcade::games::Pacgum& other) :
@@ -40,14 +39,4 @@ arcade::games::Pacgum&		arcade::games::Pacgum::operator=(const Pacgum& other)
       this->type = other.type;
     }
   return (*this);
-}
-
-std::string			arcade::games::Pacgum::getObj() const
-{
-  return ("Pacgum");
-}
-
-void 				arcade::games::Pacgum::setTileType()
-{
- this->extType = arcade::games::ExtTileType::PICKUP;
 }
