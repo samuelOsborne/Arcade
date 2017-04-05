@@ -55,10 +55,9 @@ namespace 					arcade
       Nibbler &operator=(const Nibbler &other) = delete;
       ~Nibbler() {};
 
-      virtual std::vector<arcade::IGameObject*>	getEnemies() const;
+      virtual const std::vector<arcade::IGameObject*>	&getEnemies() const;
       virtual void				launch();
       virtual bool				playRound(const arcade::CommandType &cmd);
-//      void 				Play();
     };
 
   };

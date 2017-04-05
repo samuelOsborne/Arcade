@@ -20,11 +20,10 @@ namespace 		arcade
    public:
     Wall(const uint16_t, const uint16_t);
     Wall(const Wall &);
-    const Wall 			&operator=(const Wall &);
+    Wall &operator=(const Wall &);
     ~Wall() {};
-    void 			setTileType();
+
     void			setAsset(std::string);
-    virtual std::string		getObj() const;
   };
 
 };

@@ -60,3 +60,8 @@ arcade::TileType	arcade::AGameObject::getTileType() const
 {
   return (this->type);
 }
+
+void	arcade::AGameObject::setTileType(const arcade::TileType &tileType)
+{
+  this->type = tileType;
+}

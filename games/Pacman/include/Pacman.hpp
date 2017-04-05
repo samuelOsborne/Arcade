@@ -73,7 +73,7 @@ namespace					arcade
       arcade::Player				*getPlayer();
       void					runAi();
       double 					calcDistance(arcade::Position, arcade::Position);
-      virtual std::vector<arcade::IGameObject*>	getEnemies() const;
+      virtual const std::vector<arcade::IGameObject*>	&getEnemies() const;
       virtual void				launch();
       virtual bool				playRound(const arcade::CommandType &cmd);
       virtual bool				processCmd(const arcade::CommandType &cmd);

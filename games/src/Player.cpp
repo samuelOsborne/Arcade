@@ -16,14 +16,14 @@ arcade::Player::Player()
 {
   this->powerup = 0;
   this->asset = "./misc/Pacman/Pacman";
-  this->setTileType();
+  this->setTileType(arcade::TileType::OTHER);
 }
 
 arcade::Player::Player(const uint16_t x, const uint16_t y)
  : arcade::ACharacter(x, y)
 {
   this->powerup = 0;
-  this->setTileType();
+  this->setTileType(arcade::TileType::OTHER);
 }
 
 arcade::Player::Player(const arcade::Player& other)
@@ -54,19 +54,4 @@ void				arcade::Player::move(const arcade::Position & pos)
 {
   this->pos.x = pos.x;
   this->pos.y = pos.y;
-}
-
-void				arcade::Player::setTileType()
-{
-  this->extType = arcade::games::ExtTileType::PLAYER;
-}
-
-arcade::games::ExtTileType	arcade::Player::getExtTileType() const
-{
-  return (this->extType);
-}
-
-std::string			arcade::Player::getObj() const
-{
-  return ("Player");
 }

@@ -8,15 +8,13 @@
 ** Last update Fri Mar 17 13:06:12 2017 Samuel Osborne
 */
 
-#include <string.h>
 #include "Wall.hpp"
 
 arcade::Wall::Wall(const uint16_t x, const uint16_t y)
  : ABlock(x, y)
 {
-  this->type = arcade::TileType::BLOCK;
   this->asset = "./misc/Pacman/Horizontalpipe";
-  this->setTileType();
+  this->setTileType(arcade::TileType::BLOCK);
 }
 
 arcade::Wall::Wall(const arcade::Wall &other)
@@ -29,7 +27,7 @@ arcade::Wall::Wall(const arcade::Wall &other)
     }
 }
 
-const arcade::Wall&	arcade::Wall::operator=(const arcade::Wall &other)
+arcade::Wall	&arcade::Wall::operator=(const arcade::Wall &other)
 {
   if (this != &other)
     {
@@ -42,14 +40,4 @@ const arcade::Wall&	arcade::Wall::operator=(const arcade::Wall &other)
 void			arcade::Wall::setAsset(std::string assetPath)
 {
   this->asset = assetPath;
-}
-
-void			arcade::Wall::setTileType()
-{
-  this->extType = arcade::games::ExtTileType::WALL;
-}
-
-std::string		arcade::Wall::getObj() const
-{
-  return ("Wall");
 }

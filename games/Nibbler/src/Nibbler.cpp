@@ -133,7 +133,7 @@ void			arcade::games::Nibbler::pickFruit()
     }
 }
 
-std::vector<arcade::IGameObject*>	arcade::games::Nibbler::getEnemies() const
+const std::vector<arcade::IGameObject*>	&arcade::games::Nibbler::getEnemies() const
 {
   return (this->body);
 }
@@ -208,7 +208,7 @@ arcade::Position	arcade::games::Nibbler::getPosBodyFreeCase() const
 
 bool	arcade::games::Nibbler::playRound(const arcade::CommandType &cmd)
 {
-  if (cmd == arcade::CommandType::GET_MAP)
+  if (cmd == arcade::CommandType::PLAY)
     {
       if (this->oldcmd != arcade::CommandType::ILLEGAL)
 	this->moveBody();
@@ -220,12 +220,6 @@ bool	arcade::games::Nibbler::playRound(const arcade::CommandType &cmd)
       return (this->processCmd(cmd));
     }
 }
-
-/*
-extern "C" void		arcade::games::Nibbler::Play()
-{
-}
-*/
 
 extern "C" arcade::games::IGame	*entry_point()
 {

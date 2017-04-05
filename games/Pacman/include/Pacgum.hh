@@ -24,9 +24,6 @@ namespace 	arcade
       Pacgum(const Pacgum& other);
       Pacgum &operator=(const Pacgum&);
       virtual ~Pacgum() {};
-
-      virtual std::string	getObj() const;
-      virtual void		setTileType();
     };
   };
 };

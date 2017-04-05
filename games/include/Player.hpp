@@ -30,9 +30,6 @@ namespace 				arcade
     ~Player() {};
 
     virtual void 			move(const arcade::Position &);
-    virtual void			setTileType();
-    virtual arcade::games::ExtTileType	getExtTileType() const;
-    virtual std::string			getObj() const;
   };
 
 };

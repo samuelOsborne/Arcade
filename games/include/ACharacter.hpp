@@ -24,11 +24,9 @@ namespace 			arcade
     ACharacter &operator=(const ACharacter&);
     virtual ~ACharacter() {};
 
-    virtual void		setTileType() = 0;
     virtual void 		move(const arcade::Position&) = 0;
     virtual void 		setPos(const arcade::Position &pos);
     virtual arcade::Position 	getPos() const;
-    virtual std::string		getObj() const = 0;
   };
 
 };

@@ -25,8 +25,6 @@ namespace 		arcade
     ~Enemy() {};
 
     virtual void 	move(const arcade::Position &);
-    virtual void	setTileType();
-    virtual std::string	getObj() const;
   };
 
 };

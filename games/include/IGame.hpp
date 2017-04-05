@@ -13,6 +13,7 @@
 
 # include <vector>
 # include <string>
+# include "Map.hh"
 
 namespace 				arcade
 {
@@ -25,12 +26,12 @@ namespace 				arcade
 
       virtual void 				launch() = 0;
       virtual std::string			getName() const = 0;
-      virtual arcade::IMap			*getMap() /* const */ = 0;
-      virtual arcade::IGameObject		*getPlayer() /* const */ = 0;
-      virtual std::vector<arcade::IGameObject*> getEnemies() const = 0;
-      virtual std::string			getScore() const = 0;
+      virtual const arcade::Map			&getMap() const = 0;
+      virtual const arcade::IGameObject		*getPlayer() const = 0;
+      virtual const std::vector<arcade::IGameObject*> &getEnemies() const = 0;
       virtual bool				playRound(const arcade::CommandType &cmd) = 0;
-//      virtual void 				Play() = 0;
+/*    virtual std::string			getScore() const = 0; */
+      /* virtual const std::vector<IGameObject*> &getStrings() const = 0; */
     };
   }
 }
