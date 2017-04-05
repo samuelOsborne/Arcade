@@ -217,16 +217,16 @@ void 				arcade::Menu::update()
       this->lib->drawText("Controls :", pos);
       pos.y = 35;
       this->lib->drawText("2 : Prev. lib", pos);
-      pos.y = 60;
+      pos.y = 70;
       this->lib->drawText("3 : Next lib", pos);
-      pos.y = 75;
+      pos.y = 95;
       if (this->game != 0)
 	this->lib->drawText("4 : Launch " + this->game->getName(), pos);
       else
 	this->lib->drawText("4 : Set game and launch", pos);
-      pos.y = 120;
+      pos.y = 130;
       this->lib->drawText("8 : Reset game", pos);
-      pos.y = 135;
+      pos.y = 155;
       this->lib->drawText("9 : Return to menu", pos);
     }
 }
