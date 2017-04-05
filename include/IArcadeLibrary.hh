@@ -28,7 +28,7 @@ namespace 				arcade
       virtual void 			closeWindow() = 0;
       virtual bool 			isKeyPressed(const arcade::Input &input) = 0;
       virtual bool			isEventQuit() = 0;
-      virtual void 			clear() = 0;
+      virtual void 			winClear() = 0;
       virtual void 			display() = 0;
       virtual void 			playMusic(const std::string &music) = 0;
       virtual void 			stopMusic() = 0;

@@ -123,7 +123,7 @@ void		arcade::library::LibSFML::drawText(const std::string &str, const arcade::P
     }
 }
 
-void	arcade::library::LibSFML::clear()
+void	arcade::library::LibSFML::winClear()
 {
   this->window.clear(sf::Color::Black);
 }

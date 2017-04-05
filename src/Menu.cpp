@@ -250,7 +250,7 @@ void								arcade::Menu::loopMenu()
 	      return;
 	    }
 	}
-      this->lib->clear();
+      this->lib->winClear();
       this->update();
       this->lib->display();
     }
