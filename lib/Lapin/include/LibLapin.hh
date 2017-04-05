@@ -33,12 +33,7 @@ namespace		 		arcade
       std::map<arcade::InputKey, sf::Keyboard::Key>	keymap;
       t_bunny_window			*win;
       t_bunny_picture			*font;
-      std::string			txt;
-      arcade::Position			txt_pos;
-      unsigned int			color;
-      t_bunny_picture			*png;
       t_bunny_position			pngPos;
-      bool 				keytab[256];
       std::map<std::string, t_bunny_picture *>		loadedTextures;
       struct                          bunny_window
       {
@@ -48,12 +43,6 @@ namespace		 		arcade
 	ssize_t                       height;
 	const char                    *window_name;
       };
-
-     private:
-      static t_bunny_response			clear_loop(void *data);
-      static t_bunny_response			display_loop(void *data);
-      static t_bunny_response			drawtext_loop(void *data);
-      static t_bunny_response 			object_loop(void *data);
 
      public:
       LibLapin();
