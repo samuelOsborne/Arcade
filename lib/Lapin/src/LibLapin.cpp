@@ -42,24 +42,6 @@ arcade::library::LibLapin::~LibLapin()
 {
 }
 
-t_bunny_response			arcade::library::LibLapin::clear_loop(void *data)
-{
-  LibLapin				*obj;
-
-  obj = static_cast<LibLapin *>(data);
-  bunny_clear(&obj->win->buffer, BLACK);
-  return (EXIT_ON_SUCCESS);
-}
-
-t_bunny_response			arcade::library::LibLapin::display_loop(void *data)
-{
-  LibLapin				*obj;
-
-  obj = static_cast<LibLapin *>(data);
-  bunny_display(obj->win);
-  return (EXIT_ON_SUCCESS);
-}
-
 void	                        	arcade::library::LibLapin::openWindow()
 {
   this->win = bunny_start(1400, 1000, false, "Arcade - LibLapin");
@@ -85,52 +67,6 @@ bool                              	arcade::library::LibLapin::isEventQuit()
     if (event.type == sf::Event::Closed)
       return (true);
   return (false);
-}
-
-t_bunny_response			arcade::library::LibLapin::drawtext_loop(void *data)
-{
-  LibLapin				*obj;
-  t_bunny_position			pos;
-  const char 				*str;
-  int 					i;
-
-  obj = static_cast<LibLapin *>(data);
-  if (obj->font != NULL)
-  {
-    i = 0;
-    str = obj->txt.c_str();
-    obj->font->clip_y_position = 0;
-    obj->font->clip_width = 5;
-    obj->font->clip_height = 7;
-    pos.x = obj->txt_pos.x;
-    pos.y = obj->txt_pos.y;
-    while (str[i])
-    {
-      if (str[i] == ' ')
-	pos.x += obj->font->scale.x * 7;
-      else
-      {
-	obj->font->clip_x_position = str[i] * 5;
-	bunny_blit(&obj->win->buffer, obj->font, &pos);
-	pos.x += obj->font->scale.x * 7;
-      }
-      i++;
-    }
-  }
-  return (EXIT_ON_SUCCESS);
-}
-
-t_bunny_response			arcade::library::LibLapin::object_loop(void *data)
-{
-  LibLapin				*obj;
-
-  obj = static_cast<LibLapin *>(data);
-  if (obj->png != NULL)
-  {
-    bunny_draw(obj->png);
-    bunny_blit(&obj->win->buffer, obj->png, &obj->pngPos);
-  }
-  return (EXIT_ON_SUCCESS);
 }
 
 void                              	arcade::library::LibLapin::drawText(const std::string &str, const arcade::Position &pos)
@@ -161,23 +97,16 @@ void                              	arcade::library::LibLapin::drawText(const std
       i++;
     }
   }
-
-  //bunny_set_loop_main_function(&drawtext_loop);
-  //bunny_loop(this->win, 30, this);
 }
 
 void                               	arcade::library::LibLapin::clear()
 {
   bunny_clear(&this->win->buffer, BLACK);
-//  bunny_set_loop_main_function(&clear_loop);
-//  bunny_loop(this->win, 30, this);
 }
 
 void                               	arcade::library::LibLapin::display()
 {
   bunny_display(this->win);
-//  bunny_set_loop_main_function(&display_loop);
-//  bunny_loop(this->win, 30, this);
 }
 
 void 					arcade::library::LibLapin::playMusic(const std::string &music)
