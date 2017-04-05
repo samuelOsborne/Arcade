@@ -99,7 +99,7 @@ void                              	arcade::library::LibLapin::drawText(const std
   }
 }
 
-void                               	arcade::library::LibLapin::clear()
+void                               	arcade::library::LibLapin::winClear()
 {
   bunny_clear(&this->win->buffer, BLACK);
 }
