@@ -41,7 +41,7 @@ arcade::library::LibNcurses::~LibNcurses()
 
 void	arcade::library::LibNcurses::openWindow()
 {
-//  raw();
+  raw();
   initscr();
   noecho();
   cbreak();
@@ -73,15 +73,34 @@ bool	arcade::library::LibNcurses::isEventQuit()
 
 arcade::CommandType	arcade::library::LibNcurses::processInput()
 {
-  if (getch() == KEY_LEFT)
+  int 			key;
+
+  key = getch();
+  if (key == KEY_LEFT)
     return (arcade::CommandType::GO_LEFT);
-  else if (getch() == KEY_RIGHT)
+  if (key == KEY_RIGHT)
     return (arcade::CommandType::GO_RIGHT);
-  else if (getch() == KEY_UP)
+  if (key == KEY_UP)
     return (arcade::CommandType::GO_UP);
-  else if (getch() == KEY_DOWN)
+  if (key == KEY_DOWN)
     return (arcade::CommandType::GO_DOWN);
-  return (arcade::CommandType::GET_MAP);
+  if (key == '2')
+    return (arcade::CommandType::PREV_LIB);
+  if (key == '3')
+    return (arcade::CommandType::NEXT_LIB);
+  if (key == '4')
+    return (arcade::CommandType::PREV_GAME);
+  if (key == '5')
+    return (arcade::CommandType::NEXT_GAME);
+  if (key == 10)
+    return (arcade::CommandType::LAUNCH);
+  if (key == 27)
+    return (arcade::CommandType::EXIT);
+  if (key == '8')
+    return (arcade::CommandType::RESET);
+  if (key == '9')
+    return (arcade::CommandType::MENU);
+  return (arcade::CommandType::PLAY);
 }
 
 void	arcade::library::LibNcurses::drawText(const std::string &str, const arcade::Position &pos)

@@ -126,7 +126,7 @@ void	arcade::library::LibCaca::drawText(const std::string &str, const arcade::Po
   caca_put_str(this->canvas, pos.x / 8, pos.y / 16, str.c_str());
 }
 
-void	arcade::library::LibCaca::clear()
+void	arcade::library::LibCaca::winClear()
 {
   caca_clear_canvas(this->canvas);
 }

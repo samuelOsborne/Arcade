@@ -5,10 +5,10 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Fri Mar 31 15:56:29 2017 Lucas Villeneuve
-## Last update Fri Mar 31 15:59:31 2017 Lucas Villeneuve
+## Last update Tue Apr  4 10:24:14 2017 Samuel Osborne
 ##
 
-NAME		=	../arcade_pacman.so
+NAME		=	../lib_arcade_pacman.so
 
 SRCPATH		=	./src
 INCPATH		=	./include

@@ -5,10 +5,10 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Mon Mar 20 13:49:12 2017 Lucas Villeneuve
-## Last update Sat Mar 25 20:13:14 2017 Lucas Villeneuve
+## Last update Tue Apr  4 10:24:06 2017 Samuel Osborne
 ##
 
-NAME		=	../arcade_nibbler.so
+NAME		=	../lib_arcade_nibbler.so
 
 SRCPATH		=	./src
 INCPATH		=	./include
