@@ -24,8 +24,8 @@ arcade::Map::Map(const uint16_t _width, const uint16_t _height)
     {
       tmp.clear();
       j = 0;
-      while (j < _width)
-	tmp.push_back(new arcade::Floor(j++, i));
+      while (j++ < _width)
+	tmp.push_back(/*new arcade::Floor(j++, i)*/ 0);
       this->tiles.push_back(tmp);
       i++;
     }
@@ -65,6 +65,6 @@ void	arcade::Map::setTile(const arcade::Position &pos, arcade::IGameObject *type
   this->tiles[pos.y][pos.x] = type;
 }
 
-void	arcade::Map::deleteTile(const arcade::Position &pos)
+void	arcade::Map::deleteTile(__attribute__((unused))const arcade::Position &pos)
 {
 }

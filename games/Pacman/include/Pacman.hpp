@@ -70,9 +70,7 @@ namespace					arcade
       virtual ~Pacman() {};
 
       void					initEnemies();
-      arcade::Player				*getPlayer();
       void					runAi();
-      double 					calcDistance(arcade::Position, arcade::Position);
       virtual const std::vector<arcade::IGameObject*>	&getEnemies() const;
       virtual void				launch();
       virtual bool				playRound(const arcade::CommandType &cmd);

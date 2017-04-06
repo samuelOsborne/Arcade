@@ -265,6 +265,68 @@ const std::vector<arcade::IGameObject*>	&arcade::games::Pacman::getEnemies() con
   return (this->enemies);
 }
 
+extern "C"
+{
+void Play()
+{
+  arcade::CommandType cmd;
+  arcade::games::Pacman pacman;
+  struct arcade::WhereAmI *whereAmI;
+  struct arcade::GetMap *getMap;
+  int i;
+  std::vector<arcade::IGameObject *>::const_iterator it;
+  arcade::Position pos;
+
+  while (1)
+    {
+      std::cin.read(reinterpret_cast<char *>(&cmd), sizeof(arcade::CommandType));
+      if (std::cin.eof())
+	return;
+      if (cmd == arcade::CommandType::WHERE_AM_I)
+	{
+	  whereAmI = new arcade::WhereAmI[sizeof(arcade::Position) + sizeof(arcade::WhereAmI)];
+	  whereAmI->type = cmd;
+	  whereAmI->lenght = 1;
+	  whereAmI->position[0] = pacman.getPlayer()->getPos();
+	  std::cout.write(reinterpret_cast<char *>(whereAmI),
+			  4 * sizeof(arcade::Position) +
+			  sizeof(arcade::WhereAmI));
+	}
+
+      if (cmd == arcade::CommandType::GET_MAP)
+	{
+	  getMap = new arcade::GetMap[28 * 31 * sizeof(arcade::TileType) +
+				      sizeof(arcade::GetMap)];
+	  getMap->type = cmd;
+	  getMap->height = 31;
+	  getMap->width = 28;
+	  i = 0;
+	  while (i < 28 * 31)
+	    {
+	      pos.y = i / 31;
+	      pos.x = i % 28;
+	      getMap->tile[i] = pacman.getMap().getTile(pos)->getTileType();
+	      i++;
+	    }
+	  std::cout.write(reinterpret_cast<char *>(getMap),
+			  28 * 31 * sizeof(arcade::TileType) +
+			  sizeof(arcade::GetMap));
+	}
+
+      if (cmd == arcade::CommandType::GO_UP ||
+	  cmd == arcade::CommandType::GO_DOWN ||
+	  cmd == arcade::CommandType::GO_LEFT ||
+	  cmd == arcade::CommandType::GO_RIGHT)
+	pacman.playRound(cmd);
+/*
+      if (cmd == arcade::CommandType::PLAY)
+	nibbler.playRound(cmdbuff);
+*/
+
+    }
+}
+}
+
 extern "C" arcade::games::IGame	*entry_point()
 {
   return (new arcade::games::Pacman());

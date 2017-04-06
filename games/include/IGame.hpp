@@ -31,7 +31,7 @@ namespace 				arcade
       virtual const std::vector<arcade::IGameObject*> &getEnemies() const = 0;
       virtual bool				playRound(const arcade::CommandType &cmd) = 0;
 /*    virtual std::string			getScore() const = 0; */
-      /* virtual const std::vector<IGameObject*> &getStrings() const = 0; */
+//      virtual const std::vector<IGameObject*> &getStrings() const = 0;
     };
   }
 }

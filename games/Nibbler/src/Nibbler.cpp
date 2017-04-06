@@ -31,7 +31,7 @@ arcade::games::Nibbler::Nibbler()
   this->body.push_back(new arcade::games::NibblerBody(3, 5));
   this->body.push_back(new arcade::games::NibblerBody(2, 5));
   this->player.setSprite("./misc/Nibbler/snake");
-  this->oldcmd = arcade::CommandType::ILLEGAL;
+  this->oldcmd = arcade::CommandType::GO_RIGHT;
   pos.y = 0;
   while (pos.y < this->map.getHeight())
     {
@@ -210,8 +210,7 @@ bool	arcade::games::Nibbler::playRound(const arcade::CommandType &cmd)
 {
   if (cmd == arcade::CommandType::PLAY)
     {
-      if (this->oldcmd != arcade::CommandType::ILLEGAL)
-	this->moveBody();
+      this->moveBody();
       return (this->processCmd(this->oldcmd));
     }
   else
@@ -219,6 +218,92 @@ bool	arcade::games::Nibbler::playRound(const arcade::CommandType &cmd)
       this->moveBody();
       return (this->processCmd(cmd));
     }
+}
+
+#include <unistd.h>
+
+extern "C"
+{
+void                		Play()
+{
+  arcade::CommandType		cmd;
+  arcade::CommandType		cmdbuff;
+  arcade::games::Nibbler	nibbler;
+  struct arcade::WhereAmI	*whereAmI;
+  struct arcade::GetMap		*getMap;
+  uint16_t			length;
+  int 				i;
+  std::vector<arcade::IGameObject*>::const_iterator it;
+  arcade::Position		pos;
+
+  cmdbuff = arcade::CommandType::PLAY;
+  while (1)
+    {
+      std::cin.read(reinterpret_cast<char*>(&cmd), sizeof(arcade::CommandType));
+      if (std::cin.eof())
+	return ;
+
+      if (cmd == arcade::CommandType::WHERE_AM_I)
+	{
+	  length = 1 + nibbler.getEnemies().size();
+	  whereAmI = new arcade::WhereAmI[length * sizeof(arcade::Position) + sizeof(arcade::WhereAmI)];
+	  whereAmI->type = cmd;
+	  whereAmI->lenght = length;
+	  it = nibbler.getEnemies().begin();
+	  i = 0;
+	  while (i < length)
+	    {
+	      if (i == 0)
+		whereAmI->position[i] = nibbler.getPlayer()->getPos();
+	      else
+		{
+		  whereAmI->position[i] = (*it)->getPos();
+		  it++;
+		}
+	      i++;
+	    }
+	  std::cout.write(reinterpret_cast<char*>(whereAmI),
+			  length * sizeof(arcade::Position) + sizeof(arcade::WhereAmI));
+	}
+
+      if (cmd == arcade::CommandType::GET_MAP)
+	{
+	  getMap = new arcade::GetMap[15 * 15 * sizeof(arcade::TileType) +
+				      sizeof(arcade::GetMap)];
+	  getMap->type = cmd;
+	  getMap->height = 15;
+	  getMap->width = 15;
+	  int i = 0;
+	  while (i < 15 * 15)
+	    {
+	      pos.y = i / 15;
+	      pos.x = i % 15;
+	      getMap->tile[i] = nibbler.getMap().getTile(pos)->getTileType();
+	      i++;
+	    }
+	  std::cout.write(reinterpret_cast<char *>(getMap),
+			  15 * 15 * sizeof(arcade::TileType) +
+			  sizeof(arcade::GetMap));
+	}
+
+      if (cmd == arcade::CommandType::GO_UP || cmd == arcade::CommandType::GO_DOWN ||
+      	cmd == arcade::CommandType::GO_LEFT || cmd == arcade::CommandType::GO_RIGHT)
+	{
+	  cmdbuff = cmd;
+	}
+      if (cmd == arcade::CommandType::GO_FORWARD)
+	nibbler.playRound(arcade::CommandType::GO_RIGHT);
+
+/*      if (cmd == arcade::CommandType::SHOOT)
+	nibbler.playRound(cmd);
+      if (cmd == arcade::CommandType::ILLEGAL)
+	nibbler.playRound(cmd);
+ */
+      if (cmd == arcade::CommandType::PLAY)
+	nibbler.playRound(cmdbuff);
+
+    }
+}
 }
 
 extern "C" arcade::games::IGame	*entry_point()

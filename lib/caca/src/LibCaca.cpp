@@ -109,10 +109,7 @@ arcade::CommandType	arcade::library::LibCaca::processInput()
       if (key == CACA_KEY_RETURN)
 	return (arcade::CommandType::LAUNCH);
       if (key == CACA_KEY_ESCAPE)
-	{
-	  std::cout << "OUI" << std::endl;
-	  return (arcade::CommandType::EXIT);
-	}
+	return (arcade::CommandType::EXIT);
       if (key == '8')
 	return (arcade::CommandType::RESET);
       if (key == '9')

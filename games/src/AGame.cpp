@@ -46,7 +46,9 @@ const arcade::IGameObject	*arcade::games::AGame::getPlayer() const
   return (&this->player);
 }
 
+/*
 std::string	arcade::games::AGame::getScore() const
 {
   return (std::to_string(this->score));
 }
+*/
