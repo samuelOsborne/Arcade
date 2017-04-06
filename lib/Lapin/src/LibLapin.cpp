@@ -35,7 +35,7 @@ arcade::library::LibLapin::LibLapin()
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::ENTER, sf::Keyboard::Key::Return));
   this->font = bunny_load_picture("./misc/font.png");
   this->font->scale.x = 2;
-  this->font->scale.y = 3;
+  this->font->scale.y = 2;
 }
 
 arcade::library::LibLapin::~LibLapin()
@@ -49,6 +49,14 @@ void	                        	arcade::library::LibLapin::openWindow()
 
 void                            	arcade::library::LibLapin::closeWindow()
 {
+  std::map<std::string, t_bunny_picture *>::iterator	pos;
+
+  bunny_delete_clipable(this->font);
+  pos = this->loadedTextures.begin();
+  while (pos != this->loadedTextures.end()) {
+    bunny_delete_clipable(pos->second);
+    pos++;
+  }
   bunny_stop(this->win);
 }
 
