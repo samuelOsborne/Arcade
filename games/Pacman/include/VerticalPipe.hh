@@ -20,9 +20,7 @@ namespace			arcade
     class			VerticalPipe : public arcade::Wall
     {
      public:
-      VerticalPipe(const uint16_t x, const uint16_t y)
-       : arcade::Wall(x, y)
-      {this->asset = "./misc/Pacman/Verticalpipe";}
+      VerticalPipe(const uint16_t x, const uint16_t y);
       VerticalPipe(const VerticalPipe &) = delete;
       VerticalPipe &operator=(const VerticalPipe &) = delete;
       ~VerticalPipe() {};

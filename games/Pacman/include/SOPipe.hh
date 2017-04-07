@@ -20,9 +20,7 @@ namespace			arcade
     class			SOPipe : public arcade::Wall
     {
      public:
-      SOPipe(const uint16_t x, const uint16_t y)
-       : arcade::Wall(x, y)
-      {this->asset = "./misc/Pacman/SOpipe";}
+      SOPipe(const uint16_t x, const uint16_t y);
       SOPipe(const SOPipe &) = delete;
       SOPipe &operator=(const SOPipe &) = delete;
       ~SOPipe() {};

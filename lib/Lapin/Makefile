@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sat Mar 11 17:28:24 2017 Lucas Villeneuve
-## Last update Mon Apr  3 15:56:40 2017 escorn_t
+## Last update Thu Apr  6 16:04:30 2017 escorn_t
 ##
 
 NAME		=	../lib_arcade_lapin.so
@@ -25,12 +25,11 @@ CXXFLAGS	=	-W -Wextra -Wall
 CXXFLAGS	+=	-std=c++11 -fPIC
 CXXFLAGS	+=	-I$(INCPATH) -I../../include
 CXXFLAGS	+=	-I/usr/include/gtk-3.0 -I/usr/lib64/gtk-3.0/include -I/usr/include/atk-1.0 -I/usr/include/cairo
-CXXFLAGS	+=	-I/usr/include/pango-1.0 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include
-CXXFLAGS	+=	-I/usr/include/pixman-1 -I/usr/include/freetype2 -I/usr/include/libpng12
+CXXFLAGS	+=	-I/usr/include/pango-1.0 -I/usr/include/glib-2.0
 
 LDFLAGS		+=	-L${HOME}/.froot/lib/
 LDFLAGS		+=	-llapin -lsfml-graphics -lsfml-window -lsfml-system
-LDFLAGS		+=	-lsfml-audio -lstdc++ -lm -ldl -lpthread -lglib-2.0
+LDFLAGS		+=	-lsfml-audio -lstdc++ -lm -ldl -lpthread
 
 RED		=	\033[0;31m
 GREEN		=	\033[0;32m

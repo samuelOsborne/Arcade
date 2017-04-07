@@ -20,9 +20,7 @@ namespace			arcade
     class			SEPipe : public arcade::Wall
     {
      public:
-      SEPipe(const uint16_t x, const uint16_t y)
-       : arcade::Wall(x, y)
-      {this->asset = "./misc/Pacman/SEpipe";}
+      SEPipe(const uint16_t x, const uint16_t y);
       SEPipe(const SEPipe &) = delete;
       SEPipe &operator=(const SEPipe &) = delete;
       ~SEPipe() {};

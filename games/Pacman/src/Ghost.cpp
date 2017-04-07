@@ -5,10 +5,16 @@
 ** Login   <samuel.osborne@epitech.eu>
 **
 ** Started on  Sat Mar 18 18:52:39 2017 Samuel Osborne
-** Last update Sat Mar 18 18:52:39 2017 Samuel Osborne
+// Last update Thu Apr  6 17:28:27 2017 escorn_t
 */
 
 #include "Ghost.hpp"
+
+arcade::games::Ghost::Ghost(uint16_t x, uint16_t y, std::string path) : arcade::Enemy(x, y)
+{
+  this->direction = arcade::CommandType::GO_UP;
+  this->asset = path;
+}
 
 arcade::games::Ghost::Ghost(const arcade::games::Ghost &other) : arcade::Enemy(other.getPos().x, other.getPos().y)
 {

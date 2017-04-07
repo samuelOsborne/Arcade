@@ -20,9 +20,7 @@ namespace			arcade
     class			NEPipe : public arcade::Wall
     {
      public:
-      NEPipe(const uint16_t x, const uint16_t y)
-       : arcade::Wall(x, y)
-      {this->asset = "./misc/Pacman/NEpipe";}
+      NEPipe(const uint16_t x, const uint16_t y);
       NEPipe(const NEPipe &) = delete;
       NEPipe &operator=(const NEPipe &) = delete;
       ~NEPipe() {};

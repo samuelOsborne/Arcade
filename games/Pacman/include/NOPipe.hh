@@ -20,9 +20,7 @@ namespace			arcade
     class			NOPipe : public arcade::Wall
     {
      public:
-      NOPipe(const uint16_t x, const uint16_t y)
-       : arcade::Wall(x, y)
-      {this->asset = "./misc/Pacman/NOpipe";}
+      NOPipe(const uint16_t x, const uint16_t y);
       NOPipe(const NOPipe &) = delete;
       NOPipe &operator=(const NOPipe &) = delete;
       ~NOPipe() {};
