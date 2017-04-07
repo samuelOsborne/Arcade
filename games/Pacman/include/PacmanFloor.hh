@@ -20,9 +20,7 @@ namespace			arcade
     class			PacmanFloor : public arcade::Floor
     {
      public:
-      PacmanFloor(const uint16_t x, const uint16_t y)
-       : arcade::Floor(x, y)
-      {this->asset = "./misc/Pacman/floor";}
+      PacmanFloor(const uint16_t x, const uint16_t y);
       PacmanFloor(const PacmanFloor &) = delete;
       PacmanFloor &operator=(const PacmanFloor &) = delete;
       ~PacmanFloor() {};

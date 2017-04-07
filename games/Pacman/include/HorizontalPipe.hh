@@ -20,9 +20,7 @@ namespace			arcade
     class			HorizontalPipe : public arcade::Wall
     {
      public:
-      HorizontalPipe(const uint16_t x, const uint16_t y)
-       : arcade::Wall(x, y)
-       {this->asset = "./misc/Pacman/Horizontalpipe";}
+      HorizontalPipe(const uint16_t x, const uint16_t y);
       HorizontalPipe(const HorizontalPipe &) = delete;
       HorizontalPipe &operator=(const HorizontalPipe &) = delete;
       ~HorizontalPipe() {};
