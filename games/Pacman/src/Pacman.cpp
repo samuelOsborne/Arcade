@@ -5,7 +5,7 @@
 ** Login   <samuel.osborne@epitech.eu>
 **
 ** Started on  Sat Mar 18 13:29:23 2017 Samuel Osborne
-** Last update Sat Mar 18 13:29:23 2017 Samuel Osborne
+// Last update Thu Apr  6 17:29:25 2017 escorn_t
 */
 
 #include <ctime>
@@ -51,10 +51,10 @@ arcade::games::Pacman::Pacman(const arcade::games::Pacman &other)
 
 void 						arcade::games::Pacman::initEnemies()
 {
-  this->enemies.push_back(new arcade::games::Ghost(13, 14));
-  this->enemies.push_back(new arcade::games::Ghost(14, 15));
-  this->enemies.push_back(new arcade::games::Ghost(15, 14));
-  this->enemies.push_back(new arcade::games::Ghost(14, 11));
+  this->enemies.push_back(new arcade::games::Ghost(13, 14, "./misc/Pacman/RedGhost"));
+  this->enemies.push_back(new arcade::games::Ghost(14, 15, "./misc/Pacman/BlueGhost"));
+  this->enemies.push_back(new arcade::games::Ghost(15, 14, "./misc/Pacman/PinkGhost"));
+  this->enemies.push_back(new arcade::games::Ghost(14, 11, "./misc/Pacman/OrangeGhost"));
 }
 
 arcade::games::Pacman 				&arcade::games::Pacman::operator=(const Pacman& other)

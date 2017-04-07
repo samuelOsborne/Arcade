@@ -22,12 +22,7 @@ namespace 			arcade
       arcade::CommandType	direction;
 
      public:
-      Ghost(uint16_t x, uint16_t y) : Enemy(x, y)
-      {
-	this->direction = arcade::CommandType::GO_UP;
-	this->asset = "./misc/Pacman/RedGhost";
-      };
-
+      Ghost(uint16_t x, uint16_t y, std::string path);
       Ghost(const Ghost &);
       Ghost &operator=(const Ghost &);
       ~Ghost() {};
