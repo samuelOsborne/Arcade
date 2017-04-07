@@ -60,9 +60,14 @@ arcade::IGameObject	*arcade::Map::getTile(const arcade::Position &pos) const
   return (this->tiles[pos.y][pos.x]);
 }
 
-void	arcade::Map::setTile(const arcade::Position &pos, arcade::IGameObject *type)
+void	arcade::Map::setTile(const arcade::Position &pos, arcade::IGameObject *tile)
 {
-  this->tiles[pos.y][pos.x] = type;
+  this->tiles[pos.y][pos.x] = tile;
+}
+
+void arcade::Map::setTile(uint16_t x, uint16_t y, arcade::IGameObject *tile)
+{
+  this->tiles[y][x] = tile;
 }
 
 void	arcade::Map::deleteTile(__attribute__((unused))const arcade::Position &pos)

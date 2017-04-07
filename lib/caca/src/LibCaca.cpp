@@ -49,7 +49,7 @@ void	arcade::library::LibCaca::openWindow()
    * Width = 8 * nbWidth
    * Height = 16 * nbLength
    */
-  this->canvas = caca_create_canvas(38, 38);
+  this->canvas = caca_create_canvas(50, 31);
   this->window = caca_create_display(this->canvas);
 }
 
@@ -73,11 +73,13 @@ bool		arcade::library::LibCaca::isEventQuit()
 {
   caca_event_t	event;
 
-  caca_get_event(this->window, CACA_EVENT_ANY, &event, 0);
-  if (caca_get_event_type(&event) == CACA_EVENT_QUIT)
-      return (true);
-  else if (caca_get_event_key_ch(&event) == CACA_KEY_ESCAPE)
-    return (true);
+  if (caca_get_event(this->window, CACA_EVENT_ANY, &event, 0) == 1)
+    {
+      if (caca_get_event_type(&event) == CACA_EVENT_QUIT)
+	return (true);
+      else if (caca_get_event_key_ch(&event) == CACA_KEY_ESCAPE)
+	return (true);
+    }
   return (false);
 }
 
@@ -89,7 +91,6 @@ arcade::CommandType	arcade::library::LibCaca::processInput()
   if (caca_get_event(this->window, CACA_EVENT_KEY_PRESS, &event, 0) == 1)
     {
       key = caca_get_event_key_ch(&event);
-      std::cout << "Input : " << key << std::endl;
       if (key == CACA_KEY_LEFT)
 	return (arcade::CommandType::GO_LEFT);
       if (key == CACA_KEY_RIGHT)

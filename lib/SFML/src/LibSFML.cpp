@@ -79,7 +79,8 @@ bool		arcade::library::LibSFML::isEventQuit()
   sf::Event	event;
 
   if (this->window.pollEvent(event))
-    if (event.type == sf::Event::Closed || event.key.code == sf::Keyboard::Escape)
+    if (event.type == sf::Event::Closed ||
+     	(event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
       return (true);
   return (false);
 }

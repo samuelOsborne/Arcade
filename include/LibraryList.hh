@@ -28,8 +28,11 @@ namespace			arcade
     ~LibraryList() {};
 
     const char 			*getName() const;
+    unsigned long		getSize() const;
+    int 			getIndex() const;
     void 			incrementIndex();
     void 			decrementIndex();
+    const std::string		&operator[](int i);
   };
 
 };

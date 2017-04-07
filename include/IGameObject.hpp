@@ -23,6 +23,7 @@ namespace 			arcade
 
     virtual arcade::Position 	getPos() const = 0;
     virtual void 		setPos(const arcade::Position &pos) = 0;
+    virtual void		setPos(uint16_t x, uint16_t y) = 0;
     virtual std::string 	getSprite() const = 0;
     virtual void 		setSprite(const std::string &) = 0;
     virtual arcade::TileType 	getTileType() const = 0;

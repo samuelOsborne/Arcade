@@ -220,21 +220,17 @@ bool	arcade::games::Nibbler::playRound(const arcade::CommandType &cmd)
     }
 }
 
-#include <unistd.h>
-
-extern "C"
+extern "C" void                				Play()
 {
-void                		Play()
-{
-  arcade::CommandType		cmd;
-  arcade::CommandType		cmdbuff;
-  arcade::games::Nibbler	nibbler;
-  struct arcade::WhereAmI	*whereAmI;
-  struct arcade::GetMap		*getMap;
-  uint16_t			length;
-  int 				i;
-  std::vector<arcade::IGameObject*>::const_iterator it;
-  arcade::Position		pos;
+  arcade::CommandType					cmd;
+  arcade::CommandType					cmdbuff;
+  arcade::games::Nibbler				nibbler;
+  struct arcade::WhereAmI				*whereAmI;
+  struct arcade::GetMap					*getMap;
+  std::vector<arcade::IGameObject*>::const_iterator	it;
+  arcade::Position					pos;
+  uint16_t						length;
+  int 							i;
 
   cmdbuff = arcade::CommandType::PLAY;
   while (1)
@@ -264,6 +260,7 @@ void                		Play()
 	    }
 	  std::cout.write(reinterpret_cast<char*>(whereAmI),
 			  length * sizeof(arcade::Position) + sizeof(arcade::WhereAmI));
+	  delete whereAmI;
 	}
 
       if (cmd == arcade::CommandType::GET_MAP)
@@ -278,32 +275,21 @@ void                		Play()
 	    {
 	      pos.y = i / 15;
 	      pos.x = i % 15;
-	      getMap->tile[i] = nibbler.getMap().getTile(pos)->getTileType();
+	      getMap->tile[i] = nibbler.getMap()->getTile(pos)->getTileType();
 	      i++;
 	    }
 	  std::cout.write(reinterpret_cast<char *>(getMap),
 			  15 * 15 * sizeof(arcade::TileType) +
 			  sizeof(arcade::GetMap));
+	  delete getMap;
 	}
 
       if (cmd == arcade::CommandType::GO_UP || cmd == arcade::CommandType::GO_DOWN ||
-      	cmd == arcade::CommandType::GO_LEFT || cmd == arcade::CommandType::GO_RIGHT)
-	{
-	  cmdbuff = cmd;
-	}
-      if (cmd == arcade::CommandType::GO_FORWARD)
-	nibbler.playRound(arcade::CommandType::GO_RIGHT);
-
-/*      if (cmd == arcade::CommandType::SHOOT)
-	nibbler.playRound(cmd);
-      if (cmd == arcade::CommandType::ILLEGAL)
-	nibbler.playRound(cmd);
- */
+	  cmd == arcade::CommandType::GO_LEFT || cmd == arcade::CommandType::GO_RIGHT)
+	cmdbuff = cmd;
       if (cmd == arcade::CommandType::PLAY)
 	nibbler.playRound(cmdbuff);
-
     }
-}
 }
 
 extern "C" arcade::games::IGame	*entry_point()

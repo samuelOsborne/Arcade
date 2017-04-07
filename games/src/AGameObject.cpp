@@ -65,3 +65,9 @@ void	arcade::AGameObject::setTileType(const arcade::TileType &tileType)
 {
   this->type = tileType;
 }
+
+void 			arcade::AGameObject::setPos(uint16_t x, uint16_t y)
+{
+  this->pos.x = x;
+  this->pos.y = y;
+}

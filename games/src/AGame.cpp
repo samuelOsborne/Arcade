@@ -36,9 +36,12 @@ std::string arcade::games::AGame::getName() const
   return (this->name);
 }
 
-const arcade::Map	&arcade::games::AGame::getMap() const
+const arcade::IMap	*arcade::games::AGame::getMap() const
 {
-  return (this->map);
+  const arcade::IMap	*_map;
+
+  _map = &this->map;
+  return (_map);
 }
 
 const arcade::IGameObject	*arcade::games::AGame::getPlayer() const

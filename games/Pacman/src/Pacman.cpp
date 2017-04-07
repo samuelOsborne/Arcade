@@ -35,7 +35,32 @@ arcade::games::Pacman::Pacman()
   this->oldcmd = arcade::CommandType::ILLEGAL;
   this->score = 0;
   srand(time(0));
-  this->launch();
+  pos.y = 0;
+  while (pos.y < this->map.getHeight())
+    {
+      pos.x = 0;
+      while (pos.x < this->map.getWidth())
+	{
+	  if (this->textmap[pos.y][pos.x] == 0)
+	    this->map.setTile(pos, new arcade::games::PacmanFloor(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 1)
+	    this->map.setTile(pos, new arcade::games::HorizontalPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 2)
+	    this->map.setTile(pos, new arcade::games::VerticalPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 3)
+	    this->map.setTile(pos, new arcade::games::NOPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 4)
+	    this->map.setTile(pos, new arcade::games::NEPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 5)
+	    this->map.setTile(pos, new arcade::games::SEPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 6)
+	    this->map.setTile(pos, new arcade::games::SOPipe(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 7)
+	    this->map.setTile(pos, new arcade::games::Pacgum(pos.x, pos.y));
+	  pos.x++;
+	}
+      pos.y++;
+    }
   this->initEnemies();
 }
 
@@ -68,34 +93,6 @@ arcade::games::Pacman 				&arcade::games::Pacman::operator=(const Pacman& other)
 
 void			arcade::games::Pacman::launch()
 {
-  arcade::Position	pos;
-
-  pos.y = 0;
-  while (pos.y < this->map.getHeight())
-    {
-      pos.x = 0;
-      while (pos.x < this->map.getWidth())
-	{
-	  if (this->textmap[pos.y][pos.x] == 0)
-	    this->map.setTile(pos, new arcade::games::PacmanFloor(pos.x, pos.y));
-	  else if (this->textmap[pos.y][pos.x] == 1)
-	    this->map.setTile(pos, new arcade::games::HorizontalPipe(pos.x, pos.y));
-	  else if (this->textmap[pos.y][pos.x] == 2)
-	    this->map.setTile(pos, new arcade::games::VerticalPipe(pos.x, pos.y));
-	  else if (this->textmap[pos.y][pos.x] == 3)
-	    this->map.setTile(pos, new arcade::games::NOPipe(pos.x, pos.y));
-	  else if (this->textmap[pos.y][pos.x] == 4)
-	    this->map.setTile(pos, new arcade::games::NEPipe(pos.x, pos.y));
-	  else if (this->textmap[pos.y][pos.x] == 5)
-	    this->map.setTile(pos, new arcade::games::SEPipe(pos.x, pos.y));
-	  else if (this->textmap[pos.y][pos.x] == 6)
-	    this->map.setTile(pos, new arcade::games::SOPipe(pos.x, pos.y));
-	  else if (this->textmap[pos.y][pos.x] == 7)
-	    this->map.setTile(pos, new arcade::games::Pacgum(pos.x, pos.y));
-	  pos.x++;
-	}
-      pos.y++;
-    }
 }
 
 void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
@@ -305,7 +302,7 @@ void Play()
 	    {
 	      pos.y = i / 31;
 	      pos.x = i % 28;
-	      getMap->tile[i] = pacman.getMap().getTile(pos)->getTileType();
+	      getMap->tile[i] = pacman.getMap()->getTile(pos)->getTileType();
 	      i++;
 	    }
 	  std::cout.write(reinterpret_cast<char *>(getMap),
@@ -318,11 +315,6 @@ void Play()
 	  cmd == arcade::CommandType::GO_LEFT ||
 	  cmd == arcade::CommandType::GO_RIGHT)
 	pacman.playRound(cmd);
-/*
-      if (cmd == arcade::CommandType::PLAY)
-	nibbler.playRound(cmdbuff);
-*/
-
     }
 }
 }

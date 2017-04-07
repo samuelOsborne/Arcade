@@ -41,6 +41,11 @@ const char	*arcade::LibraryList::getName() const
     return (NULL);
 }
 
+int	arcade::LibraryList::getIndex() const
+{
+  return (this->index);
+}
+
 void	arcade::LibraryList::incrementIndex()
 {
   this->index++;
@@ -53,4 +58,14 @@ void 	arcade::LibraryList::decrementIndex()
   this->index--;
   if (this->index <= -1)
     this->index = static_cast<int>(this->list.size() - 1);
+}
+
+unsigned long	arcade::LibraryList::getSize() const
+{
+  return (this->list.size());
+}
+
+const std::string	&arcade::LibraryList::operator[](int i)
+{
+  return (this->list[i]);
 }

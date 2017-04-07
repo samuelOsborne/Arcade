@@ -35,8 +35,10 @@ namespace						arcade
     virtual uint16_t 					getWidth() const;
     virtual uint16_t 					getHeight() const;
     arcade::IGameObject					*getTile(const arcade::Position &pos) const;
-    void 						setTile(const arcade::Position &pos,
-								arcade::IGameObject *type);
+    virtual void 					setTile(const arcade::Position &pos,
+								arcade::IGameObject *tile);
+    virtual void					setTile(uint16_t x, uint16_t y,
+								arcade::IGameObject *tile);
     virtual void 					deleteTile(const Position &pos);
   };
 

@@ -24,8 +24,6 @@ arcade::Menu::Menu(const char *nameLib)
   this->cmd = arcade::CommandType::UNKNOWN;
   this->bufferCmd = arcade::CommandType::PLAY;
   this->setLib(nameLib);
-  if (this->gamesList.getName())
-    this->setGame(this->gamesList.getName());
   this->lib->playMusic("./misc/CrashTheme.wav");
 //  this->lib->playMusic("./misc/Pacman/Pacman.wav");
 }
@@ -102,7 +100,7 @@ void 	arcade::Menu::switchGame(const MenuIndexLib &switchType)
   this->setGame(this->gamesList.getName());
 }
 
-void			arcade::Menu::drawMap(const arcade::Map &map)
+void			arcade::Menu::drawMap(const arcade::IMap *map)
 {
   uint16_t		width;
   uint16_t		height;
@@ -110,8 +108,8 @@ void			arcade::Menu::drawMap(const arcade::Map &map)
   uint16_t		j;
   arcade::Position	pos;
 
-  width = map.getWidth();
-  height = map.getHeight();
+  width = map->getWidth();
+  height = map->getHeight();
   i = 0;
   while (i < height)
     {
@@ -120,7 +118,7 @@ void			arcade::Menu::drawMap(const arcade::Map &map)
 	{
 	  pos.x = j;
 	  pos.y = i;
-	  this->lib->drawGameObject(map.getTile(pos));
+	  this->lib->drawGameObject(map->getTile(pos));
 	  j++;
 	}
       i++;
@@ -153,19 +151,11 @@ void	arcade::Menu::eventHandler()
     this->switchGame(MenuIndexLib::DECREMENT);
   else if (this->cmd == arcade::CommandType::NEXT_GAME)
     this->switchGame(MenuIndexLib::INCREMENT);
-  if (this->cmd == arcade::CommandType::LAUNCH && !this->gameLaunched)
+  if (this->cmd == arcade::CommandType::LAUNCH && !this->gameLaunched && this->gamesList.getName())
     {
       this->bufferCmd = arcade::CommandType::PLAY;
-      if (this->game != 0)
-	{
-	  this->game->launch();
-	  this->gameLaunched = true;
-	}
-      else if (this->gamesList.getName())
-	{
-	  this->setGame(this->gamesList.getName());
-	  this->gameLaunched = true;
-	}
+      this->setGame(this->gamesList.getName());
+      this->gameLaunched = true;
       std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
   if (this->cmd == arcade::CommandType::RESET && this->gameLaunched)
@@ -184,9 +174,10 @@ void	arcade::Menu::eventHandler()
     }
 }
 
-void 				arcade::Menu::update()
+void 			arcade::Menu::update()
 {
-  arcade::Position		pos;
+  arcade::Position	pos;
+  int 			i;
 /*
   arcade::Position		posScore;
   posScore.x = 900;
@@ -215,19 +206,33 @@ void 				arcade::Menu::update()
     {
       pos.y = 0;
       this->lib->drawText("Controls :", pos);
-      pos.y = 35;
+      pos.y += 35;
       this->lib->drawText("2 : Prev. lib", pos);
-      pos.y = 70;
+      pos.y += 35;
       this->lib->drawText("3 : Next lib", pos);
-      pos.y = 95;
-      if (this->game != 0)
-	this->lib->drawText("4 : Launch " + this->game->getName(), pos);
-      else
-	this->lib->drawText("4 : Set game and launch", pos);
-      pos.y = 130;
+      pos.y += 35;
+      this->lib->drawText("4 : Next game", pos);
+      pos.y += 35;
+      this->lib->drawText("5 : Prev. game", pos);
+      pos.y += 35;
       this->lib->drawText("8 : Reset game", pos);
-      pos.y = 155;
+      pos.y += 35;
       this->lib->drawText("9 : Return to menu", pos);
+      i = 0;
+      pos.x = 180;
+      pos.y = 35;
+      while (i < static_cast<int >(this->gamesList.getSize()))
+	{
+	  pos.y += 25;
+	  pos.x -= 30;
+	  if (i == this->gamesList.getIndex())
+	    this->lib->drawText("[X]", pos);
+	  else
+	    this->lib->drawText("[ ]", pos);
+	  pos.x += 30;
+	  this->lib->drawText(this->gamesList[i], pos);
+	  i++;
+	}
     }
 }
 
