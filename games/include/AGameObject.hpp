@@ -25,7 +25,6 @@ namespace 				arcade
     std::string				asset;
     arcade::Position			pos;
     arcade::TileType 			type;
-    arcade::games::ExtTileType 		extType;
 
    public:
     AGameObject(const uint16_t, const uint16_t);

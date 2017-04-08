@@ -56,7 +56,6 @@ namespace 					arcade
       ~Nibbler() {};
 
       virtual const std::vector<arcade::IGameObject*>	&getEnemies() const;
-      virtual void				launch();
       virtual bool				playRound(const arcade::CommandType &cmd);
     };
 

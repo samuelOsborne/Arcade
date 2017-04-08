@@ -28,10 +28,7 @@ namespace 		arcade
       this->dlhandle = 0;
     };
 
-    ~DLLoader<T>()
-    {
-      this->dlhandle = 0;
-    };
+    ~DLLoader<T>() {};
 
     T			getInstance(const char *name)
     {
@@ -54,6 +51,7 @@ namespace 		arcade
     {
       if (this->dlhandle != 0)
 	dlclose(this->dlhandle);
+      this->dlhandle = 0;
     }
 
   };

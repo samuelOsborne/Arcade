@@ -50,11 +50,6 @@ arcade::games::Nibbler::Nibbler()
   this->spawnFruit();
 }
 
-void	arcade::games::Nibbler::launch()
-{
-  std::cout << "NIBBLER LAUNCHED" << std::endl;
-}
-
 bool	arcade::games::Nibbler::checkIfCanMove(const arcade::Position &pos) const
 {
   return (((this->map.getTile(pos)->getTileType() == arcade::TileType::EMPTY ||
@@ -81,7 +76,6 @@ bool			arcade::games::Nibbler::processCmd(const arcade::CommandType &cmd)
   arcade::Position	pos;
 
   pos = this->player.getPos();
-
   if (cmd == arcade::CommandType::GO_RIGHT)
     {
       if (this->oldcmd == arcade::CommandType::GO_LEFT)
@@ -208,16 +202,12 @@ arcade::Position	arcade::games::Nibbler::getPosBodyFreeCase() const
 
 bool	arcade::games::Nibbler::playRound(const arcade::CommandType &cmd)
 {
-  if (cmd == arcade::CommandType::PLAY)
-    {
-      this->moveBody();
-      return (this->processCmd(this->oldcmd));
-    }
+  this->moveBody();
+  if (cmd != arcade::CommandType::GO_RIGHT && cmd != arcade::CommandType::GO_LEFT
+      && cmd != arcade::CommandType::GO_DOWN && cmd != arcade::CommandType::GO_UP)
+    return (this->processCmd(this->oldcmd));
   else
-    {
-      this->moveBody();
-      return (this->processCmd(cmd));
-    }
+    return (this->processCmd(cmd));
 }
 
 extern "C" void                				Play()

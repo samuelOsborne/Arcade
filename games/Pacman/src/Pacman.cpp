@@ -91,10 +91,6 @@ arcade::games::Pacman 				&arcade::games::Pacman::operator=(const Pacman& other)
   return (*this);
 }
 
-void			arcade::games::Pacman::launch()
-{
-}
-
 void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
 {
   arcade::Position		pos;
@@ -250,7 +246,7 @@ bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
   this->runAi();
   if (this->checkCollision())
     return (false);
-  if (cmd == arcade::CommandType::PLAY
+  if ((cmd == arcade::CommandType::PLAY || cmd == arcade::CommandType::LAUNCH)
       && this->oldcmd != arcade::CommandType::ILLEGAL)
     return (this->processCmd(this->oldcmd));
   else
@@ -286,8 +282,7 @@ void Play()
 	  whereAmI->lenght = 1;
 	  whereAmI->position[0] = pacman.getPlayer()->getPos();
 	  std::cout.write(reinterpret_cast<char *>(whereAmI),
-			  4 * sizeof(arcade::Position) +
-			  sizeof(arcade::WhereAmI));
+			  sizeof(arcade::Position) + sizeof(arcade::WhereAmI));
 	}
 
       if (cmd == arcade::CommandType::GET_MAP)

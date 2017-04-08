@@ -33,7 +33,6 @@ arcade::Player::Player(const arcade::Player& other)
     {
       this->pos = other.pos;
       this->powerup = other.powerup;
-      this->extType = other.extType;
       this->type = other.type;
     }
 }
@@ -44,7 +43,6 @@ arcade::Player		&arcade::Player::operator=(const Player &other)
     {
       this->pos = other.pos;
       this->powerup = other.powerup;
-      this->extType = other.extType;
       this->type = other.type;
     }
   return (*this);

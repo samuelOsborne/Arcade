@@ -31,10 +31,12 @@ bool	arcade::games::AGame::checkIfCanMove(const arcade::Position &pos) const
       this->map.getTile(pos)->getTileType() == arcade::TileType::OTHER));
 }
 
+/*
 std::string arcade::games::AGame::getName() const
 {
   return (this->name);
 }
+*/
 
 const arcade::IMap	*arcade::games::AGame::getMap() const
 {
@@ -49,9 +51,11 @@ const arcade::IGameObject	*arcade::games::AGame::getPlayer() const
   return (&this->player);
 }
 
-/*
-std::string	arcade::games::AGame::getScore() const
+const std::vector<arcade::IGameObject*>	&arcade::games::AGame::getStrings() const
 {
-  return (std::to_string(this->score));
+  std::vector<IGameObject*>		*ret;
+
+//  ret.push_back(new arcade::String(40, 10, std::to_string(this->score)));
+  ret = 0;
+  return (*ret);
 }
-*/
