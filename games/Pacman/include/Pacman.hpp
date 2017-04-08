@@ -23,6 +23,8 @@ namespace					arcade
     class 					Pacman : public arcade::games::AGame
     {
       int 					count;
+      int 					endGameCount;
+      bool 					waka;
       arcade::CommandType 			oldcmd;
       std::vector<arcade::games::IGameObject*>	enemies;
       char 					textmap[31][28] = {{3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
@@ -63,6 +65,7 @@ namespace					arcade
 							     const arcade::CommandType &cmd);
       void 					moveAi(arcade::games::Ghost*);
       bool 					checkCollision() const;
+      void 					rotatePacman(int dir);
 
      public:
       Pacman();

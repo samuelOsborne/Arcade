@@ -16,6 +16,7 @@
 #include "NibblerWall.hh"
 #include "NibblerBody.hh"
 #include "NibblerFruit.hh"
+#include "String.hh"
 
 arcade::games::Nibbler::Nibbler()
  : AGame(15, 15)
@@ -45,7 +46,7 @@ arcade::games::Nibbler::Nibbler()
   	}
       pos.y++;
     }
-  this->strings.push_back(new arcade::String(40, 10, std::to_string(this->score)));
+  this->strings.push_back(new arcade::String(0, 0, std::to_string(this->score)));
   std::srand(std::time(0));
   this->spawnFruit();
 }
