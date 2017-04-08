@@ -5,7 +5,7 @@
 ** Login   <samuel.osborne@epitech.eu>
 **
 ** Started on  Wed Mar 15 16:56:32 2017 Samuel Osborne
-** Last update Wed Mar 15 16:56:32 2017 Samuel Osborne
+// Last update Sat Apr  8 16:44:18 2017 escorn_t
 */
 
 #ifndef ARCADE_AGAME_HPP_
@@ -14,7 +14,7 @@
 # include "Map.hh"
 # include "Player.hpp"
 # include "IGame.hpp"
-# include "String.hh"
+//# include "String.hh"
 
 namespace 					arcade
 {

@@ -5,7 +5,7 @@
 ** Login   <samuel.osborne@epitech.eu>
 **
 ** Started on  Sat Mar 18 13:29:23 2017 Samuel Osborne
-// Last update Thu Apr  6 17:29:25 2017 escorn_t
+// Last update Sat Apr  8 16:44:48 2017 escorn_t
 */
 
 #include <ctime>
@@ -29,9 +29,9 @@ arcade::games::Pacman::Pacman()
 {
   arcade::Position pos;
 
-  this->name = "Pacman";
   pos.x = 14;
   pos.y = 23;
+  this->count = 0;
   this->player.setPos(pos);
   this->oldcmd = arcade::CommandType::ILLEGAL;
   this->score = 0;
@@ -74,6 +74,7 @@ arcade::games::Pacman::Pacman(const arcade::games::Pacman &other)
     {
       this->player = other.player;
       this->enemies = other.enemies;
+      this->count = other.count;
     }
 }
 
@@ -92,10 +93,6 @@ arcade::games::Pacman 				&arcade::games::Pacman::operator=(const Pacman& other)
       this->player = other.player;
     }
   return (*this);
-}
-
-void			arcade::games::Pacman::launch()
-{
 }
 
 void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
@@ -169,8 +166,11 @@ void			arcade::games::Pacman::takePowerUp(const arcade::Position &pos)
   if (this->map.getTile(pos)->getTileType() == arcade::TileType::POWERUP &&
    !((pu = dynamic_cast<arcade::AObjects *>(this->map.getTile(pos)))->getTaken()))
     {
+      this->score += 10;
+      this->count++;
       if (this->textmap[pos.y][pos.x] == 8)
       {
+	this->score += 40;
 	it = this->enemies.begin();
 	while (it != this->enemies.end())
 	{
@@ -181,7 +181,6 @@ void			arcade::games::Pacman::takePowerUp(const arcade::Position &pos)
 	}
       }
       pu->take();
-      this->score += 100;
     }
 }
 
@@ -296,8 +295,9 @@ bool 	arcade::games::Pacman::checkVulne()
 bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd) {
   std::vector<arcade::IGameObject*>::iterator it;
 
+  if (this->count == 245)
+    return (false);
   it = this->enemies.begin();
-
   this->runAi();
   while (it != this->enemies.end())
   {
