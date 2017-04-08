@@ -111,7 +111,9 @@ arcade::CommandType	arcade::library::LibSFML::processInput()
     return (arcade::CommandType::RESET);
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9))
     return (arcade::CommandType::MENU);
-  return (arcade::CommandType::PLAY);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    return (arcade::CommandType::SHOOT);
+  return (arcade::CommandType::ILLEGAL);
 }
 
 void		arcade::library::LibSFML::drawText(const std::string &str, const arcade::Position &pos)
@@ -119,7 +121,7 @@ void		arcade::library::LibSFML::drawText(const std::string &str, const arcade::P
   if (this->text)
     {
       this->text->setString(str);
-      this->text->setPosition(pos.x, pos.y);
+      this->text->setPosition(pos.x * 32, pos.y * 32);
       this->window.draw(*(this->text));
     }
 }
@@ -148,20 +150,19 @@ void	arcade::library::LibSFML::stopMusic()
   this->music.stop();
 }
 
-void						arcade::library::LibSFML::drawGameObject(const arcade::IGameObject *obj)
+void						arcade::library::LibSFML::drawGameObject(const arcade::games::IGameObject *obj)
 {
   sf::Texture					texture;
   sf::Sprite					sprite;
   std::map<std::string, sf::Texture>::iterator 	pos;
 
+  if (obj == NULL)
+    return ;
   if ((pos = this->loadedTextures.find(obj->getSprite())) == this->loadedTextures.end())
     {
-      if (!texture.loadFromFile(obj->getSprite() + ".png", sf::IntRect(0, 0, 32, 32)))
-	{
-	  std::cerr << "Error loading sprite : " << obj->getSprite() << ".png"
-		    << std::endl;
-	  return ;
-	}
+      if (!texture.loadFromFile(obj->getSprite() + ".png"))
+	if (!texture.loadFromFile(obj->getSprite() + ".bmp"))
+	  std::cerr << "Error loading sprite : " << obj->getSprite() << std::endl;
       this->loadedTextures.insert(std::pair<std::string, sf::Texture>(obj->getSprite(), texture));
     }
   else
@@ -171,7 +172,7 @@ void						arcade::library::LibSFML::drawGameObject(const arcade::IGameObject *ob
   this->window.draw(sprite);
 }
 
-extern "C" arcade::library::IArcadeLibrary	*entry_point()
+extern "C" arcade::library::IArcadeLibrary	*entry_lib()
 {
   return (new arcade::library::LibSFML());
 }

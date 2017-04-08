@@ -11,7 +11,7 @@
 #ifndef IMAP_HH_
 # define IMAP_HH_
 
-# include "IGameObject.hpp"
+# include "IGameObject.hh"
 # include "Protocol.hpp"
 
 namespace 				arcade
@@ -23,13 +23,15 @@ namespace 				arcade
 
     virtual uint16_t 			getWidth() const = 0;
     virtual uint16_t 			getHeight() const = 0;
-    virtual arcade::IGameObject		*getTile(const arcade::Position &pos) const = 0;
+    virtual arcade::games::IGameObject	*getTile(const arcade::Position &pos) const = 0;
+    virtual arcade::games::IGameObject	*getTile(uint16_t x, uint16_t y) const = 0;
     virtual void			setTile(const arcade::Position &pos,
-						arcade::IGameObject *tile) = 0;
+						arcade::games::IGameObject *tile) = 0;
     virtual void			setTile(uint16_t x, uint16_t y,
-						arcade::IGameObject *tile) = 0;
+						arcade::games::IGameObject *tile) = 0;
     /*TODO A ajouter */
     virtual void 			deleteTile(const Position &pos) = 0;
+    virtual void 			deleteTile(uint16_t x, uint16_t y) = 0;
   };
 
 };

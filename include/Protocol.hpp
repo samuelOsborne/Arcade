@@ -34,8 +34,7 @@ namespace		arcade
      NEXT_GAME		= 14,
      LAUNCH		= 15,
      RESET		= 16,
-     MENU		= 17,
-     UNKNOWN		= 18
+     MENU		= 17
   };
   
   enum class		TileType : uint16_t

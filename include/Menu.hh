@@ -35,6 +35,8 @@ namespace						arcade
 
     void 						update();
     void 						eventHandler();
+    void 						drawMap(const arcade::IMap *map);
+    void 						drawStrings(const std::vector<arcade::games::IGameObject*> &strings);
 
     enum						MenuIndexLib
     {
@@ -55,8 +57,7 @@ namespace						arcade
     void 						switchLib(const MenuIndexLib&);
     void 						switchGame(const MenuIndexLib&);
     void 						loopMenu();
-    void 						drawMap(const arcade::IMap *map);
-    void 						drawEnemies(const std::vector<arcade::IGameObject*> &);
+    void 						drawEnemies(const std::vector<arcade::games::IGameObject*> &);
   };
 
 };

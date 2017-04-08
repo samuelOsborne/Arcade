@@ -10,7 +10,7 @@
 
 #include <cstdlib>
 #include <ctime>
-#include "IGameObject.hpp"
+#include "IGameObject.hh"
 #include "Nibbler.hh"
 #include "NibblerFloor.hh"
 #include "NibblerWall.hh"
@@ -45,6 +45,7 @@ arcade::games::Nibbler::Nibbler()
   	}
       pos.y++;
     }
+  this->strings.push_back(new arcade::String(40, 10, std::to_string(this->score)));
   std::srand(std::time(0));
   this->spawnFruit();
 }
@@ -119,6 +120,7 @@ void			arcade::games::Nibbler::pickFruit()
 	{
 	  pu->take();
 	  this->score += 100;
+	  this->strings[0]->setSprite(std::to_string(this->score));
 	  bodyPos = this->getPosBodyFreeCase();
 	  this->body.push_back(new arcade::games::NibblerBody(bodyPos.x, bodyPos.y));
 	  this->spawnFruit();
@@ -126,7 +128,7 @@ void			arcade::games::Nibbler::pickFruit()
     }
 }
 
-const std::vector<arcade::IGameObject*>	&arcade::games::Nibbler::getEnemies() const
+const std::vector<arcade::games::IGameObject*>	&arcade::games::Nibbler::getEnemies() const
 {
   return (this->body);
 }
@@ -135,7 +137,7 @@ void						arcade::games::Nibbler::moveBody()
 {
   arcade::Position				pos;
   arcade::Position				save;
-  std::vector<arcade::IGameObject*>::iterator	it;
+  std::vector<arcade::games::IGameObject*>::iterator	it;
 
   pos = this->player.getPos();
   it = this->body.begin();
@@ -150,7 +152,7 @@ void						arcade::games::Nibbler::moveBody()
 
 bool	arcade::games::Nibbler::checkPosInBody(const arcade::Position &pos) const
 {
-  std::vector<arcade::IGameObject*>::const_iterator	it;
+  std::vector<arcade::games::IGameObject*>::const_iterator	it;
 
   it = this->body.begin();
   while (it != this->body.end())
@@ -216,7 +218,7 @@ extern "C" void                				Play()
   arcade::games::Nibbler				nibbler;
   struct arcade::WhereAmI				*whereAmI;
   struct arcade::GetMap					*getMap;
-  std::vector<arcade::IGameObject*>::const_iterator	it;
+  std::vector<arcade::games::IGameObject*>::const_iterator	it;
   arcade::Position					pos;
   uint16_t						length;
   int 							i;
@@ -281,7 +283,7 @@ extern "C" void                				Play()
     }
 }
 
-extern "C" arcade::games::IGame	*entry_point()
+extern "C" arcade::games::IGame	*entry_game()
 {
   return (new arcade::games::Nibbler());
 }

@@ -100,12 +100,14 @@ arcade::CommandType	arcade::library::LibNcurses::processInput()
     return (arcade::CommandType::RESET);
   if (key == '9')
     return (arcade::CommandType::MENU);
-  return (arcade::CommandType::PLAY);
+  if (key == ' ')
+    return (arcade::CommandType::SHOOT);
+  return (arcade::CommandType::ILLEGAL);
 }
 
 void	arcade::library::LibNcurses::drawText(const std::string &str, const arcade::Position &pos)
 {
-  mvprintw(pos.y / 16, pos.x / 16, "%s", str.c_str());
+  mvprintw(pos.y, pos.x, "%s", str.c_str());
 }
 
 void	arcade::library::LibNcurses::winClear()
@@ -124,21 +126,27 @@ void	arcade::library::LibNcurses::playMusic(__attribute__((unused)) const std::s
 }
 
 
-void			arcade::library::LibNcurses::drawGameObject(const arcade::IGameObject *obj)
+void			arcade::library::LibNcurses::drawGameObject(const arcade::games::IGameObject *obj)
 {
   std::string		color;
   std::string		character;
-  std::ifstream		file((obj->getSprite() + ".txt").c_str());
+  std::ifstream		file;
   std::stringstream 	ss;
   uint16_t		colornb;
 
+  if (obj == NULL)
+    return ;
+  file.open((obj->getSprite() + ".txt").c_str());
   if (file.is_open())
     {
       if (getline(file, color) && getline(file, character))
 	{
 	  ss << color;
 	  ss >> colornb;
-	  mvprintw(obj->getPos().y, obj->getPos().x, "%s", character.c_str());
+	  mvprintw(obj->getPos().y * 2, obj->getPos().x * 2, "%s", character.c_str());
+	  if (getline(file, character))
+	    mvprintw(obj->getPos().y * 2 + 1, obj->getPos().x * 2, "%s", character.c_str());
+	  file.close();
 	  return ;
 	}
       file.close();
@@ -146,7 +154,7 @@ void			arcade::library::LibNcurses::drawGameObject(const arcade::IGameObject *ob
   std::cerr << "Can't read file" << std::endl;
 }
 
-extern "C" arcade::library::IArcadeLibrary	*entry_point()
+extern "C" arcade::library::IArcadeLibrary	*entry_lib()
 {
   return (new arcade::library::LibNcurses());
 }

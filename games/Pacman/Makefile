@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Fri Mar 31 15:56:29 2017 Lucas Villeneuve
-## Last update Fri Apr  7 16:49:22 2017 escorn_t
+## Last update Sat Apr  8 10:59:44 2017 Lucas Villeneuve
 ##
 
 NAME		=	../lib_arcade_pacman.so
@@ -35,7 +35,8 @@ SRCS		=	$(SRCPATH)/Pacman.cpp		\
 			$(GMEPATH)/ABlock.cpp		\
 			$(GMEPATH)/Wall.cpp		\
 			$(GMEPATH)/Floor.cpp		\
-			$(GMEPATH)/AGame.cpp			
+			$(GMEPATH)/AGame.cpp		\
+			$(GMEPATH)/String.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 
@@ -76,7 +77,7 @@ re: 		fclean all
 
 define	compile
 
-echo -n "$(1) : ";						\
+echo -n "$@ : ";						\
 $(1) 2> $@.log || touch $@.errors;				\
 if test -e $@.errors;						\
 then echo "[$(RED)KO$(NO_COLOR)]" && cat $@.log; 		\
