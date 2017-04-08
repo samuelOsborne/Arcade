@@ -14,6 +14,8 @@ arcade::games::Ghost::Ghost(uint16_t x, uint16_t y, std::string path) : arcade::
 {
   this->direction = arcade::CommandType::GO_UP;
   this->asset = path;
+  this->vulne = false;
+  this->vulneAsset = "./misc/Pacman/GhostRekt";
 }
 
 arcade::games::Ghost::Ghost(const arcade::games::Ghost &other) : arcade::Enemy(other.getPos().x, other.getPos().y)
@@ -21,6 +23,8 @@ arcade::games::Ghost::Ghost(const arcade::games::Ghost &other) : arcade::Enemy(o
   if (this != &other)
     {
       this->asset = other.asset;
+      this->pos = other.pos;
+      this->vulneAsset = other.vulneAsset;
     }
 }
 
@@ -30,6 +34,46 @@ arcade::games::Ghost 		&arcade::games::Ghost::operator=(const Ghost &other)
     {
       this->asset = other.asset;
       this->pos = other.pos;
+      this->vulneAsset = other.vulneAsset;
     }
   return (*this);
+}
+
+arcade::CommandType	        arcade::games::Ghost::getDirection() const
+{
+  return (this->direction);
+}
+
+void 			         arcade::games::Ghost::setDirection(const arcade::CommandType &dir)
+{
+  this->direction = dir;
+}
+
+void                              arcade::games::Ghost::setVulne(const bool state)
+{
+  this->vulne = state;
+}
+
+bool                              arcade::games::Ghost::getVulne() const
+{
+  return (this->vulne);
+}
+
+long int                          arcade::games::Ghost::getTimer() const
+{
+  return (this->timer);
+}
+
+void                              arcade::games::Ghost::setTimer(const long int val)
+{
+  this->timer = val;
+}
+
+void                              arcade::games::Ghost::switchAsset()
+{
+  std::string                      tmp;
+
+  tmp = this->asset;
+  this->asset = this->vulneAsset;
+  this->vulneAsset = tmp;
 }

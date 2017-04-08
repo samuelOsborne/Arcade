@@ -226,15 +226,10 @@ void 			arcade::Menu::update()
       pos.y += 1;
       this->lib->drawText("9 : Return to menu", pos);
       i = 0;
-/*    pos.x = 180; */
       pos.x = 10;
       pos.y = 1;
       while (i < static_cast<int>(this->gamesList.getSize()))
 	{
-/*
-	  pos.y += 25;
-	  pos.x -= 30;
-*/
 	  pos.y += 1;
 	  pos.x -= 2;
 	  if (i == this->gamesList.getIndex())
@@ -242,9 +237,6 @@ void 			arcade::Menu::update()
 	  else
 	    this->lib->drawText("[ ]", pos);
 	  pos.x += 2;
-/*
-	  pos.x += 30;
-*/
 	  this->lib->drawText(this->gamesList[i], pos);
 	  i++;
 	}

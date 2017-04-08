@@ -19,7 +19,10 @@ namespace 			arcade
   {
     class Ghost : public 	arcade::Enemy
     {
+      bool                      vulne;
+      long int                  timer;
       arcade::CommandType	direction;
+      std::string 		vulneAsset;
 
      public:
       Ghost(uint16_t x, uint16_t y, std::string path);
@@ -27,12 +30,14 @@ namespace 			arcade
       Ghost &operator=(const Ghost &);
       ~Ghost() {};
 
-      arcade::CommandType	getDirection() const
-      {return (this->direction);}
-      void 			setDirection(const arcade::CommandType &dir)
-      {this->direction = dir;}
+      arcade::CommandType	getDirection() const;
+      void 			setDirection(const arcade::CommandType &dir);
+      bool                      getVulne() const;
+      void                      setVulne(const bool state);
+      long int                  getTimer() const;
+      void                      setTimer(const long int val);
+      void 			switchAsset();
     };
-
   };
 };
 

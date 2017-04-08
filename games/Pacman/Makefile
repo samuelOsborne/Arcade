@@ -24,6 +24,7 @@ SRCS		=	$(SRCPATH)/Pacman.cpp		\
 			$(SRCPATH)/SEPipe.cpp		\
 			$(SRCPATH)/SOPipe.cpp		\
 			$(SRCPATH)/VerticalPipe.cpp	\
+			$(SRCPATH)/Power.cpp		\
 			$(GMEPATH)/Map.cpp		\
 			$(GMEPATH)/Player.cpp		\
 			$(GMEPATH)/Enemy.cpp		\
