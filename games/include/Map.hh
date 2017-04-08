@@ -15,7 +15,7 @@
 # include <map>
 # include "IMap.hh"
 # include "IArcadeLibrary.hh"
-# include "IGameObject.hpp"
+# include "IGameObject.hh"
 # include "Protocol.hpp"
 
 namespace						arcade
@@ -24,7 +24,7 @@ namespace						arcade
   {
     const uint16_t 					width;
     const uint16_t 					height;
-    std::vector<std::vector<arcade::IGameObject*>>	tiles;
+    std::vector<std::vector<arcade::games::IGameObject*>>	tiles;
 
    public:
     Map(const uint16_t _width, const uint16_t _height);
@@ -34,12 +34,14 @@ namespace						arcade
 
     virtual uint16_t 					getWidth() const;
     virtual uint16_t 					getHeight() const;
-    arcade::IGameObject					*getTile(const arcade::Position &pos) const;
+    virtual arcade::games::IGameObject			*getTile(const arcade::Position &pos) const;
+    virtual arcade::games::IGameObject			*getTile(uint16_t x, uint16_t y) const;
     virtual void 					setTile(const arcade::Position &pos,
-								arcade::IGameObject *tile);
+								arcade::games::IGameObject *tile);
     virtual void					setTile(uint16_t x, uint16_t y,
-								arcade::IGameObject *tile);
+								arcade::games::IGameObject *tile);
     virtual void 					deleteTile(const Position &pos);
+    virtual void 					deleteTile(uint16_t x, uint16_t y);
   };
 
 };

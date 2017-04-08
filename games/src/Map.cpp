@@ -17,7 +17,7 @@ arcade::Map::Map(const uint16_t _width, const uint16_t _height)
 {
   uint16_t				i;
   uint16_t				j;
-  std::vector<arcade::IGameObject*>	tmp;
+  std::vector<arcade::games::IGameObject*>	tmp;
 
   i = 0;
   while (i < _height)
@@ -25,7 +25,7 @@ arcade::Map::Map(const uint16_t _width, const uint16_t _height)
       tmp.clear();
       j = 0;
       while (j++ < _width)
-	tmp.push_back(/*new arcade::Floor(j++, i)*/ 0);
+	tmp.push_back(0);
       this->tiles.push_back(tmp);
       i++;
     }
@@ -55,21 +55,31 @@ uint16_t	arcade::Map::getHeight() const
   return (this->height);
 }
 
-arcade::IGameObject	*arcade::Map::getTile(const arcade::Position &pos) const
+arcade::games::IGameObject	*arcade::Map::getTile(const arcade::Position &pos) const
 {
   return (this->tiles[pos.y][pos.x]);
 }
 
-void	arcade::Map::setTile(const arcade::Position &pos, arcade::IGameObject *tile)
+arcade::games::IGameObject	*arcade::Map::getTile(uint16_t x, uint16_t y) const
+{
+  return (this->tiles[y][x]);
+}
+
+void	arcade::Map::setTile(const arcade::Position &pos, arcade::games::IGameObject *tile)
 {
   this->tiles[pos.y][pos.x] = tile;
 }
 
-void arcade::Map::setTile(uint16_t x, uint16_t y, arcade::IGameObject *tile)
+void arcade::Map::setTile(uint16_t x, uint16_t y, arcade::games::IGameObject *tile)
 {
   this->tiles[y][x] = tile;
 }
 
 void	arcade::Map::deleteTile(__attribute__((unused))const arcade::Position &pos)
+{
+}
+
+void 	arcade::Map::deleteTile(__attribute__((unused))uint16_t x,
+				    __attribute__((unused))uint16_t y)
 {
 }

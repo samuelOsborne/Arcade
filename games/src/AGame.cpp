@@ -46,16 +46,12 @@ const arcade::IMap	*arcade::games::AGame::getMap() const
   return (_map);
 }
 
-const arcade::IGameObject	*arcade::games::AGame::getPlayer() const
+const arcade::games::IGameObject	*arcade::games::AGame::getPlayer() const
 {
   return (&this->player);
 }
 
-const std::vector<arcade::IGameObject*>	&arcade::games::AGame::getStrings() const
+const std::vector<arcade::games::IGameObject*>	&arcade::games::AGame::getStrings() const
 {
-  std::vector<IGameObject*>		*ret;
-
-//  ret.push_back(new arcade::String(40, 10, std::to_string(this->score)));
-  ret = 0;
-  return (*ret);
+  return (this->strings);
 }

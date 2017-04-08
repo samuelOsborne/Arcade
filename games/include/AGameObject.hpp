@@ -14,12 +14,12 @@
 # include <string>
 # include <iostream>
 # include "Arcade.hpp"
-# include "IGameObject.hpp"
+# include "IGameObject.hh"
 # include "Protocol.hpp"
 
 namespace 				arcade
 {
-  class 				AGameObject : public arcade::IGameObject
+  class 				AGameObject : public arcade::games::IGameObject
   {
    protected:
     std::string				asset;

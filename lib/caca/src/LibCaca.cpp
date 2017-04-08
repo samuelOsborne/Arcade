@@ -46,7 +46,7 @@ arcade::library::LibCaca::~LibCaca()
 void	arcade::library::LibCaca::openWindow()
 {
   /* TODO Check Retour de fonction */
-  this->canvas = caca_create_canvas(50, 31);
+  this->canvas = caca_create_canvas(70, 70);
   this->window = caca_create_display(this->canvas);
 }
 
@@ -108,17 +108,19 @@ arcade::CommandType	arcade::library::LibCaca::processInput()
 	return (arcade::CommandType::RESET);
       if (key == '9')
 	return (arcade::CommandType::MENU);
+      if (key == ' ')
+	return (arcade::CommandType::SHOOT);
       if (key == CACA_KEY_RETURN)
 	return (arcade::CommandType::LAUNCH);
       if (key == CACA_KEY_ESCAPE)
 	return (arcade::CommandType::EXIT);
     }
-  return (arcade::CommandType::PLAY);
+  return (arcade::CommandType::ILLEGAL);
 }
 
 void	arcade::library::LibCaca::drawText(const std::string &str, const arcade::Position &pos)
 {
-  caca_put_str(this->canvas, pos.x / 8, pos.y / 16, str.c_str());
+  caca_put_str(this->canvas, pos.x, pos.y, str.c_str());
 }
 
 void	arcade::library::LibCaca::winClear()
@@ -137,14 +139,17 @@ void	arcade::library::LibCaca::playMusic(__attribute__((unused)) const std::stri
   std::cerr << "Can't play music with libcaca" << std::endl;
 }
 
-void			arcade::library::LibCaca::drawGameObject(const arcade::IGameObject *obj)
+void			arcade::library::LibCaca::drawGameObject(const arcade::games::IGameObject *obj)
 {
   std::string		color;
   std::string		character;
-  std::ifstream		file((obj->getSprite() + ".txt").c_str());
+  std::ifstream		file;
   std::stringstream 	ss;
   uint16_t		colornb;
 
+  if (obj == NULL)
+    return ;
+  file.open((obj->getSprite() + ".txt").c_str());
   if (file.is_open())
     {
       if (getline(file, color) && getline(file, character))
@@ -152,8 +157,9 @@ void			arcade::library::LibCaca::drawGameObject(const arcade::IGameObject *obj)
 	  ss << color;
 	  ss >> colornb;
 	  caca_set_color_ansi(this->canvas, CACA_BLACK, colornb);
-	  caca_put_char(this->canvas, obj->getPos().x, obj->getPos().y, *(character.c_str()));
-//	  caca_set_color_ansi(this->canvas, CACA_BLACK, CACA_BLACK);
+	  caca_put_str(this->canvas, obj->getPos().x * 2, obj->getPos().y * 2, character.c_str());
+	  if (getline(file, character))
+	    caca_put_str(this->canvas, obj->getPos().x * 2, obj->getPos().y * 2 + 1, character.c_str());
 	  file.close();
 	  return;
 	}
@@ -162,7 +168,7 @@ void			arcade::library::LibCaca::drawGameObject(const arcade::IGameObject *obj)
   std::cerr << "Can't read file : " << obj->getSprite() << std::endl;
 }
 
-extern "C" arcade::library::IArcadeLibrary	*entry_point()
+extern "C" arcade::library::IArcadeLibrary	*entry_lib()
 {
   return (new arcade::library::LibCaca());
 }

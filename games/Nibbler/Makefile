@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Mon Mar 20 13:49:12 2017 Lucas Villeneuve
-## Last update Tue Apr  4 10:24:06 2017 Samuel Osborne
+## Last update Sat Apr  8 10:59:33 2017 Lucas Villeneuve
 ##
 
 NAME		=	../lib_arcade_nibbler.so
@@ -30,7 +30,8 @@ SRCS		=	$(SRCPATH)/Nibbler.cpp			\
 			$(GMEPATH)/ABlock.cpp			\
 			$(GMEPATH)/Wall.cpp			\
 			$(GMEPATH)/Floor.cpp			\
-			$(GMEPATH)/AGame.cpp			
+			$(GMEPATH)/AGame.cpp			\
+			$(GMEPATH)/String.cpp
 
 OBJS		=	$(SRCS:.cpp=.o)
 
@@ -71,7 +72,7 @@ re: 		fclean all
 
 define	compile
 
-echo -n "$(1) : ";						\
+echo -n "$@ : ";						\
 $(1) 2> $@.log || touch $@.errors;				\
 if test -e $@.errors;						\
 then echo "[$(RED)KO$(NO_COLOR)]" && cat $@.log; 		\

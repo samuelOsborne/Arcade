@@ -23,8 +23,10 @@ namespace					arcade
     class 					Pacman : public arcade::games::AGame
     {
       int 					count;
+      int 					endGameCount;
+      bool 					waka;
       arcade::CommandType 			oldcmd;
-      std::vector<arcade::IGameObject*>		enemies;
+      std::vector<arcade::games::IGameObject*>	enemies;
       char 					textmap[31][28] = {{3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
 								     {2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2},
 								     {2, 7, 3, 1, 1, 4, 7, 3, 1, 1, 1, 4, 7, 2, 2, 7, 3, 1, 1, 1, 4, 7, 3, 1, 1, 4, 7, 2},
@@ -63,6 +65,7 @@ namespace					arcade
 							     const arcade::CommandType &cmd);
       void 					moveAi(arcade::games::Ghost*);
       bool 					checkCollision() const;
+      void 					rotatePacman(int dir);
 
      public:
       Pacman();
@@ -72,7 +75,7 @@ namespace					arcade
 
       void					initEnemies();
       void					runAi();
-      virtual const std::vector<arcade::IGameObject*>	&getEnemies() const;
+      virtual const std::vector<arcade::games::IGameObject*>	&getEnemies() const;
       virtual bool				playRound(const arcade::CommandType &cmd);
       virtual bool				processCmd(const arcade::CommandType &cmd);
       bool 					checkVulne();

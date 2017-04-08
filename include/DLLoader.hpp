@@ -30,7 +30,7 @@ namespace 		arcade
 
     ~DLLoader<T>() {};
 
-    T			getInstance(const char *name)
+    T			getInstance(const char *name, const char *entry_point)
     {
       T			(*func)();
 
@@ -39,9 +39,9 @@ namespace 		arcade
 	  std::cerr << "Can't open lib : " << dlerror() << std::endl;
 	  throw (std::exception());
 	}
-      if (!(func = reinterpret_cast<T(*)()>(dlsym(this->dlhandle, "entry_point"))))
+      if (!(func = reinterpret_cast<T(*)()>(dlsym(this->dlhandle, entry_point))))
 	{
-	  std::cerr << "Can't load symbol entry_point" << std::endl;
+	  std::cerr << "Can't load symbol " << entry_point << std::endl;
 	  throw (std::exception());
 	}
       return (func());

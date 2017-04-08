@@ -5,12 +5,10 @@
 ** Login   <samuel.osborne@epitech.eu>
 **
 ** Started on  Sat Mar 18 13:29:23 2017 Samuel Osborne
-// Last update Sat Apr  8 16:44:48 2017 escorn_t
+** Last update Sat Apr  8 16:44:48 2017 escorn_t
 */
 
 #include <ctime>
-#include <cmath>
-#include <typeinfo>
 #include <iostream>
 #include "Ghost.hpp"
 #include "Pacgum.hh"
@@ -23,6 +21,7 @@
 #include "VerticalPipe.hh"
 #include "HorizontalPipe.hh"
 #include "Power.hh"
+#include "String.hh"
 
 arcade::games::Pacman::Pacman()
  : arcade::games::AGame(28, 31)
@@ -33,8 +32,11 @@ arcade::games::Pacman::Pacman()
   pos.y = 23;
   this->count = 0;
   this->player.setPos(pos);
+  this->player.setSprite("./misc/Pacman/PacmanRight");
   this->oldcmd = arcade::CommandType::ILLEGAL;
   this->score = 0;
+  this->endGameCount = 0;
+  this->waka = false;
   srand(time(0));
   pos.y = 0;
   while (pos.y < this->map.getHeight())
@@ -65,6 +67,7 @@ arcade::games::Pacman::Pacman()
       pos.y++;
     }
   this->initEnemies();
+  this->strings.push_back(new arcade::String(0, 0, std::to_string(this->score)));
 }
 
 arcade::games::Pacman::Pacman(const arcade::games::Pacman &other)
@@ -89,10 +92,13 @@ void 						arcade::games::Pacman::initEnemies()
 arcade::games::Pacman 				&arcade::games::Pacman::operator=(const Pacman& other)
 {
   if (this != &other)
-    {
-      this->player = other.player;
-    }
+    this->player = other.player;
   return (*this);
+}
+
+const std::vector<arcade::games::IGameObject*>	&arcade::games::Pacman::getEnemies() const
+{
+  return (this->enemies);
 }
 
 void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
@@ -148,7 +154,7 @@ void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
 
 void						arcade::games::Pacman::runAi()
 {
-  std::vector<arcade::IGameObject*>::iterator	it;
+  std::vector<arcade::games::IGameObject*>::iterator	it;
 
   it = this->enemies.begin();
   while (it != this->enemies.end())
@@ -161,7 +167,7 @@ void						arcade::games::Pacman::runAi()
 void			arcade::games::Pacman::takePowerUp(const arcade::Position &pos)
 {
   arcade::AObjects	*pu;
-  std::vector<arcade::IGameObject*>::iterator	it;
+  std::vector<arcade::games::IGameObject*>::iterator	it;
 
   if (this->map.getTile(pos)->getTileType() == arcade::TileType::POWERUP &&
    !((pu = dynamic_cast<arcade::AObjects *>(this->map.getTile(pos)))->getTaken()))
@@ -181,6 +187,7 @@ void			arcade::games::Pacman::takePowerUp(const arcade::Position &pos)
 	}
       }
       pu->take();
+      this->strings[0]->setSprite(std::to_string(this->score));
     }
 }
 
@@ -213,8 +220,41 @@ bool	arcade::games::Pacman::movePlayer(const arcade::Position &pos,
       return (true);
     }
   else if (this->oldcmd != cmd)
-    return (processCmd(this->oldcmd));
-  return (true);
+    processCmd(this->oldcmd);
+  return (false);
+}
+
+void 	arcade::games::Pacman::rotatePacman(int dir)
+{
+  if (dir == 1)
+    {
+      if (!this->waka)
+	this->player.setSprite("./misc/Pacman/PacmanRight");
+      else
+	this->player.setSprite("./misc/Pacman/PacmanRight2");
+    }
+  else if (dir == 2)
+    {
+      if (!this->waka)
+	this->player.setSprite("./misc/Pacman/PacmanLeft");
+      else
+	this->player.setSprite("./misc/Pacman/PacmanLeft2");
+    }
+  else if (dir == 3)
+    {
+      if (!this->waka)
+	this->player.setSprite("./misc/Pacman/PacmanUp");
+      else
+	this->player.setSprite("./misc/Pacman/PacmanUp2");
+    }
+  else if (dir == 4)
+    {
+      if (!this->waka)
+	this->player.setSprite("./misc/Pacman/PacmanDown");
+      else
+	this->player.setSprite("./misc/Pacman/PacmanDown2");
+    }
+  this->waka = !this->waka;
 }
 
 bool			arcade::games::Pacman::processCmd(const arcade::CommandType &cmd)
@@ -225,28 +265,29 @@ bool			arcade::games::Pacman::processCmd(const arcade::CommandType &cmd)
   if (cmd == arcade::CommandType::GO_RIGHT)
     {
       pos.x++;
-      this->movePlayer(pos, cmd);
+      if (this->movePlayer(pos, cmd))
+	this->rotatePacman(1);
     }
   else if (cmd == arcade::CommandType::GO_LEFT)
     {
       pos.x--;
-      this->movePlayer(pos, cmd);
+      if (this->movePlayer(pos, cmd))
+	this->rotatePacman(2);
     }
   else if (cmd == arcade::CommandType::GO_UP)
     {
       pos.y--;
-      this->movePlayer(pos, cmd);
+      if (this->movePlayer(pos, cmd))
+	this->rotatePacman(3);
     }
   else if (cmd == arcade::CommandType::GO_DOWN)
     {
       pos.y++;
-      this->movePlayer(pos, cmd);
+      if (this->movePlayer(pos, cmd))
+	this->rotatePacman(4);
     }
-  if (this->checkCollision())
-  {
-    if (!this->checkVulne())
-      return (false);
-  }
+  if (this->checkCollision() && !this->checkVulne())
+    return (false);
   return (true);
 }
 
@@ -254,7 +295,7 @@ bool							arcade::games::Pacman::checkCollision() const
 {
   arcade::Position					playerPos;
   arcade::Position					ghostPos;
-  std::vector<arcade::IGameObject*>::const_iterator	it;
+  std::vector<arcade::games::IGameObject*>::const_iterator	it;
 
   playerPos = this->player.getPos();
   it = this->enemies.begin();
@@ -272,7 +313,7 @@ bool 	arcade::games::Pacman::checkVulne()
 {
   arcade::Position					playerPos;
   arcade::Position					ghostPos;
-  std::vector<arcade::IGameObject*>::iterator		it;
+  std::vector<arcade::games::IGameObject*>::iterator		it;
 
   playerPos = this->player.getPos();
   it = this->enemies.begin();
@@ -280,44 +321,55 @@ bool 	arcade::games::Pacman::checkVulne()
    {
      ghostPos = (*it)->getPos();
      if (playerPos.x == ghostPos.x && playerPos.y == ghostPos.y)
-     {
-       if (dynamic_cast<arcade::games::Ghost *>(*it)->getVulne() == true)
        {
-	 it = enemies.erase(it);
-	 return (true);
+	 if (dynamic_cast<arcade::games::Ghost *>(*it)->getVulne())
+	   {
+	     (*it)->setPos(13, 14);
+	     return (true);
+	   }
        }
-     }
      it++;
    }
   return (false);
 }
 
-bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd) {
-  std::vector<arcade::IGameObject*>::iterator it;
+bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
+{
+  std::vector<arcade::games::IGameObject*>::iterator it;
 
   //TODO print message de WIN
   if (this->count == 245)
-    return (false);
-  it = this->enemies.begin();
+    {
+      if (this->endGameCount == 0)
+	this->strings.push_back(new arcade::String(15, 15, "YOU WIN"));
+      if (this->endGameCount == 15)
+	return (false);
+      this->endGameCount++;
+      return (true);
+    }
   this->runAi();
+  it = this->enemies.begin();
   while (it != this->enemies.end())
   {
-    if (dynamic_cast<arcade::games::Ghost *>(*it)->getVulne() == true)
-    {
-      dynamic_cast<arcade::games::Ghost *>(*it)->setTimer(dynamic_cast<arcade::games::Ghost *>(*it)->getTimer() + 1);
-      if (dynamic_cast<arcade::games::Ghost *>(*it)->getTimer() == 30)
+    if (dynamic_cast<arcade::games::Ghost *>(*it)->getVulne())
       {
-	dynamic_cast<arcade::games::Ghost *>(*it)->setVulne(false);
-	dynamic_cast<arcade::games::Ghost *>(*it)->switchAsset();
+      	dynamic_cast<arcade::games::Ghost *>(*it)->setTimer(dynamic_cast<arcade::games::Ghost *>(*it)->getTimer() + 1);
+      	if (dynamic_cast<arcade::games::Ghost *>(*it)->getTimer() == 30)
+	  {
+	    dynamic_cast<arcade::games::Ghost *>(*it)->setVulne(false);
+	    dynamic_cast<arcade::games::Ghost *>(*it)->switchAsset();
+	  }
       }
+      it++;
     }
-    it++;
-  }
   if (this->checkCollision())
-  {
-    if (!this->checkVulne())
-      return (false);
-  }
+    return (false);
+  if ((cmd == arcade::CommandType::PLAY || cmd == arcade::CommandType::LAUNCH
+       || cmd == arcade::CommandType::ILLEGAL) && this->oldcmd != arcade::CommandType::ILLEGAL)
+    {
+      if (!this->checkVulne())
+	return (false);
+    }
   if (cmd == arcade::CommandType::PLAY
       && this->oldcmd != arcade::CommandType::ILLEGAL)
     return (this->processCmd(this->oldcmd));
@@ -325,21 +377,13 @@ bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd) {
     return (this->processCmd(cmd));
 }
 
-const std::vector<arcade::IGameObject*>	&arcade::games::Pacman::getEnemies() const
-{
-  return (this->enemies);
-}
-
-extern "C"
-{
-void Play()
+extern "C" void Play()
 {
   arcade::CommandType cmd;
   arcade::games::Pacman pacman;
   struct arcade::WhereAmI *whereAmI;
   struct arcade::GetMap *getMap;
   int i;
-  std::vector<arcade::IGameObject *>::const_iterator it;
   arcade::Position pos;
 
   while (1)
@@ -373,8 +417,7 @@ void Play()
 	      i++;
 	    }
 	  std::cout.write(reinterpret_cast<char *>(getMap),
-			  28 * 31 * sizeof(arcade::TileType) +
-			  sizeof(arcade::GetMap));
+			  28 * 31 * sizeof(arcade::TileType) + sizeof(arcade::GetMap));
 	}
 
       if (cmd == arcade::CommandType::GO_UP ||
@@ -384,9 +427,8 @@ void Play()
 	pacman.playRound(cmd);
     }
 }
-}
 
-extern "C" arcade::games::IGame	*entry_point()
+extern "C" arcade::games::IGame	*entry_game()
 {
   return (new arcade::games::Pacman());
 }

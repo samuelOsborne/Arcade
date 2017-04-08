@@ -90,8 +90,8 @@ void                              	arcade::library::LibLapin::drawText(const std
     this->font->clip_y_position = 0;
     this->font->clip_width = 5;
     this->font->clip_height = 7;
-    bpos.x = pos.x;
-    bpos.y = pos.y;
+    bpos.x = pos.x * 32;
+    bpos.y = pos.y * 32;
     while (txt[i])
     {
       if (txt[i] == ' ')
@@ -117,26 +117,28 @@ void                               	arcade::library::LibLapin::display()
   bunny_display(this->win);
 }
 
-void 					arcade::library::LibLapin::playMusic(const std::string &music)
+void 					arcade::library::LibLapin::playMusic(__attribute__((unused))const std::string &music)
 {
-  (void)music;
 }
 
 void 					arcade::library::LibLapin::stopMusic()
 {
-
 }
 
-void 					arcade::library::LibLapin::drawGameObject(const arcade::IGameObject *obj)
+void 					arcade::library::LibLapin::drawGameObject(const arcade::games::IGameObject *obj)
 {
   t_bunny_picture			*texture;
   std::string				filename;
   std::map<std::string, t_bunny_picture *>::iterator	pos;
 
+  if (obj == NULL)
+    return ;
+
   if ((pos = this->loadedTextures.find(obj->getSprite())) == this->loadedTextures.end())
   {
-    filename = obj->getSprite() + ".png";
-    texture = bunny_load_picture(filename.c_str());
+      if (!(texture = bunny_load_picture((obj->getSprite() + ".png").c_str())))
+	if (!(texture = bunny_load_picture((obj->getSprite() + ".bmp").c_str())))
+	  std::cerr << "Error loading sprite : " << obj->getSprite() << std::endl;
     this->loadedTextures.insert(std::pair<std::string, t_bunny_picture *>(obj->getSprite(), texture));
   }
   else
@@ -173,10 +175,12 @@ arcade::CommandType	 		arcade::library::LibLapin::processInput()
     return (arcade::CommandType::RESET);
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9))
     return (arcade::CommandType::MENU);
-  return (arcade::CommandType::PLAY);
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+    return (arcade::CommandType::SHOOT);
+  return (arcade::CommandType::ILLEGAL);
 }
 
-extern "C" arcade::library::IArcadeLibrary	*entry_point()
+extern "C" arcade::library::IArcadeLibrary	*entry_lib()
 {
   return (new arcade::library::LibLapin());
 }

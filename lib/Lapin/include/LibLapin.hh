@@ -57,7 +57,7 @@ namespace		 		arcade
       virtual void 			display();
       virtual void 			playMusic(const std::string &music);
       virtual void 			stopMusic();
-      virtual void 			drawGameObject(const arcade::IGameObject *obj);
+      virtual void 			drawGameObject(const arcade::games::IGameObject *obj);
       virtual arcade::CommandType 	processInput();
     };
   };

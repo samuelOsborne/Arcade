@@ -10,7 +10,7 @@
 
 #include <thread>
 #include <chrono>
-#include "IGameObject.hpp"
+#include "IGameObject.hh"
 #include "Protocol.hpp"
 #include "Map.hh"
 #include "Menu.hh"
@@ -21,18 +21,17 @@ arcade::Menu::Menu(const char *nameLib)
   this->lib = 0;
   this->game = 0;
   this->gameLaunched = false;
-  this->cmd = arcade::CommandType::UNKNOWN;
+  this->cmd = arcade::CommandType::ILLEGAL;
   this->bufferCmd = arcade::CommandType::PLAY;
   this->setLib(nameLib);
   this->lib->playMusic("./misc/CrashTheme.wav");
-//  this->lib->playMusic("./misc/Pacman/Pacman.wav");
 }
 
 void	arcade::Menu::setLib(const char *nameLib)
 {
   try
     {
-      this->lib = this->libLoader.getInstance(nameLib);
+      this->lib = this->libLoader.getInstance(nameLib, "entry_lib");
     }
   catch (const std::exception &e)
     {
@@ -58,7 +57,7 @@ void	arcade::Menu::setGame(const char *nameGame)
 {
   try
     {
-      this->game = this->gameLoader.getInstance(nameGame);
+      this->game = this->gameLoader.getInstance(nameGame, "entry_game");
     }
   catch (const std::exception &e)
     {
@@ -125,14 +124,26 @@ void			arcade::Menu::drawMap(const arcade::IMap *map)
     }
 }
 
-void	arcade::Menu::drawEnemies(const std::vector<arcade::IGameObject*> &tab)
+void	arcade::Menu::drawEnemies(const std::vector<arcade::games::IGameObject*> &tab)
 {
-  std::vector<arcade::IGameObject*>::const_iterator	it;
+  std::vector<arcade::games::IGameObject*>::const_iterator	it;
 
   it = tab.begin();
   while (it != tab.end())
     {
       this->lib->drawGameObject((*it));
+      it++;
+    }
+}
+
+void	arcade::Menu::drawStrings(const std::vector<arcade::games::IGameObject*> &strings)
+{
+  std::vector<arcade::games::IGameObject*>::const_iterator	it;
+
+  it = strings.begin();
+  while (it != strings.end())
+    {
+      this->lib->drawText((*it)->getSprite(), (*it)->getPos());
       it++;
     }
 }
@@ -178,12 +189,8 @@ void 			arcade::Menu::update()
 {
   arcade::Position	pos;
   int 			i;
-/*
-  arcade::Position		posScore;
-  posScore.x = 900;
-  posScore.y = 50;
-*/
-  pos.x = 10;
+
+  pos.x = 0;
   if (this->gameLaunched)
     {
       if (!this->game->playRound(this->bufferCmd))
@@ -199,37 +206,37 @@ void 			arcade::Menu::update()
 	  this->drawMap(this->game->getMap());
 	  this->lib->drawGameObject(this->game->getPlayer());
 	  this->drawEnemies(this->game->getEnemies());
-//	  this->lib->drawText("Score : " + this->game->getScore(), posScore);
+	  this->drawStrings(this->game->getStrings());
 	}
     }
   else
     {
       pos.y = 0;
       this->lib->drawText("Controls :", pos);
-      pos.y += 35;
+      pos.y += 1;
       this->lib->drawText("2 : Prev. lib", pos);
-      pos.y += 35;
+      pos.y += 1;
       this->lib->drawText("3 : Next lib", pos);
-      pos.y += 35;
+      pos.y += 1;
       this->lib->drawText("4 : Next game", pos);
-      pos.y += 35;
+      pos.y += 1;
       this->lib->drawText("5 : Prev. game", pos);
-      pos.y += 35;
+      pos.y += 1;
       this->lib->drawText("8 : Reset game", pos);
-      pos.y += 35;
+      pos.y += 1;
       this->lib->drawText("9 : Return to menu", pos);
       i = 0;
-      pos.x = 250;
-      pos.y = 35;
-      while (i < static_cast<int >(this->gamesList.getSize()))
+      pos.x = 10;
+      pos.y = 1;
+      while (i < static_cast<int>(this->gamesList.getSize()))
 	{
-	  pos.y += 25;
-	  pos.x -= 30;
+	  pos.y += 1;
+	  pos.x -= 2;
 	  if (i == this->gamesList.getIndex())
 	    this->lib->drawText("[X]", pos);
 	  else
 	    this->lib->drawText("[ ]", pos);
-	  pos.x += 30;
+	  pos.x += 2;
 	  this->lib->drawText(this->gamesList[i], pos);
 	  i++;
 	}
