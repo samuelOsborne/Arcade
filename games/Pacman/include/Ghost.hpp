@@ -21,6 +21,8 @@ namespace 			arcade
     {
       bool                      vulne;
       long int                  timer;
+      bool 			spawn;
+      long int			spawnTimer;
       arcade::CommandType	direction;
       std::string 		vulneAsset;
 
@@ -37,6 +39,10 @@ namespace 			arcade
       long int                  getTimer() const;
       void                      setTimer(const long int val);
       void 			switchAsset();
+      bool 			getSpawn() const;
+      void 			setSpawn(bool);
+      long int 			getSpawnTimer() const;
+      void 			setSpawnTimer(long int);
     };
   };
 };

@@ -36,6 +36,7 @@ arcade::games::Pacman::Pacman()
   this->oldcmd = arcade::CommandType::ILLEGAL;
   this->score = 0;
   this->endGameCount = 0;
+  this->respawnTimer = 0;
   this->waka = false;
   srand(time(0));
   pos.y = 0;
@@ -155,11 +156,33 @@ void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
 void						arcade::games::Pacman::runAi()
 {
   std::vector<arcade::games::IGameObject*>::iterator	it;
+  arcade::games::Ghost				*ghost;
 
   it = this->enemies.begin();
   while (it != this->enemies.end())
     {
-      this->moveAi(dynamic_cast<arcade::games::Ghost*>(*it));
+      ghost = dynamic_cast<arcade::games::Ghost*>(*it);
+      if (ghost->getVulne())
+	{
+	  if (ghost->getTimer() == 30)
+	    {
+	      ghost->setVulne(false);
+	      ghost->switchAsset();
+	    }
+	  ghost->setTimer(ghost->getTimer() + 1);
+	}
+      if (ghost->getSpawn())
+	{
+	  if (ghost->getSpawnTimer() >= 25)
+	    {
+	      ghost->setSpawn(false);
+	      ghost->setSpawnTimer(0);
+	    }
+	  else
+	    ghost->setSpawnTimer(ghost->getSpawnTimer() + 1);
+	}
+      else
+	this->moveAi(ghost);
       it++;
     }
 }
@@ -286,7 +309,7 @@ bool			arcade::games::Pacman::processCmd(const arcade::CommandType &cmd)
       if (this->movePlayer(pos, cmd))
 	this->rotatePacman(4);
     }
-  if (this->checkCollision() && !this->checkVulne())
+  if (this->checkCollision())
     return (false);
   return (true);
 }
@@ -296,6 +319,7 @@ bool							arcade::games::Pacman::checkCollision() const
   arcade::Position					playerPos;
   arcade::Position					ghostPos;
   std::vector<arcade::games::IGameObject*>::const_iterator	it;
+  arcade::games::Ghost					*ghost;
 
   playerPos = this->player.getPos();
   it = this->enemies.begin();
@@ -303,33 +327,19 @@ bool							arcade::games::Pacman::checkCollision() const
     {
       ghostPos = (*it)->getPos();
       if (playerPos.x == ghostPos.x && playerPos.y == ghostPos.y)
-	return (true);
+	{
+	  if ((ghost = dynamic_cast<arcade::games::Ghost*>(*it))->getVulne())
+	    {
+	      ghost->setPos(13, 14);
+	      ghost->setVulne(false);
+	      ghost->switchAsset();
+	      ghost->setSpawn(true);
+	    }
+	  else
+	    return (true);
+	}
       it++;
     }
-  return (false);
-}
-
-bool 	arcade::games::Pacman::checkVulne()
-{
-  arcade::Position					playerPos;
-  arcade::Position					ghostPos;
-  std::vector<arcade::games::IGameObject*>::iterator		it;
-
-  playerPos = this->player.getPos();
-  it = this->enemies.begin();
-  while (it != this->enemies.end())
-   {
-     ghostPos = (*it)->getPos();
-     if (playerPos.x == ghostPos.x && playerPos.y == ghostPos.y)
-       {
-	 if (dynamic_cast<arcade::games::Ghost *>(*it)->getVulne())
-	   {
-	     (*it)->setPos(13, 14);
-	     return (true);
-	   }
-       }
-     it++;
-   }
   return (false);
 }
 
@@ -347,20 +357,6 @@ bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
       return (true);
     }
   this->runAi();
-  it = this->enemies.begin();
-  while (it != this->enemies.end())
-  {
-    if (dynamic_cast<arcade::games::Ghost *>(*it)->getVulne())
-      {
-      	dynamic_cast<arcade::games::Ghost *>(*it)->setTimer(dynamic_cast<arcade::games::Ghost *>(*it)->getTimer() + 1);
-      	if (dynamic_cast<arcade::games::Ghost *>(*it)->getTimer() == 30)
-	  {
-	    dynamic_cast<arcade::games::Ghost *>(*it)->setVulne(false);
-	    dynamic_cast<arcade::games::Ghost *>(*it)->switchAsset();
-	  }
-      }
-      it++;
-    }
   if (this->checkCollision())
     return (false);
   if ((cmd == arcade::CommandType::PLAY || cmd == arcade::CommandType::LAUNCH
@@ -382,12 +378,12 @@ extern "C" void Play()
   arcade::games::Pacman pacman;
   struct arcade::WhereAmI *whereAmI;
   struct arcade::GetMap *getMap;
-  int i;
   arcade::Position pos;
+  int			i;
 
   while (1)
     {
-      std::cin.read(reinterpret_cast<char *>(&cmd), sizeof(arcade::CommandType));
+      std::cin.read(reinterpret_cast<char*>(&cmd), sizeof(arcade::CommandType));
       if (std::cin.eof())
 	return;
       if (cmd == arcade::CommandType::WHERE_AM_I)
