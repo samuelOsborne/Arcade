@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sat Mar 11 17:28:24 2017 Lucas Villeneuve
-## Last update Tue Mar 14 14:57:17 2017 Lucas Villeneuve
+## Last update Sat Apr  8 10:58:40 2017 Lucas Villeneuve
 ##
 
 NAME		=	../lib_arcade_sfml.so
@@ -20,8 +20,6 @@ RM		=	rm -f
 
 SRCPATH		=	./src
 INCPATH		=	./include
-
-#LIBPATH		=	./SFML-2.4.2
 
 CXXFLAGS	=	-W -Wextra -Wall
 CXXFLAGS	+=	-std=c++11 -fPIC
@@ -60,7 +58,7 @@ re: 		fclean all
 
 define	compile
 
-echo -n "$(1) : ";						\
+echo -n "$@ : ";						\
 $(1) 2> $@.log || touch $@.errors;				\
 if test -e $@.errors;						\
 then echo "[$(RED)KO$(NO_COLOR)]" && cat $@.log; 		\

@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sat Mar 11 17:28:24 2017 Lucas Villeneuve
-## Last update Mon Mar 13 14:09:08 2017 Lucas Villeneuve
+## Last update Sat Apr  8 10:58:14 2017 Lucas Villeneuve
 ##
 
 NAME		=	../lib_arcade_caca.so
@@ -61,7 +61,7 @@ re: 		fclean all
 
 define	compile
 
-echo -n "$(1) : ";						\
+echo -n "$@ : ";						\
 $(1) 2> $@.log || touch $@.errors;				\
 if test -e $@.errors;						\
 then echo "[$(RED)KO$(NO_COLOR)]" && cat $@.log; 		\

@@ -107,14 +107,14 @@ arcade::CommandType	arcade::library::LibCaca::processInput()
 	return (arcade::CommandType::PREV_GAME);
       if (key == '5')
 	return (arcade::CommandType::NEXT_GAME);
-      if (key == CACA_KEY_RETURN)
-	return (arcade::CommandType::LAUNCH);
-      if (key == CACA_KEY_ESCAPE)
-	return (arcade::CommandType::EXIT);
       if (key == '8')
 	return (arcade::CommandType::RESET);
       if (key == '9')
 	return (arcade::CommandType::MENU);
+      if (key == CACA_KEY_RETURN)
+	return (arcade::CommandType::LAUNCH);
+      if (key == CACA_KEY_ESCAPE)
+	return (arcade::CommandType::EXIT);
     }
   return (arcade::CommandType::PLAY);
 }
@@ -126,6 +126,7 @@ void	arcade::library::LibCaca::drawText(const std::string &str, const arcade::Po
 
 void	arcade::library::LibCaca::winClear()
 {
+  caca_set_color_ansi(this->canvas, CACA_LIGHTGRAY, CACA_BLACK);
   caca_clear_canvas(this->canvas);
 }
 
@@ -155,12 +156,13 @@ void			arcade::library::LibCaca::drawGameObject(const arcade::IGameObject *obj)
 	  ss >> colornb;
 	  caca_set_color_ansi(this->canvas, CACA_BLACK, colornb);
 	  caca_put_char(this->canvas, obj->getPos().x, obj->getPos().y, *(character.c_str()));
-	  caca_set_color_ansi(this->canvas, CACA_BLACK, CACA_BLACK);
-	  return ;
+//	  caca_set_color_ansi(this->canvas, CACA_BLACK, CACA_BLACK);
+	  file.close();
+	  return;
 	}
       file.close();
     }
-  std::cerr << "Can't read file" << std::endl;
+  std::cerr << "Can't read file : " << obj->getSprite() << std::endl;
 }
 
 extern "C" arcade::library::IArcadeLibrary	*entry_point()

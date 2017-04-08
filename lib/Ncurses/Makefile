@@ -5,7 +5,7 @@
 ## Login   <samuel.osborne@epitech.eu>
 ##
 ## Started on  Sat Mar 11 17:28:24 2017 Samuel Osborne
-## Last update Tue Mar 14 14:57:17 2017 Samuel Osborne
+## Last update Sat Apr  8 10:58:54 2017 Lucas Villeneuve
 ##
 
 NAME		=	../lib_arcade_ncurses.so
@@ -60,7 +60,7 @@ re: 		fclean all
 
 define	compile
 
-echo -n "$(1) : ";						\
+echo -n "$@ : ";						\
 $(1) 2> $@.log || touch $@.errors;				\
 if test -e $@.errors;						\
 then echo "[$(RED)KO$(NO_COLOR)]" && cat $@.log; 		\
