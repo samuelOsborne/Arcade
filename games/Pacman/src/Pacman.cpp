@@ -22,6 +22,7 @@
 #include "NOPipe.hh"
 #include "VerticalPipe.hh"
 #include "HorizontalPipe.hh"
+#include "Power.hh"
 
 arcade::games::Pacman::Pacman()
  : arcade::games::AGame(28, 31)
@@ -57,6 +58,8 @@ arcade::games::Pacman::Pacman()
 	    this->map.setTile(pos, new arcade::games::SOPipe(pos.x, pos.y));
 	  else if (this->textmap[pos.y][pos.x] == 7)
 	    this->map.setTile(pos, new arcade::games::Pacgum(pos.x, pos.y));
+	  else if (this->textmap[pos.y][pos.x] == 8)
+	    this->map.setTile(pos, new arcade::games::Power(pos.x, pos.y));
 	  pos.x++;
 	}
       pos.y++;
@@ -104,14 +107,16 @@ void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
 
   pos = ghost->getPos();
   pos.y++;
-  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7) &&
+  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7
+      || this->textmap[pos.y][pos.x] == 8) &&
       ghost->getDirection() != arcade::CommandType::GO_DOWN)
     {
       dir.push_back(pos);
       newDir.push_back(arcade::CommandType::GO_UP);
     }
   pos.y -= 2;
-  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7) &&
+  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7
+      || this->textmap[pos.y][pos.x] == 8) &&
       ghost->getDirection() != arcade::CommandType::GO_UP)
     {
       dir.push_back(pos);
@@ -119,14 +124,16 @@ void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
     }
   pos.y++;
   pos.x++;
-  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7) &&
+  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7
+      || this->textmap[pos.y][pos.x] == 8) &&
       ghost->getDirection() != arcade::CommandType::GO_LEFT)
     {
       dir.push_back(pos);
       newDir.push_back(arcade::CommandType::GO_RIGHT);
     }
   pos.x -= 2;
-  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7) &&
+  if ((this->textmap[pos.y][pos.x] == 0 || this->textmap[pos.y][pos.x] == 7
+      || this->textmap[pos.y][pos.x] == 8) &&
       ghost->getDirection() != arcade::CommandType::GO_RIGHT)
     {
       dir.push_back(pos);
@@ -157,10 +164,22 @@ void						arcade::games::Pacman::runAi()
 void			arcade::games::Pacman::takePowerUp(const arcade::Position &pos)
 {
   arcade::AObjects	*pu;
+  std::vector<arcade::IGameObject*>::iterator	it;
 
   if (this->map.getTile(pos)->getTileType() == arcade::TileType::POWERUP &&
    !((pu = dynamic_cast<arcade::AObjects *>(this->map.getTile(pos)))->getTaken()))
     {
+      if (this->textmap[pos.y][pos.x] == 8)
+      {
+	it = this->enemies.begin();
+	while (it != this->enemies.end())
+	{
+	  dynamic_cast<arcade::games::Ghost *>(*it)->setVulne(true);
+	  dynamic_cast<arcade::games::Ghost *>(*it)->switchAsset();
+	  dynamic_cast<arcade::games::Ghost *>(*it)->setTimer(0);
+	  it++;
+	}
+      }
       pu->take();
       this->score += 100;
     }
@@ -224,7 +243,12 @@ bool			arcade::games::Pacman::processCmd(const arcade::CommandType &cmd)
       pos.y++;
       this->movePlayer(pos, cmd);
     }
-  return (!this->checkCollision());
+  if (this->checkCollision())
+  {
+    if (!this->checkVulne())
+      return (false);
+  }
+  return (true);
 }
 
 bool							arcade::games::Pacman::checkCollision() const
@@ -245,11 +269,54 @@ bool							arcade::games::Pacman::checkCollision() const
   return (false);
 }
 
-bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
+bool 	arcade::games::Pacman::checkVulne()
 {
+  arcade::Position					playerPos;
+  arcade::Position					ghostPos;
+  std::vector<arcade::IGameObject*>::iterator		it;
+
+  playerPos = this->player.getPos();
+  it = this->enemies.begin();
+  while (it != this->enemies.end())
+   {
+     ghostPos = (*it)->getPos();
+     if (playerPos.x == ghostPos.x && playerPos.y == ghostPos.y)
+     {
+       if (dynamic_cast<arcade::games::Ghost *>(*it)->getVulne() == true)
+       {
+	 it = enemies.erase(it);
+	 return (true);
+       }
+     }
+     it++;
+   }
+  return (false);
+}
+
+bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd) {
+  std::vector<arcade::IGameObject*>::iterator it;
+
+  it = this->enemies.begin();
+
   this->runAi();
+  while (it != this->enemies.end())
+  {
+    if (dynamic_cast<arcade::games::Ghost *>(*it)->getVulne() == true)
+    {
+      dynamic_cast<arcade::games::Ghost *>(*it)->setTimer(dynamic_cast<arcade::games::Ghost *>(*it)->getTimer() + 1);
+      if (dynamic_cast<arcade::games::Ghost *>(*it)->getTimer() == 30)
+      {
+	dynamic_cast<arcade::games::Ghost *>(*it)->setVulne(false);
+	dynamic_cast<arcade::games::Ghost *>(*it)->switchAsset();
+      }
+    }
+    it++;
+  }
   if (this->checkCollision())
-    return (false);
+  {
+    if (!this->checkVulne())
+     return (false);
+  }
   if (cmd == arcade::CommandType::PLAY
       && this->oldcmd != arcade::CommandType::ILLEGAL)
     return (this->processCmd(this->oldcmd));

@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Fri Mar 31 15:56:29 2017 Lucas Villeneuve
-## Last update Fri Apr  7 16:49:22 2017 escorn_t
+## Last update Sat Apr  8 11:33:23 2017 escorn_t
 ##
 
 NAME		=	../lib_arcade_pacman.so
@@ -24,6 +24,7 @@ SRCS		=	$(SRCPATH)/Pacman.cpp		\
 			$(SRCPATH)/SEPipe.cpp		\
 			$(SRCPATH)/SOPipe.cpp		\
 			$(SRCPATH)/VerticalPipe.cpp	\
+			$(SRCPATH)/Power.cpp		\
 			$(GMEPATH)/Map.cpp		\
 			$(GMEPATH)/Player.cpp		\
 			$(GMEPATH)/Enemy.cpp		\

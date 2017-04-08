@@ -219,7 +219,7 @@ void 			arcade::Menu::update()
       pos.y += 35;
       this->lib->drawText("9 : Return to menu", pos);
       i = 0;
-      pos.x = 180;
+      pos.x = 250;
       pos.y = 35;
       while (i < static_cast<int >(this->gamesList.getSize()))
 	{
