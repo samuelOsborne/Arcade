@@ -347,6 +347,7 @@ bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
 {
   std::vector<arcade::games::IGameObject*>::iterator it;
 
+  //TODO print message de WIN
   if (this->count == 245)
     {
       if (this->endGameCount == 0)

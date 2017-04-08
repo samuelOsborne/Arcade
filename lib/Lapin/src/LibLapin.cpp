@@ -70,7 +70,7 @@ bool                              	arcade::library::LibLapin::isEventQuit()
   struct bunny_window			*nwin;
   sf::Event	event;
 
-  nwin = (struct bunny_window *)this->win;
+  nwin = reinterpret_cast<struct bunny_window *>(this->win);
   if (nwin->window->pollEvent(event))
     if (event.type == sf::Event::Closed)
       return (true);
