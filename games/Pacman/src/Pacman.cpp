@@ -315,7 +315,7 @@ bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd) {
   if (this->checkCollision())
   {
     if (!this->checkVulne())
-     return (false);
+      return (false);
   }
   if (cmd == arcade::CommandType::PLAY
       && this->oldcmd != arcade::CommandType::ILLEGAL)
@@ -353,8 +353,7 @@ void Play()
 	  whereAmI->lenght = 1;
 	  whereAmI->position[0] = pacman.getPlayer()->getPos();
 	  std::cout.write(reinterpret_cast<char *>(whereAmI),
-			  4 * sizeof(arcade::Position) +
-			  sizeof(arcade::WhereAmI));
+			  sizeof(arcade::Position) + sizeof(arcade::WhereAmI));
 	}
 
       if (cmd == arcade::CommandType::GET_MAP)

@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:53:13 2017 Lucas Villeneuve
-## Last update Sun Apr  2 13:53:22 2017 Lucas Villeneuve
+## Last update Sat Apr  8 10:57:28 2017 Lucas Villeneuve
 ##
 
 NAME		=	arcade
@@ -89,7 +89,7 @@ re:		fclean all
 
 define	compile
 
-echo -n "$(1) : ";						\
+echo -n "$@ : ";						\
 $(1) 2> $@.log || touch $@.errors;				\
 if test -e $@.errors;						\
 then echo "[$(RED)KO$(NO_COLOR)]" && cat $@.log; 		\

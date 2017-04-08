@@ -72,7 +72,6 @@ namespace					arcade
       void					initEnemies();
       void					runAi();
       virtual const std::vector<arcade::IGameObject*>	&getEnemies() const;
-      virtual void				launch();
       virtual bool				playRound(const arcade::CommandType &cmd);
       virtual bool				processCmd(const arcade::CommandType &cmd);
       bool 					checkVulne();
