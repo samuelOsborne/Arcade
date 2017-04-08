@@ -38,17 +38,14 @@ arcade::library::LibCaca::~LibCaca()
 {
 }
 
+/*
+** Canvas
+** Width = 8 * nbWidth
+** Height = 16 * nbLength
+*/
 void	arcade::library::LibCaca::openWindow()
 {
-  /* TODO
-   * Check Retour de fonction
-   */
-
-  /*
-   * Canvas
-   * Width = 8 * nbWidth
-   * Height = 16 * nbLength
-   */
+  /* TODO Check Retour de fonction */
   this->canvas = caca_create_canvas(50, 31);
   this->window = caca_create_display(this->canvas);
 }

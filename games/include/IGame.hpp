@@ -15,23 +15,22 @@
 # include <string>
 # include "IMap.hh"
 
-namespace 				arcade
+namespace 					arcade
 {
-  namespace 				games
+  namespace 					games
   {
-    class 				IGame
+    class 					IGame
     {
      public:
       virtual ~IGame() {};
 
-      virtual void 				launch() = 0;
-      virtual std::string			getName() const = 0;
+//      virtual std::string			getName() const = 0;
       virtual const arcade::IMap		*getMap() const = 0;
       virtual const arcade::IGameObject		*getPlayer() const = 0;
       virtual const std::vector<arcade::IGameObject*> &getEnemies() const = 0;
       virtual bool				playRound(const arcade::CommandType &cmd) = 0;
 /*    virtual std::string			getScore() const = 0; */
-      virtual const std::vector<IGameObject*> &getStrings() const = 0;
+      virtual const std::vector<IGameObject*>	&getStrings() const = 0;
     };
   }
 }

@@ -22,7 +22,6 @@ arcade::games::Nibbler::Nibbler()
 {
   arcade::Position	pos;
 
-  this->name = "Nibbler";
   this->score = 0;
   pos.x = 5;
   pos.y = 5;

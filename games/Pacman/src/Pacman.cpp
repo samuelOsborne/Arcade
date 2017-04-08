@@ -28,7 +28,6 @@ arcade::games::Pacman::Pacman()
 {
   arcade::Position pos;
 
-  this->name = "Pacman";
   pos.x = 14;
   pos.y = 23;
   this->player.setPos(pos);

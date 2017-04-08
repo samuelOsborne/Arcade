@@ -14,6 +14,7 @@
 # include "Map.hh"
 # include "Player.hpp"
 # include "IGame.hpp"
+# include "String.hh"
 
 namespace 					arcade
 {
@@ -24,7 +25,6 @@ namespace 					arcade
      protected:
       arcade::Player				player;
       arcade::Map				map;
-      std::string				name;
       int 					score;
 
       virtual bool				processCmd(const arcade::CommandType&) = 0;
@@ -36,17 +36,14 @@ namespace 					arcade
       AGame &operator=(AGame const &other);
       virtual ~AGame() {};
 
-      virtual void				launch() = 0;
-      virtual std::string			getName() const;
+//      virtual std::string			getName() const;
       virtual const arcade::IMap		*getMap() const;
       virtual const arcade::IGameObject		*getPlayer() const;
       virtual const std::vector<arcade::IGameObject*>	&getEnemies() const = 0;
-/*
-      virtual std::string			getScore() const;
-*/
+//    virtual std::string			getScore() const;
       virtual bool				playRound(const arcade::CommandType &cmd) = 0;
       //TODO
-      virtual const std::vector<IGameObject*>	&getStrings() const {std::vector<IGameObject*> ret;  return (ret);}
+      virtual const std::vector<IGameObject*>	&getStrings() const;
     };
   };
 };
