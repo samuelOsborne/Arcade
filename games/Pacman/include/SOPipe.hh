@@ -11,7 +11,7 @@
 #ifndef SOPIPE_HH_
 # define SOPIPE_HH_
 
-# include "Wall.hpp"
+# include "Wall.hh"
 
 namespace			arcade
 {

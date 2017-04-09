@@ -8,8 +8,8 @@
 ** Last update Tue Mar 14 11:27:32 2017 Samuel Osborne
 */
 
-#include "AGameObject.hpp"
-#include "Player.hpp"
+#include "AGameObject.hh"
+#include "Player.hh"
 
 arcade::Player::Player()
  : arcade::ACharacter(0, 0)

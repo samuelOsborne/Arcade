@@ -8,7 +8,7 @@
 ** Last update Wed Mar 15 16:56:32 2017 Samuel Osborne
 */
 
-#include "AGame.hpp"
+#include "AGame.hh"
 
 arcade::games::AGame::AGame(arcade::games::AGame const &other)
  : map(other.map.getWidth(), other.map.getHeight()), score(0)

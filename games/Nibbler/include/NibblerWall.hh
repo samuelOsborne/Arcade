@@ -11,7 +11,7 @@
 #ifndef NIBBLERWALL_HH_
 # define NIBBLERWALL_HH_
 
-#include "Wall.hpp"
+#include "Wall.hh"
 
 namespace		arcade
 {

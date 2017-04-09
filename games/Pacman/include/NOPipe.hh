@@ -11,7 +11,7 @@
 #ifndef NOPIPE_HH_
 # define NOPIPE_HH_
 
-# include "Wall.hpp"
+# include "Wall.hh"
 
 namespace			arcade
 {

@@ -11,7 +11,7 @@
 #ifndef NIBBLERFRUIT_HH_
 # define NIBBLERFRUIT_HH_
 
-# include "Pickup.hpp"
+# include "Pickup.hh"
 
 namespace		arcade
 {

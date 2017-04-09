@@ -8,7 +8,7 @@
 ** Last update Tue Mar 14 13:40:06 2017 Samuel Osborne
 */
 
-#include "AObjects.hpp"
+#include "AObjects.hh"
 
 arcade::AObjects::AObjects(const uint16_t x, const uint16_t y)
  : arcade::AGameObject(x, y)

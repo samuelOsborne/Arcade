@@ -8,7 +8,7 @@
 ** Last update Fri Mar 17 13:06:12 2017 Samuel Osborne
 */
 
-#include "Wall.hpp"
+#include "Wall.hh"
 
 arcade::Wall::Wall(const uint16_t x, const uint16_t y)
  : ABlock(x, y)

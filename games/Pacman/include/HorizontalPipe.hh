@@ -11,7 +11,7 @@
 #ifndef HORIZONTALPIPE_HH_
 # define HORIZONTALPIPE_HH_
 
-# include "Wall.hpp"
+# include "Wall.hh"
 
 namespace			arcade
 {

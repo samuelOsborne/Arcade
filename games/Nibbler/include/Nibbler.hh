@@ -12,7 +12,7 @@
 # define NIBBLER_HH_
 
 # include <vector>
-# include "AGame.hpp"
+# include "AGame.hh"
 
 namespace 					arcade
 {

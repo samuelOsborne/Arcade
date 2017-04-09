@@ -8,7 +8,7 @@
 ** Last update Fri Mar 17 13:20:36 2017 Samuel Osborne
 */
 
-#include "Floor.hpp"
+#include "Floor.hh"
 
 arcade::Floor::Floor(uint16_t x, uint16_t y)
  : arcade::ABlock(x, y)

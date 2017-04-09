@@ -12,7 +12,7 @@
 #ifndef CPP_ARCADE_POWER_HH
 # define CPP_ARCADE_POWER_HH
 
-# include "Pickup.hpp"
+# include "Pickup.hh"
 
 namespace 	arcade
 {

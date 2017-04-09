@@ -8,7 +8,7 @@
 ** Last update Tue Mar 14 13:31:58 2017 Samuel Osborne
 */
 
-#include "Enemy.hpp"
+#include "Enemy.hh"
 
 arcade::Enemy::Enemy(const uint16_t x, const uint16_t y)
  : arcade::ACharacter(x, y)

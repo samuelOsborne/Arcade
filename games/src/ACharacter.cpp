@@ -8,7 +8,7 @@
 ** Last update Tue Mar 14 11:27:32 2017 Samuel Osborne
 */
 
-#include "ACharacter.hpp"
+#include "ACharacter.hh"
 
 
 arcade::ACharacter::ACharacter(const uint16_t x, const uint16_t y)

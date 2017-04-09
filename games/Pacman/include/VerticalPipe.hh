@@ -11,7 +11,7 @@
 #ifndef VERTICALPIPE_HH_
 # define VERTICALPIPE_HH_
 
- # include "Wall.hpp"
+ # include "Wall.hh"
 
 namespace			arcade
 {

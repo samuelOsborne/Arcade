@@ -11,7 +11,7 @@
 #ifndef GHOST_HPP_
 # define GHOST_HPP_
 
-# include "Enemy.hpp"
+# include "Enemy.hh"
 
 namespace 			arcade
 {

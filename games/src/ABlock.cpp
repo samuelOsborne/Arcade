@@ -8,7 +8,7 @@
 ** Last update Thu Mar 16 18:15:39 2017 Samuel Osborne
 */
 
-#include "ABlock.hpp"
+#include "ABlock.hh"
 
 arcade::ABlock::ABlock(const uint16_t x, const uint16_t y)
  : arcade::AGameObject(x, y)

@@ -11,7 +11,7 @@
 #ifndef NIBBLERFLOOR_HH_
 # define NIBBLERFLOOR_HH_
 
-# include "Floor.hpp"
+# include "Floor.hh"
 
 namespace	arcade
 {

@@ -13,8 +13,8 @@
 
 # include "Protocol.hpp"
 # include "Map.hh"
-# include "AGame.hpp"
-# include "Ghost.hpp"
+# include "AGame.hh"
+# include "Ghost.hh"
 
 namespace					arcade
 {

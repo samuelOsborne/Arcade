@@ -12,9 +12,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include "Ghost.hpp"
+#include "Ghost.hh"
 #include "Pacgum.hh"
-#include "Pacman.hpp"
+#include "Pacman.hh"
 #include "PacmanFloor.hh"
 #include "SEPipe.hh"
 #include "SOPipe.hh"

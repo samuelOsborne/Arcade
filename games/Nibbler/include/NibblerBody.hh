@@ -12,7 +12,7 @@
 # define NIBBLERBODY_HH_
 
 # include "IGameObject.hh"
-# include "Enemy.hpp"
+# include "Enemy.hh"
 
 namespace		arcade
 {

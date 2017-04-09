@@ -8,7 +8,7 @@
 ** Last update Tue Mar 14 16:19:59 2017 Samuel Osborne
 */
 
-#include "Pickup.hpp"
+#include "Pickup.hh"
 
 arcade::Pickup::Pickup(const uint16_t x, const uint16_t y)
  : AObjects(x, y)

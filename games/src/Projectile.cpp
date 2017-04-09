@@ -8,7 +8,7 @@
 ** Last update Tue Mar 14 16:26:35 2017 Samuel Osborne
 */
 
-#include "Projectile.hpp"
+#include "Projectile.hh"
 
 arcade::Projectile::Projectile(const uint16_t x, const uint16_t y)
  : arcade::AObjects(x, y)

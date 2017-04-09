@@ -8,7 +8,7 @@
 ** Last update Tue Mar 14 13:31:58 2017 Samuel Osborne
 */
 
-#include "AGameObject.hpp"
+#include "AGameObject.hh"
 
 arcade::AGameObject::AGameObject(const uint16_t x, const uint16_t y)
 {

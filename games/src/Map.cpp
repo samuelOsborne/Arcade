@@ -9,7 +9,7 @@
 */
 
 #include <iostream>
-#include "Floor.hpp"
+#include "Floor.hh"
 #include "Map.hh"
 
 arcade::Map::Map(const uint16_t _width, const uint16_t _height)

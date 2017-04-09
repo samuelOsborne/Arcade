@@ -11,7 +11,7 @@
 #ifndef PACMANFLOOR_HH_
 # define PACMANFLOOR_HH_
 
-# include "Floor.hpp"
+# include "Floor.hh"
 
 namespace			arcade
 {

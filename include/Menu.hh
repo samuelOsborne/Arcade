@@ -17,7 +17,7 @@
 # include "IArcadeLibrary.hh"
 # include "DLLoader.hpp"
 # include "IMap.hh"
-# include "IGame.hpp"
+# include "IGame.hh"
 
 namespace						arcade
 {

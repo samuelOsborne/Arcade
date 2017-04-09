@@ -8,7 +8,7 @@
 ** Last update Tue Mar 14 15:09:51 2017 Samuel Osborne
 */
 
-#include "Powerup.hpp"
+#include "Powerup.hh"
 
 arcade::Powerup::Powerup(const uint16_t x, const uint16_t y)
  : AObjects(x, y)

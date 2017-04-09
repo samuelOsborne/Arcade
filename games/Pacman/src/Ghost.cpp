@@ -8,7 +8,7 @@
 // Last update Thu Apr  6 17:28:27 2017 escorn_t
 */
 
-#include "Ghost.hpp"
+#include "Ghost.hh"
 
 arcade::games::Ghost::Ghost(uint16_t x, uint16_t y, std::string path) : arcade::Enemy(x, y)
 {
