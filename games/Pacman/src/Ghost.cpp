@@ -16,6 +16,8 @@ arcade::games::Ghost::Ghost(uint16_t x, uint16_t y, std::string path) : arcade::
   this->asset = path;
   this->vulne = false;
   this->spawn = true;
+  this->timer = 0;
+  this->spawnTimer = 0;
   this->vulneAsset = "./misc/Pacman/GhostRekt";
 }
 
