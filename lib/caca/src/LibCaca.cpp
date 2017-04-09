@@ -84,7 +84,8 @@ bool		arcade::library::LibCaca::isEventQuit()
 
 int 		arcade::library::LibCaca::getKey()
 {
-  if (caca_get_event_key_ch(&this->event) < 128)
+  if (caca_get_event_type(&this->event) == CACA_EVENT_KEY_PRESS &&
+      caca_get_event_key_ch(&this->event) < 128)
     {
       std::this_thread::sleep_for(std::chrono::milliseconds(100));
       return (caca_get_event_key_ch(&this->event));

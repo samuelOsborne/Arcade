@@ -354,62 +354,70 @@ bool							arcade::games::Pacman::checkCollision() const
   return (false);
 }
 
-bool	arcade::games::Pacman::saveScoreAndQuit() {
-  std::fstream scoreFile;
-  std::string line;
-  std::vector<std::string> vec;
-  std::vector<std::string>::iterator it;
-  std::string tmp;
-  size_t found;
-  bool printed;
-  int oldScore;
-  int i;
+bool					arcade::games::Pacman::saveScoreAndQuit() {
+  std::fstream				scoreFile;
+  std::string				line;
+  std::vector<std::string>		vec;
+  std::vector<std::string>::iterator	it;
+  std::string				tmp;
+  size_t				found;
+  bool					printed;
+  int					oldScore;
+  int					i;
 
   i = 0;
   scoreFile.open("./.Pacman");
-  if (scoreFile.is_open()) {
-    while (i < 3) {
-      std::getline(scoreFile, line);
-      vec.push_back(line);
-      i++;
+  if (scoreFile.is_open())
+    {
+      while (i++ < 3)
+	{
+	  std::getline(scoreFile, line);
+	  vec.push_back(line);
+	}
+      scoreFile.close();
     }
-    scoreFile.close();
-  }
   else
     std::cerr << "Couldn't open score file" << std::endl;
   it = vec.begin();
   scoreFile.open("./.Pacman", std::fstream::out);
   i = 0;
-  if (scoreFile.is_open()) {
-    while (it != vec.end() && i < 3) {
-      found = (*it).find(":");
-      if (found != std::string::npos) {
-	tmp = (*it).substr(found + 1);
-	if (tmp.find_first_not_of("0123456789") != std::string::npos && tmp != "") {
-	  oldScore = std::stoi(tmp);
-	  if (this->score > oldScore && !printed) {
-	    if (this->playerName == "")
-	      scoreFile << "Unknown:" << this->score << "\n";
-	    else
-	      scoreFile << this->playerName << ":" << this->score << "\n";
-	    printed = true;
-	  } else {
-	    scoreFile << (*it) << "\n";
-	    it++;
-	  }
-	}
-      }
-      i++;
-    }
-    if (i < 3)
+  if (scoreFile.is_open())
     {
-      if (this->playerName == "")
-	scoreFile << "Unknown:" << this->score << "\n";
-      else
-	scoreFile << this->playerName << ":" << this->score << "\n";
+      while (it != vec.end() && i < 3)
+	{
+	  found = (*it).find(":");
+	  if (found != std::string::npos)
+	    {
+	      tmp = (*it).substr(found + 1);
+	      if (tmp.find_first_not_of("0123456789") != std::string::npos && tmp != "")
+		{
+		  oldScore = std::stoi(tmp);
+		  if (this->score > oldScore && !printed)
+		    {
+		      if (this->playerName == "")
+			scoreFile << "Unknown:" << this->score << "\n";
+		      else
+			scoreFile << this->playerName << ":" << this->score << "\n";
+		      printed = true;
+		    }
+		  else
+		    {
+		      scoreFile << (*it) << "\n";
+		      it++;
+		    }
+		}
+	    }
+	  i++;
+	}
+      if (i < 3)
+	{
+	  if (this->playerName == "")
+	    scoreFile << "Unknown:" << this->score << "\n";
+	  else
+	    scoreFile << this->playerName << ":" << this->score << "\n";
+	}
+      scoreFile.close();
     }
-    scoreFile.close();
-  }
   else
     std::cerr << "Couldn't open score file (2)" << std::endl;
   return (false);
