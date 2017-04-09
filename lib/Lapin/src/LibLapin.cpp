@@ -77,6 +77,18 @@ bool                              	arcade::library::LibLapin::isEventQuit()
   return (false);
 }
 
+int 			arcade::library::LibLapin::getKey()
+{
+  struct bunny_window	*nwin;
+  sf::Event		event;
+
+  nwin = reinterpret_cast<struct bunny_window *>(this->win);
+  if (nwin->window->pollEvent(event))
+    if (event.type == sf::Event::TextEntered && event.text.unicode < 128)
+      return (event.text.unicode);
+  return (-1);
+}
+
 void                              	arcade::library::LibLapin::drawText(const std::string &str, const arcade::Position &pos)
 {
   const char 				*txt;

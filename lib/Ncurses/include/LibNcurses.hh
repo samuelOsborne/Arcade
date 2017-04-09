@@ -25,6 +25,7 @@ namespace 						arcade
     {
       WINDOW						*window;
       std::map<arcade::InputKey, int>			keymap;
+      int 						key;
 
      public:
       LibNcurses();
@@ -36,6 +37,7 @@ namespace 						arcade
       virtual bool					isEventQuit();
       virtual void 					winClear();
       virtual void 					display();
+      virtual int 					getKey();
       virtual void 					playMusic(const std::string &music);
       virtual void 					stopMusic(){};
       virtual void 					drawText(const std::string &str,

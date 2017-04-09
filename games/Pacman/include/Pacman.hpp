@@ -67,6 +67,8 @@ namespace					arcade
       void 					moveAi(arcade::games::Ghost*);
       bool 					checkCollision() const;
       void 					rotatePacman(int dir);
+      void					initEnemies();
+      void					runAi();
 
      public:
       Pacman();
@@ -74,12 +76,9 @@ namespace					arcade
       Pacman &operator=(const Pacman &);
       virtual ~Pacman() {};
 
-      void					initEnemies();
-      void					runAi();
       virtual const std::vector<arcade::games::IGameObject*>	&getEnemies() const;
       virtual bool				playRound(const arcade::CommandType &cmd);
       virtual bool				processCmd(const arcade::CommandType &cmd);
-      bool 					checkVulne();
     };
   };
 };

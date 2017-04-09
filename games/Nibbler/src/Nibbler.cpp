@@ -275,7 +275,6 @@ extern "C" void                				Play()
 			  sizeof(arcade::GetMap));
 	  delete getMap;
 	}
-
       if (cmd == arcade::CommandType::GO_UP || cmd == arcade::CommandType::GO_DOWN ||
 	  cmd == arcade::CommandType::GO_LEFT || cmd == arcade::CommandType::GO_RIGHT)
 	cmdbuff = cmd;

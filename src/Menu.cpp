@@ -18,6 +18,7 @@
 arcade::Menu::Menu(const char *nameLib)
  : libList("./lib/"), gamesList("./games/")
 {
+  this->playerName = "";
   this->lib = 0;
   this->game = 0;
   this->gameLaunched = false;
@@ -58,6 +59,7 @@ void	arcade::Menu::setGame(const char *nameGame)
   try
     {
       this->game = this->gameLoader.getInstance(nameGame, "entry_game");
+      this->game->setPlayerName(this->playerName);
     }
   catch (const std::exception &e)
     {
@@ -90,13 +92,16 @@ void 	arcade::Menu::switchLib(const MenuIndexLib &switchType)
 
 void 	arcade::Menu::switchGame(const MenuIndexLib &switchType)
 {
-  this->closeGame();
   if (switchType == MenuIndexLib::INCREMENT)
     this->gamesList.incrementIndex();
   else if (switchType == MenuIndexLib::DECREMENT)
     this->gamesList.decrementIndex();
   std::this_thread::sleep_for(std::chrono::milliseconds(250));
-  this->setGame(this->gamesList.getName());
+  if (this->gameLaunched)
+    {
+      this->closeGame();
+      this->setGame(this->gamesList.getName());
+    }
 }
 
 void			arcade::Menu::drawMap(const arcade::IMap *map)
@@ -150,8 +155,9 @@ void	arcade::Menu::drawStrings(const std::vector<arcade::games::IGameObject*> &s
 
 void	arcade::Menu::eventHandler()
 {
-  this->cmd = this->lib->processInput();
+  int 	c;
 
+  this->cmd = this->lib->processInput();
   if (this->cmd != arcade::CommandType::ILLEGAL && this->cmd != arcade::CommandType::PLAY)
     this->bufferCmd = this->cmd;
   if (this->cmd == arcade::CommandType::PREV_LIB)
@@ -183,6 +189,11 @@ void	arcade::Menu::eventHandler()
       this->closeGame();
       std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
+  if ((c = this->lib->getKey()) != -1 && this->playerName.size() < 8
+      && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')))
+    this->playerName += c;
+  else if (this->playerName.size() > 0 && c == '\b')
+    this->playerName.pop_back();
 }
 
 void 			arcade::Menu::update()
@@ -225,6 +236,10 @@ void 			arcade::Menu::update()
       this->lib->drawText("8 : Reset game", pos);
       pos.y += 1;
       this->lib->drawText("9 : Return to menu", pos);
+      pos.y += 2;
+      this->lib->drawText("Name : ", pos);
+      pos.x += 2;
+      this->lib->drawText(this->playerName, pos);
       i = 0;
       pos.x = 10;
       pos.y = 1;

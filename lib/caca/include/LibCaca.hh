@@ -26,6 +26,7 @@ namespace 				arcade
     {
       caca_display_t			*window;
       caca_canvas_t			*canvas;
+      caca_event_t			event;
       std::map<arcade::InputKey, int>	keymap;
 
      public:
@@ -39,6 +40,7 @@ namespace 				arcade
       virtual void 			drawText(const std::string &str, const arcade::Position &pos);
       virtual void 			winClear();
       virtual void 			display();
+      virtual int 			getKey();
       virtual void 			playMusic(const std::string &music);
       virtual void 			stopMusic() {};
       virtual void 			drawGameObject(const arcade::games::IGameObject*);

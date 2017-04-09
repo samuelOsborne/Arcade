@@ -26,7 +26,8 @@ namespace 					arcade
       arcade::Player				player;
       arcade::Map				map;
       int 					score;
-      std::vector<arcade::games::IGameObject*>		strings;
+      std::vector<arcade::games::IGameObject*>	strings;
+      std::string				playerName;
 
       virtual bool				processCmd(const arcade::CommandType&) = 0;
       virtual bool 				checkIfCanMove(const arcade::Position &) const;
@@ -38,10 +39,12 @@ namespace 					arcade
       virtual ~AGame() {};
 
       virtual const arcade::IMap		*getMap() const;
-      virtual const arcade::games::IGameObject		*getPlayer() const;
+      virtual const arcade::games::IGameObject	*getPlayer() const;
       virtual const std::vector<arcade::games::IGameObject*>	&getEnemies() const = 0;
       virtual bool				playRound(const arcade::CommandType &cmd) = 0;
       virtual const std::vector<IGameObject*>	&getStrings() const;
+      virtual void 				setPlayerName(const std::string &);
+
     };
   };
 };

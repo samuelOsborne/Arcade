@@ -27,6 +27,7 @@ namespace 				arcade
       virtual void 			openWindow() = 0;
       virtual void 			closeWindow() = 0;
       virtual bool 			isKeyPressed(const arcade::Input &input) = 0;
+      virtual int			getKey() = 0;
       virtual bool			isEventQuit() = 0;
       virtual void 			winClear() = 0;
       virtual void 			display() = 0;
@@ -37,7 +38,6 @@ namespace 				arcade
       virtual void 			drawGameObject(const arcade::games::IGameObject*) = 0;
       virtual arcade::CommandType 	processInput() = 0;
     };
-
   };
 };
 

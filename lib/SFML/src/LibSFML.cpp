@@ -126,6 +126,16 @@ void		arcade::library::LibSFML::drawText(const std::string &str, const arcade::P
     }
 }
 
+int	arcade::library::LibSFML::getKey()
+{
+  sf::Event	event;
+
+  if (this->window.pollEvent(event))
+    if (event.type == sf::Event::TextEntered && event.text.unicode < 128)
+      return (event.text.unicode);
+  return (-1);
+}
+
 void	arcade::library::LibSFML::winClear()
 {
   this->window.clear(sf::Color::Black);
@@ -143,7 +153,6 @@ void		arcade::library::LibSFML::playMusic(const std::string &musicName)
   else
     this->music.play();
 }
-
 
 void	arcade::library::LibSFML::stopMusic()
 {

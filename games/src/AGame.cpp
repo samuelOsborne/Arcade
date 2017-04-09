@@ -55,3 +55,8 @@ const std::vector<arcade::games::IGameObject*>	&arcade::games::AGame::getStrings
 {
   return (this->strings);
 }
+
+void	arcade::games::AGame::setPlayerName(const std::string &name)
+{
+  this->playerName = name;
+}

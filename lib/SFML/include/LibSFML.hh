@@ -37,6 +37,7 @@ namespace 						arcade
       LibSFML();
       ~LibSFML();
 
+      virtual int 					getKey();
       virtual void					openWindow();
       virtual void					closeWindow();
       virtual bool 					isKeyPressed(const arcade::Input &input);

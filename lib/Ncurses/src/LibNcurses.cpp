@@ -15,6 +15,7 @@
 
 arcade::library::LibNcurses::LibNcurses()
 {
+  this->key = 0;
   this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::UNKNOWN, 0));
   this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::ESCAPE, 27));
   this->keymap.insert(std::pair<arcade::InputKey, int>(arcade::InputKey::NUM0, '0'));
@@ -66,16 +67,23 @@ bool 		arcade::library::LibNcurses::isKeyPressed(const arcade::Input &input)
 
 bool	arcade::library::LibNcurses::isEventQuit()
 {
-  if (getch() == 27)
+  if (this->key == 27)
     return (true);
   return (false);
+}
+
+int	arcade::library::LibNcurses::getKey()
+{
+  if (this->key < 128)
+    return (this->key);
+  return (-1);
 }
 
 arcade::CommandType	arcade::library::LibNcurses::processInput()
 {
   int 			key;
 
-  key = getch();
+  key = (this->key = getch());
   if (key == KEY_LEFT)
     return (arcade::CommandType::GO_LEFT);
   if (key == KEY_RIGHT)

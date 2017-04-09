@@ -153,10 +153,10 @@ void 				arcade::games::Pacman::moveAi(arcade::games::Ghost *ghost)
     }
 }
 
-void						arcade::games::Pacman::runAi()
+void							arcade::games::Pacman::runAi()
 {
   std::vector<arcade::games::IGameObject*>::iterator	it;
-  arcade::games::Ghost				*ghost;
+  arcade::games::Ghost					*ghost;
 
   it = this->enemies.begin();
   while (it != this->enemies.end())
@@ -164,12 +164,13 @@ void						arcade::games::Pacman::runAi()
       ghost = dynamic_cast<arcade::games::Ghost*>(*it);
       if (ghost->getVulne())
 	{
-	  if (ghost->getTimer() == 30)
+	  ghost->setTimer(ghost->getTimer() + 1);
+	  if (ghost->getTimer() >= 30)
 	    {
+	      ghost->setTimer(0);
 	      ghost->setVulne(false);
 	      ghost->switchAsset();
 	    }
-	  ghost->setTimer(ghost->getTimer() + 1);
 	}
       if (ghost->getSpawn())
 	{
@@ -347,7 +348,6 @@ bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
 {
   std::vector<arcade::games::IGameObject*>::iterator it;
 
-  //TODO print message de WIN
   if (this->count == 245)
     {
       if (this->endGameCount == 0)
@@ -360,13 +360,8 @@ bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
   this->runAi();
   if (this->checkCollision())
     return (false);
-  if ((cmd == arcade::CommandType::PLAY || cmd == arcade::CommandType::LAUNCH
-       || cmd == arcade::CommandType::ILLEGAL) && this->oldcmd != arcade::CommandType::ILLEGAL)
-    {
-      if (!this->checkVulne())
-	return (false);
-    }
-  if (cmd == arcade::CommandType::PLAY
+  if (cmd != arcade::CommandType::GO_RIGHT && cmd != arcade::CommandType::GO_LEFT
+      && cmd != arcade::CommandType::GO_UP && cmd != arcade::CommandType::GO_DOWN
       && this->oldcmd != arcade::CommandType::ILLEGAL)
     return (this->processCmd(this->oldcmd));
   else
@@ -375,13 +370,15 @@ bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
 
 extern "C" void Play()
 {
-  arcade::CommandType cmd;
-  arcade::games::Pacman pacman;
-  struct arcade::WhereAmI *whereAmI;
-  struct arcade::GetMap *getMap;
-  arcade::Position pos;
-  int			i;
+  arcade::CommandType		cmd;
+  arcade::CommandType		cmdbuff;
+  arcade::games::Pacman		pacman;
+  struct arcade::WhereAmI	*whereAmI;
+  struct arcade::GetMap		*getMap;
+  arcade::Position		pos;
+  int				i;
 
+  cmdbuff = arcade::CommandType::PLAY;
   while (1)
     {
       std::cin.read(reinterpret_cast<char*>(&cmd), sizeof(arcade::CommandType));
@@ -396,7 +393,6 @@ extern "C" void Play()
 	  std::cout.write(reinterpret_cast<char *>(whereAmI),
 			  sizeof(arcade::Position) + sizeof(arcade::WhereAmI));
 	}
-
       if (cmd == arcade::CommandType::GET_MAP)
 	{
 	  getMap = new arcade::GetMap[28 * 31 * sizeof(arcade::TileType) +
@@ -415,12 +411,11 @@ extern "C" void Play()
 	  std::cout.write(reinterpret_cast<char *>(getMap),
 			  28 * 31 * sizeof(arcade::TileType) + sizeof(arcade::GetMap));
 	}
-
-      if (cmd == arcade::CommandType::GO_UP ||
-	  cmd == arcade::CommandType::GO_DOWN ||
-	  cmd == arcade::CommandType::GO_LEFT ||
-	  cmd == arcade::CommandType::GO_RIGHT)
-	pacman.playRound(cmd);
+      if (cmd == arcade::CommandType::GO_UP || cmd == arcade::CommandType::GO_DOWN ||
+	  cmd == arcade::CommandType::GO_LEFT || cmd == arcade::CommandType::GO_RIGHT)
+	cmdbuff = cmd;
+      else if (cmd == arcade::CommandType::PLAY)
+	pacman.playRound(cmdbuff);
     }
 }
 

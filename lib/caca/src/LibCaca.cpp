@@ -80,14 +80,20 @@ bool		arcade::library::LibCaca::isEventQuit()
   return (false);
 }
 
+int 		arcade::library::LibCaca::getKey()
+{
+  if (caca_get_event_key_ch(&this->event) < 128)
+    return (caca_get_event_key_ch(&this->event));
+  return (-1);
+}
+
 arcade::CommandType	arcade::library::LibCaca::processInput()
 {
-  caca_event_t		event;
   int 			key;
 
-  if (caca_get_event(this->window, CACA_EVENT_KEY_PRESS, &event, 0) == 1)
+  if (caca_get_event(this->window, CACA_EVENT_KEY_PRESS, &this->event, 0) == 1)
     {
-      key = caca_get_event_key_ch(&event);
+      key = caca_get_event_key_ch(&this->event);
       if (key == CACA_KEY_LEFT)
 	return (arcade::CommandType::GO_LEFT);
       if (key == CACA_KEY_RIGHT)

@@ -32,6 +32,7 @@ namespace						arcade
     bool 						gameLaunched;
     arcade::CommandType 				bufferCmd;
     arcade::CommandType 				cmd;
+    std::string						playerName;
 
     void 						update();
     void 						eventHandler();

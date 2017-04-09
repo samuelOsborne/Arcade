@@ -53,6 +53,7 @@ namespace		 		arcade
       virtual bool 			isKeyPressed(const arcade::Input &input);
       virtual bool			isEventQuit();
       virtual void 			drawText(const std::string &str, const arcade::Position &pos);
+      virtual int 			getKey();
       virtual void 			winClear();
       virtual void 			display();
       virtual void 			playMusic(const std::string &music);
