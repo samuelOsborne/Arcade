@@ -390,7 +390,7 @@ bool					arcade::games::Pacman::saveScoreAndQuit() {
 	  if (found != std::string::npos)
 	    {
 	      tmp = (*it).substr(found + 1);
-	      if (tmp.find_first_not_of("0123456789") != std::string::npos && tmp != "")
+	      if (tmp.find_first_not_of("0123456789") == std::string::npos && tmp != "")
 		{
 		  oldScore = std::stoi(tmp);
 		  if (this->score > oldScore && !printed)
