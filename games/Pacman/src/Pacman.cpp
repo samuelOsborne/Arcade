@@ -359,6 +359,8 @@ bool	arcade::games::Pacman::saveScoreAndQuit() {
   std::string line;
   std::vector<std::string> vec;
   std::vector<std::string>::iterator it;
+  std::string tmp;
+  size_t found;
   bool printed;
   int oldScore;
   int i;
@@ -380,16 +382,22 @@ bool	arcade::games::Pacman::saveScoreAndQuit() {
   i = 0;
   if (scoreFile.is_open()) {
     while (it != vec.end() && i < 3) {
-      oldScore = std::stoi((*it).substr((*it).find(":") + 1));
-      if (this->score > oldScore && !printed) {
-	if (this->playerName == "")
-	  scoreFile << "Unknown:" << this->score << "\n";
-	else
-	  scoreFile << this->playerName << ":" << this->score << "\n";
-	printed = true;
-      } else {
-	scoreFile << (*it) << "\n";
-	it++;
+      found = (*it).find(":");
+      if (found != std::string::npos) {
+	tmp = (*it).substr(found + 1);
+	if (tmp.find_first_not_of("0123456789") != std::string::npos && tmp != "") {
+	  oldScore = std::stoi(tmp);
+	  if (this->score > oldScore && !printed) {
+	    if (this->playerName == "")
+	      scoreFile << "Unknown:" << this->score << "\n";
+	    else
+	      scoreFile << this->playerName << ":" << this->score << "\n";
+	    printed = true;
+	  } else {
+	    scoreFile << (*it) << "\n";
+	    it++;
+	  }
+	}
       }
       i++;
     }
