@@ -101,6 +101,7 @@ void	arcade::games::Pacman::pushBackHighScore()
       y += 2;
       this->strings.push_back(new arcade::String(32, y, line));
     }
+    scoreFile.close();
   }
   else
     std::cerr << "Couldn't open score file" << std::endl;
