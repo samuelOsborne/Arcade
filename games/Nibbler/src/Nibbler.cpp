@@ -87,12 +87,14 @@ bool	arcade::games::Nibbler::saveScoreAndQuit() {
   std::string line;
   std::vector<std::string> vec;
   std::vector<std::string>::iterator it;
+  std::string tmp;
+  size_t found;
   bool printed;
   int oldScore;
   int i;
 
   i = 0;
-  scoreFile.open("./.Nibbler");
+  scoreFile.open("./.Pacman");
   if (scoreFile.is_open()) {
     while (i < 3) {
       std::getline(scoreFile, line);
@@ -104,20 +106,26 @@ bool	arcade::games::Nibbler::saveScoreAndQuit() {
   else
     std::cerr << "Couldn't open score file" << std::endl;
   it = vec.begin();
-  scoreFile.open("./.Nibbler", std::fstream::out);
+  scoreFile.open("./.Pacman", std::fstream::out);
   i = 0;
   if (scoreFile.is_open()) {
     while (it != vec.end() && i < 3) {
-      oldScore = std::stoi((*it).substr((*it).find(":") + 1));
-      if (this->score > oldScore && !printed) {
-	if (this->playerName == "")
-	  scoreFile << "Unknown:" << this->score << "\n";
-	else
-	  scoreFile << this->playerName << ":" << this->score << "\n";
-	printed = true;
-      } else {
-	scoreFile << (*it) << "\n";
-	it++;
+      found = (*it).find(":");
+      if (found != std::string::npos) {
+	tmp = (*it).substr(found + 1);
+	if (tmp.find_first_not_of("0123456789") != std::string::npos && tmp != "") {
+	  oldScore = std::stoi(tmp);
+	  if (this->score > oldScore && !printed) {
+	    if (this->playerName == "")
+	      scoreFile << "Unknown:" << this->score << "\n";
+	    else
+	      scoreFile << this->playerName << ":" << this->score << "\n";
+	    printed = true;
+	  } else {
+	    scoreFile << (*it) << "\n";
+	    it++;
+	  }
+	}
       }
       i++;
     }
