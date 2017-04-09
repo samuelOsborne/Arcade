@@ -21,7 +21,7 @@ namespace 					arcade
     class					Nibbler : public arcade::games::AGame
     {
       arcade::CommandType 			oldcmd;
-      std::vector<arcade::games::IGameObject*>		body;
+      std::vector<arcade::games::IGameObject*> 	body;
 
       char 					textmap[15][15] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
 								     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
@@ -53,7 +53,7 @@ namespace 					arcade
       Nibbler();
       Nibbler(const Nibbler &other) = delete;
       Nibbler &operator=(const Nibbler &other) = delete;
-      ~Nibbler() {};
+      ~Nibbler();
 
       virtual const std::vector<arcade::games::IGameObject*>	&getEnemies() const;
       virtual bool				playRound(const arcade::CommandType &cmd);

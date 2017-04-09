@@ -27,7 +27,6 @@ namespace					arcade
       std::vector<arcade::games::IGameObject*>	enemies;
       int 					count;
       int 					endGameCount;
-      int					respawnTimer;
       char 					textmap[31][28] = {{3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
 								     {2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2},
 								     {2, 7, 3, 1, 1, 4, 7, 3, 1, 1, 1, 4, 7, 2, 2, 7, 3, 1, 1, 1, 4, 7, 3, 1, 1, 4, 7, 2},
@@ -72,9 +71,9 @@ namespace					arcade
 
      public:
       Pacman();
-      Pacman(const Pacman &);
-      Pacman &operator=(const Pacman &);
-      virtual ~Pacman() {};
+      Pacman(const Pacman &) = delete;
+      Pacman &operator=(const Pacman &) = delete;
+      ~Pacman();
 
       virtual const std::vector<arcade::games::IGameObject*>	&getEnemies() const;
       virtual bool				playRound(const arcade::CommandType &cmd);

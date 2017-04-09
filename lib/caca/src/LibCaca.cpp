@@ -168,9 +168,11 @@ void			arcade::library::LibCaca::drawGameObject(const arcade::games::IGameObject
 	  ss << color;
 	  ss >> colornb;
 	  caca_set_color_ansi(this->canvas, CACA_BLACK, colornb);
-	  caca_put_str(this->canvas, obj->getPos().x * 2, obj->getPos().y * 2, character.c_str());
+	  caca_put_str(this->canvas, obj->getPos().x/* * 2*/, obj->getPos().y/* * 2*/, character.c_str());
+/*
 	  if (getline(file, character))
 	    caca_put_str(this->canvas, obj->getPos().x * 2, obj->getPos().y * 2 + 1, character.c_str());
+*/
 	  file.close();
 	  return;
 	}

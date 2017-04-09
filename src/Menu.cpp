@@ -9,9 +9,7 @@
 */
 
 #include <thread>
-#include <chrono>
 #include "IGameObject.hh"
-#include "Protocol.hpp"
 #include "Map.hh"
 #include "Menu.hh"
 
@@ -26,6 +24,12 @@ arcade::Menu::Menu(const char *nameLib)
   this->bufferCmd = arcade::CommandType::PLAY;
   this->setLib(nameLib);
   this->lib->playMusic("./misc/CrashTheme.wav");
+}
+
+arcade::Menu::~Menu()
+{
+  this->closeGame();
+  this->closeLib();
 }
 
 void	arcade::Menu::setLib(const char *nameLib)
@@ -297,16 +301,10 @@ void								arcade::Menu::loopMenu()
 	{
 	  this->eventHandler();
 	  if (this->cmd == arcade::CommandType::EXIT)
-	    {
-	      this->closeGame();
-	      this->closeLib();
-	      return;
-	    }
+	    return;
 	}
       this->lib->winClear();
       this->update();
       this->lib->display();
     }
-  this->closeGame();
-  this->closeLib();
 }

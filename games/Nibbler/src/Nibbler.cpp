@@ -51,6 +51,11 @@ arcade::games::Nibbler::Nibbler()
   this->spawnFruit();
 }
 
+arcade::games::Nibbler::~Nibbler()
+{
+  this->body.clear();
+}
+
 bool	arcade::games::Nibbler::checkIfCanMove(const arcade::Position &pos) const
 {
   return (((this->map.getTile(pos)->getTileType() == arcade::TileType::EMPTY ||

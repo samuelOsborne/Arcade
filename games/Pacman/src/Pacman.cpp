@@ -38,7 +38,6 @@ arcade::games::Pacman::Pacman()
   this->oldcmd = arcade::CommandType::ILLEGAL;
   this->score = 0;
   this->endGameCount = 0;
-  this->respawnTimer = 0;
   this->waka = false;
   srand(time(0));
   pos.y = 0;
@@ -73,15 +72,9 @@ arcade::games::Pacman::Pacman()
   this->strings.push_back(new arcade::String(0, 0, std::to_string(this->score)));
 }
 
-arcade::games::Pacman::Pacman(const arcade::games::Pacman &other)
- : arcade::games::AGame(28, 31)
+arcade::games::Pacman::~Pacman()
 {
-  if (this != &other)
-    {
-      this->player = other.player;
-      this->enemies = other.enemies;
-      this->count = other.count;
-    }
+  this->enemies.clear();
 }
 
 void 						arcade::games::Pacman::initEnemies()
@@ -90,13 +83,6 @@ void 						arcade::games::Pacman::initEnemies()
   this->enemies.push_back(new arcade::games::Ghost(14, 15, "./misc/Pacman/BlueGhost"));
   this->enemies.push_back(new arcade::games::Ghost(15, 14, "./misc/Pacman/PinkGhost"));
   this->enemies.push_back(new arcade::games::Ghost(14, 11, "./misc/Pacman/OrangeGhost"));
-}
-
-arcade::games::Pacman 				&arcade::games::Pacman::operator=(const Pacman& other)
-{
-  if (this != &other)
-    this->player = other.player;
-  return (*this);
 }
 
 const std::vector<arcade::games::IGameObject*>	&arcade::games::Pacman::getEnemies() const

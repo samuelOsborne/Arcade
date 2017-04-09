@@ -13,13 +13,11 @@
 
 arcade::library::LibSFML::LibSFML()
 {
+  this->fontLoaded = false;
   if (!(this->font.loadFromFile("./misc/Aaargh.ttf")))
-    {
       std::cerr << "Can't load font 'Aaargh.ttf' in ./misc folder" << std::endl;
-      this->text = 0;
-    }
   else
-    this->text = new sf::Text("", this->font, 15);
+    this->fontLoaded = true;
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::UNKNOWN, sf::Keyboard::Key::Unknown));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::ESCAPE, sf::Keyboard::Key::Escape));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::NUM0, sf::Keyboard::Key::Num0));
@@ -42,8 +40,6 @@ arcade::library::LibSFML::LibSFML()
 
 arcade::library::LibSFML::~LibSFML()
 {
-  if (this->text)
-    delete (this->text);
 }
 
 void	arcade::library::LibSFML::openWindow()
@@ -118,11 +114,15 @@ arcade::CommandType	arcade::library::LibSFML::processInput()
 
 void		arcade::library::LibSFML::drawText(const std::string &str, const arcade::Position &pos)
 {
-  if (this->text)
+  sf::Text	text;
+
+  if (this->fontLoaded)
     {
-      this->text->setString(str);
-      this->text->setPosition(pos.x * 32, pos.y * 32);
-      this->window.draw(*(this->text));
+      text.setFont(this->font);
+      text.setString(str);
+      text.setPosition(pos.x * 32, pos.y * 32);
+      text.setStyle(sf::Text::Regular);
+      this->window.draw(text);
     }
 }
 

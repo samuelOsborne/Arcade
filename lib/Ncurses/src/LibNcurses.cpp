@@ -151,9 +151,11 @@ void			arcade::library::LibNcurses::drawGameObject(const arcade::games::IGameObj
 	{
 	  ss << color;
 	  ss >> colornb;
-	  mvprintw(obj->getPos().y * 2, obj->getPos().x * 2, "%s", character.c_str());
+	  mvprintw(obj->getPos().y/* * 2*/, obj->getPos().x/* * 2*/, "%s", character.c_str());
+/*
 	  if (getline(file, character))
 	    mvprintw(obj->getPos().y * 2 + 1, obj->getPos().x * 2, "%s", character.c_str());
+*/
 	  file.close();
 	  return ;
 	}
