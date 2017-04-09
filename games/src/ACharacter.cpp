@@ -35,13 +35,3 @@ arcade::ACharacter	&arcade::ACharacter::operator=(const arcade::ACharacter &othe
     }
   return (*this);
 }
-
-void	arcade::ACharacter::setPos(const arcade::Position &pos)
-{
-  this->pos = pos;
-}
-
-arcade::Position	arcade::ACharacter::getPos() const
-{
-  return (this->pos);
-}

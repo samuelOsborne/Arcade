@@ -22,11 +22,12 @@ namespace					arcade
   {
     class 					Pacman : public arcade::games::AGame
     {
-      int 					count;
-      int 					endGameCount;
       bool 					waka;
       arcade::CommandType 			oldcmd;
       std::vector<arcade::games::IGameObject*>	enemies;
+      int 					count;
+      int 					endGameCount;
+      int					respawnTimer;
       char 					textmap[31][28] = {{3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4},
 								     {2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2, 2, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 2},
 								     {2, 7, 3, 1, 1, 4, 7, 3, 1, 1, 1, 4, 7, 2, 2, 7, 3, 1, 1, 1, 4, 7, 3, 1, 1, 4, 7, 2},

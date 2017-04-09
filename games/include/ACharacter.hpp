@@ -25,8 +25,6 @@ namespace 			arcade
     virtual ~ACharacter() {};
 
     virtual void 		move(const arcade::Position&) = 0;
-    virtual void 		setPos(const arcade::Position &pos);
-    virtual arcade::Position 	getPos() const;
   };
 
 };
