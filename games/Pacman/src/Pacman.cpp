@@ -71,6 +71,7 @@ arcade::games::Pacman::Pacman()
     }
   this->initEnemies();
   this->strings.push_back(new arcade::String(0, 0, std::to_string(this->score)));
+  this->pushBackHighScore();
 }
 
 arcade::games::Pacman::Pacman(const arcade::games::Pacman &other)
@@ -82,6 +83,27 @@ arcade::games::Pacman::Pacman(const arcade::games::Pacman &other)
       this->enemies = other.enemies;
       this->count = other.count;
     }
+}
+
+void	arcade::games::Pacman::pushBackHighScore()
+{
+  std::fstream scoreFile;
+  std::string line;
+  int y;
+
+  y = 1;
+  scoreFile.open("./.Pacman");
+  if (scoreFile.is_open())
+  {
+    this->strings.push_back(new arcade::String(32, y, "Laderboard"));
+    while (std::getline(scoreFile, line))
+    {
+      y += 2;
+      this->strings.push_back(new arcade::String(32, y, line));
+    }
+  }
+  else
+    std::cerr << "Couldn't open score file" << std::endl;
 }
 
 void 						arcade::games::Pacman::initEnemies()
@@ -373,16 +395,13 @@ bool	arcade::games::Pacman::saveScoreAndQuit() {
   if (scoreFile.is_open()) {
     while (it != vec.end() && i < 3) {
       oldScore = std::stoi((*it).substr((*it).find(":") + 1));
-      std::cout << "Player score = " << this->score << " old = " << oldScore << std::endl;
       if (this->score > oldScore && !printed) {
-	std::cout << "printed in file" << std::endl;
 	if (this->playerName == "")
 	  scoreFile << "Unknown:" << this->score << "\n";
 	else
 	  scoreFile << this->playerName << ":" << this->score << "\n";
 	printed = true;
       } else {
-	std::cout << "printed former one" << std::endl;
 	scoreFile << (*it) << "\n";
 	it++;
       }

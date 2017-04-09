@@ -10,6 +10,7 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 #include "IGameObject.hh"
 #include "Nibbler.hh"
 #include "NibblerFloor.hh"
@@ -47,8 +48,30 @@ arcade::games::Nibbler::Nibbler()
       pos.y++;
     }
   this->strings.push_back(new arcade::String(0, 0, std::to_string(this->score)));
+  this->pushBackHighScore();
   std::srand(std::time(0));
   this->spawnFruit();
+}
+
+void	arcade::games::Nibbler::pushBackHighScore()
+{
+  std::fstream scoreFile;
+  std::string line;
+  int y;
+
+  y = 1;
+  scoreFile.open("./.Nibbler");
+  if (scoreFile.is_open())
+  {
+    this->strings.push_back(new arcade::String(30, y, "Laderboard"));
+    while (std::getline(scoreFile, line))
+    {
+      y += 2;
+      this->strings.push_back(new arcade::String(30, y, line));
+    }
+  }
+  else
+    std::cerr << "Couldn't open score file" << std::endl;
 }
 
 bool	arcade::games::Nibbler::checkIfCanMove(const arcade::Position &pos) const
@@ -57,6 +80,59 @@ bool	arcade::games::Nibbler::checkIfCanMove(const arcade::Position &pos) const
       this->map.getTile(pos)->getTileType() == arcade::TileType::POWERUP ||
       this->map.getTile(pos)->getTileType() == arcade::TileType::OTHER) &&
       !this->checkPosInBody(pos)));
+}
+
+bool	arcade::games::Nibbler::saveScoreAndQuit() {
+  std::fstream scoreFile;
+  std::string line;
+  std::vector<std::string> vec;
+  std::vector<std::string>::iterator it;
+  bool printed;
+  int oldScore;
+  int i;
+
+  i = 0;
+  scoreFile.open("./.Nibbler");
+  if (scoreFile.is_open()) {
+    while (i < 3) {
+      std::getline(scoreFile, line);
+      vec.push_back(line);
+      i++;
+    }
+    scoreFile.close();
+  }
+  else
+    std::cerr << "Couldn't open score file" << std::endl;
+  it = vec.begin();
+  scoreFile.open("./.Nibbler", std::fstream::out);
+  i = 0;
+  if (scoreFile.is_open()) {
+    while (it != vec.end() && i < 3) {
+      oldScore = std::stoi((*it).substr((*it).find(":") + 1));
+      if (this->score > oldScore && !printed) {
+	if (this->playerName == "")
+	  scoreFile << "Unknown:" << this->score << "\n";
+	else
+	  scoreFile << this->playerName << ":" << this->score << "\n";
+	printed = true;
+      } else {
+	scoreFile << (*it) << "\n";
+	it++;
+      }
+      i++;
+    }
+    if (i < 3)
+    {
+      if (this->playerName == "")
+	scoreFile << "Unknown:" << this->score << "\n";
+      else
+	scoreFile << this->playerName << ":" << this->score << "\n";
+    }
+    scoreFile.close();
+  }
+  else
+    std::cerr << "Couldn't open score file (2)" << std::endl;
+  return (false);
 }
 
 bool 		arcade::games::Nibbler::movePlayer(const arcade::Position &pos,
@@ -69,7 +145,7 @@ bool 		arcade::games::Nibbler::movePlayer(const arcade::Position &pos,
       this->oldcmd = cmd;
       return (true);
     }
-  return (false);
+  return (this->saveScoreAndQuit());
 }
 
 bool			arcade::games::Nibbler::processCmd(const arcade::CommandType &cmd)

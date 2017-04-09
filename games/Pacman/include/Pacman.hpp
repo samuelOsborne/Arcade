@@ -69,6 +69,7 @@ namespace					arcade
       void 					rotatePacman(int dir);
       void					initEnemies();
       void					runAi();
+      void					pushBackHighScore();
 
      public:
       Pacman();

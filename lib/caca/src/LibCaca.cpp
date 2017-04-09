@@ -48,7 +48,7 @@ arcade::library::LibCaca::~LibCaca()
 void	arcade::library::LibCaca::openWindow()
 {
   /* TODO Check Retour de fonction */
-  this->canvas = caca_create_canvas(70, 70);
+  this->canvas = caca_create_canvas(140, 100);
   this->window = caca_create_display(this->canvas);
 }
 
@@ -131,7 +131,7 @@ arcade::CommandType	arcade::library::LibCaca::processInput()
 
 void	arcade::library::LibCaca::drawText(const std::string &str, const arcade::Position &pos)
 {
-  caca_put_str(this->canvas, pos.x, pos.y, str.c_str());
+  caca_put_str(this->canvas, pos.x * 2, pos.y, str.c_str());
 }
 
 void	arcade::library::LibCaca::winClear()

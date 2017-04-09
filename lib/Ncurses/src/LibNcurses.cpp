@@ -115,7 +115,7 @@ arcade::CommandType	arcade::library::LibNcurses::processInput()
 
 void	arcade::library::LibNcurses::drawText(const std::string &str, const arcade::Position &pos)
 {
-  mvprintw(pos.y, pos.x, "%s", str.c_str());
+  mvprintw(pos.y, pos.x * 2, "%s", str.c_str());
 }
 
 void	arcade::library::LibNcurses::winClear()
