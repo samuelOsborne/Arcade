@@ -11,7 +11,7 @@
 #ifndef AOBJECTS_HPP_
 # define AOBJECTS_HPP_
 
-# include "AGameObject.hpp"
+# include "AGameObject.hh"
 # include "Protocol.hpp"
 
 namespace 			arcade

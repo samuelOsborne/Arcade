@@ -11,7 +11,7 @@
 #ifndef FLOOR_HPP_
 # define FLOOR_HPP_
 
-#include "ABlock.hpp"
+#include "ABlock.hh"
 
 namespace 		arcade
 {

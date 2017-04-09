@@ -12,7 +12,7 @@
 # define ENEMY_HPP_
 
 # include "Protocol.hpp"
-# include "ACharacter.hpp"
+# include "ACharacter.hh"
 
 namespace 		arcade
 {

@@ -11,7 +11,7 @@
 #ifndef WALL_HPP_
 # define WALL_HPP_
 
-# include "ABlock.hpp"
+# include "ABlock.hh"
 
 namespace 		arcade
 {

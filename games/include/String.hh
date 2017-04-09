@@ -11,7 +11,7 @@
 #ifndef STRING_HH_
 # define STRING_HH_
 
-# include <AGameObject.hpp>
+# include "AGameObject.hh"
 
 namespace		arcade
 {

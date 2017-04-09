@@ -11,7 +11,7 @@
 #ifndef ABLOCK_HPP_
 # define ABLOCK_HPP_
 
-# include "AGameObject.hpp"
+# include "AGameObject.hh"
 
 namespace 			arcade
 {

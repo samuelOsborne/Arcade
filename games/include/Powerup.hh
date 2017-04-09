@@ -12,7 +12,7 @@
 # define POWERUP_HPP_
 
 # include "Protocol.hpp"
-# include "AObjects.hpp"
+# include "AObjects.hh"
 
 namespace 		arcade
 {

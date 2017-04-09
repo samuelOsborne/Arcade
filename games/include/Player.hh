@@ -13,7 +13,7 @@
 
 # include "Arcade.hpp"
 # include "Protocol.hpp"
-# include "ACharacter.hpp"
+# include "ACharacter.hh"
 
 namespace 				arcade
 {

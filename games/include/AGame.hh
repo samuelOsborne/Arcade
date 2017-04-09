@@ -12,8 +12,8 @@
 # define ARCADE_AGAME_HPP_
 
 # include "Map.hh"
-# include "Player.hpp"
-# include "IGame.hpp"
+# include "Player.hh"
+# include "IGame.hh"
 //# include "String.hh"
 
 namespace 					arcade

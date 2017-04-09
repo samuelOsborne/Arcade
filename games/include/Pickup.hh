@@ -11,7 +11,7 @@
 #ifndef PICKUP_HPP_
 # define PICKUP_HPP_
 
-# include "AObjects.hpp"
+# include "AObjects.hh"
 
 namespace 		arcade
 {

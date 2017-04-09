@@ -12,7 +12,7 @@
 # define ACHARACTER_HPP_
 
 # include "Protocol.hpp"
-# include "AGameObject.hpp"
+# include "AGameObject.hh"
 
 namespace 			arcade
 {

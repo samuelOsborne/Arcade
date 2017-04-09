@@ -11,7 +11,7 @@
 #ifndef PROJECTILE_HPP_
 # define PROJECTILE_HPP_
 
-#include "AObjects.hpp"
+#include "AObjects.hh"
 
 namespace 		arcade
 {
