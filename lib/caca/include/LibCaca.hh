@@ -31,6 +31,8 @@ namespace 				arcade
 
      public:
       LibCaca();
+      LibCaca(const LibCaca &other) = delete;
+      LibCaca &operator=(const LibCaca &other) = delete;
       ~LibCaca();
 
       virtual void			openWindow();
