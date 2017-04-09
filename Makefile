@@ -5,7 +5,7 @@
 ## Login   <lucas.villeneuve@epitech.eu>
 ## 
 ## Started on  Sun Mar 12 13:53:13 2017 Lucas Villeneuve
-## Last update Sat Apr  8 10:57:28 2017 Lucas Villeneuve
+## Last update Sun Apr  9 22:03:29 2017 escorn_t
 ##
 
 NAME		=	arcade
@@ -60,7 +60,7 @@ gameslib:
 		@echo "\n$(GREEN)Compiling games :$(NO_COLOR)"
 		@$(MAKE) --no-print-directory -C $(GAMESPATH)
 
-all:		$(NAME) libraries
+all:		$(NAME)
 
 banner:
 		@echo "$(BLUE)"
@@ -73,15 +73,22 @@ banner:
 obj_echo:
 		@echo "\n$(GREEN)Compiling object files : $(NO_COLOR)"
 
+libclean:
+		@echo "$(YELLOW)Cleaning libraries :$(NO_COLOR)"
+		@$(MAKE) --no-print-directory -C $(LIBPATH) clean
+
+libfclean:	libclean
+		@$(MAKE) --no-print-directory -C $(LIBPATH) fclean
+
+libre:		libfclean libraries
+
 clean:
 		@echo "$(YELLOW)Cleaning :$(NO_COLOR)"
 		$(RM) $(OBJS)
-		@$(MAKE) --no-print-directory -C $(LIBPATH) clean
 		@$(MAKE) --no-print-directory -C $(GAMESPATH) clean
 
 fclean:		clean
 		$(RM) $(NAME)
-		@$(MAKE) --no-print-directory -C $(LIBPATH) fclean
 		@$(MAKE) --no-print-directory -C $(GAMESPATH) fclean
 
 re:		fclean all
