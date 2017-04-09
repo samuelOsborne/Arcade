@@ -44,9 +44,6 @@ arcade::library::LibSFML::~LibSFML()
 
 void	arcade::library::LibSFML::openWindow()
 {
-  /* TODO
-   * Check Retour de fonction
-   */
   this->window.create(sf::VideoMode(1400, 1000), "Arcade");
 }
 

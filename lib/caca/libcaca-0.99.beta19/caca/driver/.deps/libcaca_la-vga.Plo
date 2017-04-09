@@ -1,6 +1,0 @@
-driver/libcaca_la-vga.lo: driver/vga.c /usr/include/stdc-predef.h \
- ../config.h
-
-/usr/include/stdc-predef.h:
-
-../config.h:

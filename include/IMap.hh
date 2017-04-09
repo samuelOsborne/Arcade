@@ -29,7 +29,6 @@ namespace 				arcade
 						arcade::games::IGameObject *tile) = 0;
     virtual void			setTile(uint16_t x, uint16_t y,
 						arcade::games::IGameObject *tile) = 0;
-    /*TODO A ajouter */
     virtual void 			deleteTile(const Position &pos) = 0;
     virtual void 			deleteTile(uint16_t x, uint16_t y) = 0;
   };

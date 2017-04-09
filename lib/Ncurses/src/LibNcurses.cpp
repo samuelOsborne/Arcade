@@ -115,7 +115,7 @@ arcade::CommandType	arcade::library::LibNcurses::processInput()
 
 void	arcade::library::LibNcurses::drawText(const std::string &str, const arcade::Position &pos)
 {
-  mvprintw(pos.y, pos.x * 2, "%s", str.c_str());
+  mvprintw(pos.y * 2, pos.x * 2, "%s", str.c_str());
 }
 
 void	arcade::library::LibNcurses::winClear()
@@ -151,11 +151,7 @@ void			arcade::library::LibNcurses::drawGameObject(const arcade::games::IGameObj
 	{
 	  ss << color;
 	  ss >> colornb;
-	  mvprintw(obj->getPos().y/* * 2*/, obj->getPos().x/* * 2*/, "%s", character.c_str());
-/*
-	  if (getline(file, character))
-	    mvprintw(obj->getPos().y * 2 + 1, obj->getPos().x * 2, "%s", character.c_str());
-*/
+	  mvprintw(obj->getPos().y, obj->getPos().x, "%c", *(character.c_str()));
 	  file.close();
 	  return ;
 	}

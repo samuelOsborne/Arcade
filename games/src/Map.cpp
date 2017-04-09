@@ -87,11 +87,14 @@ void arcade::Map::setTile(uint16_t x, uint16_t y, arcade::games::IGameObject *ti
   this->tiles[y][x] = tile;
 }
 
-void	arcade::Map::deleteTile(__attribute__((unused))const arcade::Position &pos)
+void	arcade::Map::deleteTile(const arcade::Position &pos)
 {
+  if (this->tiles[pos.y][pos.x])
+    delete this->tiles[pos.y][pos.x];
 }
 
-void 	arcade::Map::deleteTile(__attribute__((unused))uint16_t x,
-				    __attribute__((unused))uint16_t y)
+void 	arcade::Map::deleteTile(uint16_t x, uint16_t y)
 {
+  if (this->tiles[y][x])
+    delete this->tiles[y][x];
 }

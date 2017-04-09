@@ -195,7 +195,7 @@ void	arcade::Menu::eventHandler()
       this->closeGame();
       std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
-  if (this->cmd == arcade::CommandType::SHOOT)
+  if (this->cmd == arcade::CommandType::SHOOT && !this->gameLaunched)
     {
       this->lib->stopMusic();
       this->closeLib();
