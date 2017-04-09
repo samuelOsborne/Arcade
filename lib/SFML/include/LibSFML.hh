@@ -27,9 +27,9 @@ namespace 						arcade
     {
       sf::RenderWindow					window;
       sf::Font						font;
-      sf::Text						*text;
-      sf::Music						music;
+      sf::Text						text;
       bool 						fontLoaded;
+      sf::Music						music;
       std::map<arcade::InputKey, sf::Keyboard::Key>	keymap;
       std::map<std::string, sf::Texture>		loadedTextures;
 

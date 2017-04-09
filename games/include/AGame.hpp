@@ -36,7 +36,7 @@ namespace 					arcade
       AGame(const uint16_t width, const uint16_t height) : map(width, height) {};
       AGame(AGame const &other);
       AGame &operator=(AGame const &other);
-      virtual ~AGame() {};
+      ~AGame();
 
       virtual const arcade::IMap		*getMap() const;
       virtual const arcade::games::IGameObject	*getPlayer() const;

@@ -53,6 +53,11 @@ arcade::games::Nibbler::Nibbler()
   this->spawnFruit();
 }
 
+arcade::games::Nibbler::~Nibbler()
+{
+  this->body.clear();
+}
+
 void	arcade::games::Nibbler::pushBackHighScore()
 {
   std::fstream scoreFile;

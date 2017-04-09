@@ -30,7 +30,7 @@ namespace						arcade
     Map(const uint16_t _width, const uint16_t _height);
     Map(const Map &other);
     Map &operator=(const Map &other);
-    ~Map() {};
+    ~Map();
 
     virtual uint16_t 					getWidth() const;
     virtual uint16_t 					getHeight() const;

@@ -24,19 +24,17 @@ arcade::games::AGame &arcade::games::AGame::operator=(arcade::games::AGame const
   return (*this);
 }
 
+arcade::games::AGame::~AGame()
+{
+  this->strings.clear();
+}
+
 bool	arcade::games::AGame::checkIfCanMove(const arcade::Position &pos) const
 {
   return ((this->map.getTile(pos)->getTileType() == arcade::TileType::EMPTY ||
       this->map.getTile(pos)->getTileType() == arcade::TileType::POWERUP ||
       this->map.getTile(pos)->getTileType() == arcade::TileType::OTHER));
 }
-
-/*
-std::string arcade::games::AGame::getName() const
-{
-  return (this->name);
-}
-*/
 
 const arcade::IMap	*arcade::games::AGame::getMap() const
 {

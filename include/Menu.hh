@@ -49,7 +49,7 @@ namespace						arcade
     Menu(const char *nameLib);
     Menu(const Menu &other) = delete;
     Menu &operator=(const Menu &other) = delete;
-    ~Menu() {};
+    ~Menu();
 
     void 						setLib(const char *nameLib);
     void 						closeLib();

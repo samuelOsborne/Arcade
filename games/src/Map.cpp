@@ -15,8 +15,8 @@
 arcade::Map::Map(const uint16_t _width, const uint16_t _height)
  : width(_width), height(_height)
 {
-  uint16_t				i;
-  uint16_t				j;
+  uint16_t					i;
+  uint16_t					j;
   std::vector<arcade::games::IGameObject*>	tmp;
 
   i = 0;
@@ -41,8 +41,20 @@ arcade::Map::Map(const Map &other)
 arcade::Map	&arcade::Map::operator=(const Map &other)
 {
   if (this != &other)
-    this->tiles = other.tiles;
+      this->tiles = other.tiles;
   return (*this);
+}
+
+arcade::Map::~Map()
+{
+  std::vector<std::vector<arcade::games::IGameObject*>>::iterator	it;
+
+  it = this->tiles.begin();
+  while (it != this->tiles.end())
+    {
+      (*it).clear();
+      ++it;
+    }
 }
 
 uint16_t	arcade::Map::getWidth() const

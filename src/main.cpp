@@ -28,14 +28,9 @@ int		main(int argc, char **argv)
 	{
 	  menu->loopMenu();
 	}
-      catch (const std::exception &e)
-	{
-	  menu->closeGame();
-	}
+      catch (const std::exception &e) {}
       delete (menu);
     }
-  catch (const std::exception &e)
-    {
-    }
+  catch (const std::exception &e) {}
   return (0);
 }
