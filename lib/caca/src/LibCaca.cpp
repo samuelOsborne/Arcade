@@ -11,6 +11,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <chrono>
+#include <thread>
 #include "LibCaca.hh"
 
 arcade::library::LibCaca::LibCaca()
@@ -83,7 +85,10 @@ bool		arcade::library::LibCaca::isEventQuit()
 int 		arcade::library::LibCaca::getKey()
 {
   if (caca_get_event_key_ch(&this->event) < 128)
-    return (caca_get_event_key_ch(&this->event));
+    {
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+      return (caca_get_event_key_ch(&this->event));
+    }
   return (-1);
 }
 

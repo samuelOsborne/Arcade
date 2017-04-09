@@ -79,15 +79,17 @@ void	arcade::Menu::closeGame()
 
 void 	arcade::Menu::switchLib(const MenuIndexLib &switchType)
 {
-  this->lib->stopMusic();
-  this->closeLib();
   if (switchType == MenuIndexLib::INCREMENT)
     this->libList.incrementIndex();
   else if (switchType == MenuIndexLib::DECREMENT)
     this->libList.decrementIndex();
+  if (this->gameLaunched)
+    {
+      this->lib->stopMusic();
+      this->closeLib();
+      this->setLib(this->libList.getName());
+    }
   std::this_thread::sleep_for(std::chrono::milliseconds(250));
-  this->setLib(this->libList.getName());
-  this->lib->playMusic("./misc/CrashTheme.wav");
 }
 
 void 	arcade::Menu::switchGame(const MenuIndexLib &switchType)
@@ -96,12 +98,12 @@ void 	arcade::Menu::switchGame(const MenuIndexLib &switchType)
     this->gamesList.incrementIndex();
   else if (switchType == MenuIndexLib::DECREMENT)
     this->gamesList.decrementIndex();
-  std::this_thread::sleep_for(std::chrono::milliseconds(250));
   if (this->gameLaunched)
     {
       this->closeGame();
       this->setGame(this->gamesList.getName());
     }
+  std::this_thread::sleep_for(std::chrono::milliseconds(250));
 }
 
 void			arcade::Menu::drawMap(const arcade::IMap *map)
@@ -189,6 +191,13 @@ void	arcade::Menu::eventHandler()
       this->closeGame();
       std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
+  if (this->cmd == arcade::CommandType::SHOOT)
+    {
+      this->lib->stopMusic();
+      this->closeLib();
+      this->setLib(this->libList.getName());
+      std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    }
   if ((c = this->lib->getKey()) != -1 && this->playerName.size() < 8
       && ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')))
     this->playerName += c;
@@ -229,30 +238,47 @@ void 			arcade::Menu::update()
       pos.y += 1;
       this->lib->drawText("3 : Next lib", pos);
       pos.y += 1;
-      this->lib->drawText("4 : Next game", pos);
+      this->lib->drawText("4 : Prev. game", pos);
       pos.y += 1;
-      this->lib->drawText("5 : Prev. game", pos);
+      this->lib->drawText("5 : Next game", pos);
       pos.y += 1;
       this->lib->drawText("8 : Reset game", pos);
       pos.y += 1;
       this->lib->drawText("9 : Return to menu", pos);
+      pos.y += 1;
+      this->lib->drawText("Space : Change graphic library", pos);
       pos.y += 2;
       this->lib->drawText("Name : ", pos);
-      pos.x += 2;
+      pos.x += 7;
       this->lib->drawText(this->playerName, pos);
       i = 0;
-      pos.x = 10;
-      pos.y = 1;
+      pos.x = 20;
+      pos.y = 2;
       while (i < static_cast<int>(this->gamesList.getSize()))
 	{
 	  pos.y += 1;
-	  pos.x -= 2;
+	  pos.x -= 4;
 	  if (i == this->gamesList.getIndex())
 	    this->lib->drawText("[X]", pos);
 	  else
 	    this->lib->drawText("[ ]", pos);
-	  pos.x += 2;
+	  pos.x += 4;
 	  this->lib->drawText(this->gamesList[i], pos);
+	  i++;
+	}
+      pos.x = 10;
+      pos.y += 8;
+      i = 0;
+      while (i < static_cast<int>(this->libList.getSize()))
+	{
+	  pos.y++;
+	  pos.x -= 4;
+	  if (i == this->libList.getIndex())
+	    this->lib->drawText("[X]", pos);
+	  else
+	    this->lib->drawText("[ ]", pos);
+	  pos.x += 4;
+	  this->lib->drawText(this->libList[i], pos);
 	  i++;
 	}
     }
