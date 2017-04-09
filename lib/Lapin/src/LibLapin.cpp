@@ -34,8 +34,13 @@ arcade::library::LibLapin::LibLapin()
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::SPACE, sf::Keyboard::Key::Space));
   keymap.insert(std::pair<arcade::InputKey, sf::Keyboard::Key>(arcade::InputKey::ENTER, sf::Keyboard::Key::Return));
   this->font = bunny_load_picture("./misc/font.png");
-  this->font->scale.x = 2;
-  this->font->scale.y = 2;
+  if (!this->font)
+    this->font = NULL;
+  else
+  {
+    this->font->scale.x = 2;
+    this->font->scale.y = 2;
+  }
 }
 
 arcade::library::LibLapin::~LibLapin()
@@ -53,8 +58,10 @@ void                            	arcade::library::LibLapin::closeWindow()
 
   bunny_delete_clipable(this->font);
   pos = this->loadedTextures.begin();
-  while (pos != this->loadedTextures.end()) {
-    bunny_delete_clipable(pos->second);
+  while (pos != this->loadedTextures.end())
+  {
+    if (pos->second)
+      bunny_delete_clipable(pos->second);
     pos++;
   }
   bunny_stop(this->win);
@@ -150,7 +157,10 @@ void 					arcade::library::LibLapin::drawGameObject(const arcade::games::IGameOb
   {
       if (!(texture = bunny_load_picture((obj->getSprite() + ".png").c_str())))
 	if (!(texture = bunny_load_picture((obj->getSprite() + ".bmp").c_str())))
-	  std::cerr << "Error loading sprite : " << obj->getSprite() << std::endl;
+        {
+          texture = NULL;
+          std::cerr << "Error loading sprite : " << obj->getSprite() << std::endl;
+        }
     this->loadedTextures.insert(std::pair<std::string, t_bunny_picture *>(obj->getSprite(), texture));
   }
   else
