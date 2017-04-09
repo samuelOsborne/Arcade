@@ -10,6 +10,8 @@
 
 #include <ctime>
 #include <iostream>
+#include <fstream>
+#include <vector>
 #include "Ghost.hpp"
 #include "Pacgum.hh"
 #include "Pacman.hpp"
@@ -311,7 +313,7 @@ bool			arcade::games::Pacman::processCmd(const arcade::CommandType &cmd)
 	this->rotatePacman(4);
     }
   if (this->checkCollision())
-    return (false);
+    return (this->saveScoreAndQuit());
   return (true);
 }
 
@@ -344,6 +346,62 @@ bool							arcade::games::Pacman::checkCollision() const
   return (false);
 }
 
+bool	arcade::games::Pacman::saveScoreAndQuit() {
+  std::fstream scoreFile;
+  std::string line;
+  std::vector<std::string> vec;
+  std::vector<std::string>::iterator it;
+  bool printed;
+  int oldScore;
+  int i;
+
+  i = 0;
+  scoreFile.open("./.Pacman");
+  if (scoreFile.is_open()) {
+    while (i < 3) {
+      std::getline(scoreFile, line);
+      vec.push_back(line);
+      i++;
+    }
+    scoreFile.close();
+  }
+  else
+    std::cerr << "Couldn't open score file" << std::endl;
+  it = vec.begin();
+  scoreFile.open("./.Pacman", std::fstream::out);
+  i = 0;
+  if (scoreFile.is_open()) {
+    while (it != vec.end() && i < 3) {
+      oldScore = std::stoi((*it).substr((*it).find(":") + 1));
+      std::cout << "Player score = " << this->score << " old = " << oldScore << std::endl;
+      if (this->score > oldScore && !printed) {
+	std::cout << "printed in file" << std::endl;
+	if (this->playerName == "")
+	  scoreFile << "Unknown:" << this->score << "\n";
+	else
+	  scoreFile << this->playerName << ":" << this->score << "\n";
+	printed = true;
+      } else {
+	std::cout << "printed former one" << std::endl;
+	scoreFile << (*it) << "\n";
+	it++;
+      }
+      i++;
+    }
+    if (i < 3)
+    {
+      if (this->playerName == "")
+	scoreFile << "Unknown:" << this->score << "\n";
+      else
+	scoreFile << this->playerName << ":" << this->score << "\n";
+    }
+    scoreFile.close();
+  }
+  else
+    std::cerr << "Couldn't open score file (2)" << std::endl;
+  return (false);
+}
+
 bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
 {
   std::vector<arcade::games::IGameObject*>::iterator it;
@@ -353,13 +411,13 @@ bool	arcade::games::Pacman::playRound(const arcade::CommandType &cmd)
       if (this->endGameCount == 0)
 	this->strings.push_back(new arcade::String(15, 15, "YOU WIN"));
       if (this->endGameCount == 15)
-	return (false);
+	return (this->saveScoreAndQuit());
       this->endGameCount++;
       return (true);
     }
   this->runAi();
   if (this->checkCollision())
-    return (false);
+    return (this->saveScoreAndQuit());
   if (cmd != arcade::CommandType::GO_RIGHT && cmd != arcade::CommandType::GO_LEFT
       && cmd != arcade::CommandType::GO_UP && cmd != arcade::CommandType::GO_DOWN
       && this->oldcmd != arcade::CommandType::ILLEGAL)

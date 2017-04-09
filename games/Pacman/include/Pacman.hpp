@@ -79,6 +79,7 @@ namespace					arcade
       virtual const std::vector<arcade::games::IGameObject*>	&getEnemies() const;
       virtual bool				playRound(const arcade::CommandType &cmd);
       virtual bool				processCmd(const arcade::CommandType &cmd);
+      bool 					saveScoreAndQuit();
     };
   };
 };
