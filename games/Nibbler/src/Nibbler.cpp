@@ -5,7 +5,7 @@
 ** Login   <lucas.villeneuve@epitech.eu>
 **
 ** Started on  Thu Mar 23 15:14:18 2017 Lucas Villeneuve
-** Last update Thu Mar 23 15:14:18 2017 Lucas Villeneuve
+// Last update Mon Apr 10 14:43:16 2017 escorn_t
 */
 
 #include <cstdlib>
@@ -68,7 +68,7 @@ void	arcade::games::Nibbler::pushBackHighScore()
   scoreFile.open("./.Nibbler");
   if (scoreFile.is_open())
   {
-    this->strings.push_back(new arcade::String(30, y, "Laderboard"));
+    this->strings.push_back(new arcade::String(30, y, "Leaderboard"));
     while (std::getline(scoreFile, line))
     {
       y += 2;
@@ -100,7 +100,7 @@ bool					arcade::games::Nibbler::saveScoreAndQuit() {
   int					i;
 
   i = 0;
-  scoreFile.open("./.Pacman");
+  scoreFile.open("./.Nibbler");
   if (scoreFile.is_open())
     {
       while (i < 3)
@@ -114,7 +114,7 @@ bool					arcade::games::Nibbler::saveScoreAndQuit() {
   else
     std::cerr << "Couldn't open score file" << std::endl;
   it = vec.begin();
-  scoreFile.open("./.Pacman", std::fstream::out);
+  scoreFile.open("./.Nibbler", std::fstream::out);
   i = 0;
   if (scoreFile.is_open())
     {

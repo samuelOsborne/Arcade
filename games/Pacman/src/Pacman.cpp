@@ -5,7 +5,7 @@
 ** Login   <samuel.osborne@epitech.eu>
 **
 ** Started on  Sat Mar 18 13:29:23 2017 Samuel Osborne
-** Last update Sat Apr  8 16:44:48 2017 escorn_t
+// Last update Mon Apr 10 14:42:02 2017 escorn_t
 */
 
 #include <ctime>
@@ -88,7 +88,7 @@ void	arcade::games::Pacman::pushBackHighScore()
   scoreFile.open("./.Pacman");
   if (scoreFile.is_open())
   {
-    this->strings.push_back(new arcade::String(32, y, "Laderboard"));
+    this->strings.push_back(new arcade::String(32, y, "Leaderboard"));
     while (std::getline(scoreFile, line))
     {
       y += 2;
